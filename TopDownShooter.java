@@ -24,8 +24,9 @@ public class TopDownShooter{
 	Pane playground;
 	Scene mainGame;
 	Stage stage;
-	boolean goNorth, goSouth, goEast, goWest;
-	
+	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
+	double mouseY, mouseX;
+	Timeline mouseTimer, shootTimer;
 	TopDownShooter(Stage s){
 		stage=s;
 		
@@ -36,16 +37,21 @@ public class TopDownShooter{
 		playground.setPrefHeight(1000);
 		screen.setCenter(playground);
 		
-		Gun gun = new Gun();
-		playground.getChildren().add(gun);
-		gun.setLayoutX(500);
-		gun.setLayoutY(500);
+	//	Gun gun = new Gun();
+	//	playground.getChildren().add(gun);
+	//	gun.setLayoutX(500);
+	//	gun.setLayoutY(500);
 		
 		player = new Player();
 		playground.getChildren().add(player);
 		
 		mainGame = new Scene(screen);
 		
+		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(playground,player,mouseX,mouseY)));			
+		shootTimer.setCycleCount(Animation.INDEFINITE);
+		
+
+				
 		mainGame.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -89,20 +95,75 @@ public class TopDownShooter{
                 if (goWest)  dx -= 2;
 
                 player.move(dx, dy);
+				//left mousekey is held down shoot, else stop
+				if(leftClick)shootTimer.play();
+				else shootTimer.stop();
+				
             }
         };
         timer.start();
 		
 		mainGame.setOnMouseMoved(new EventHandler<MouseEvent>() {
 		  @Override public void handle(MouseEvent event) {
-			//gun.rotate(event.getX(),event.getY());
-			player.rotate(event.getX(),event.getY());
+			mouseX = event.getX();
+			mouseY = event.getY();
+			
+			player.rotate(mouseX,mouseY);
+		  }
+		});		
+		
+		//when holding down and moving mouse 
+		mainGame.setOnMouseDragged(new EventHandler<MouseEvent>() {
+		  @Override public void handle(MouseEvent event) {
+			mouseY = event.getY();
+			mouseX = event.getX();
+			
+			player.rotate(mouseX,mouseY);
 		  }
 		});
+		
+		//left click to shoot a bullet
+		mainGame.setOnMousePressed(new EventHandler<MouseEvent>() {
+			
+		  @Override public void handle(MouseEvent event){
+			if(event.isPrimaryButtonDown()){
+		//		mouseTimer = new Timeline(new KeyFrame(Duration.millis(150), ae -> updateMouse(mouseY, mouseX)));
+			//	mouseTimer.setCycleCount(Animation.INDEFINITE);
+				System.out.println("left");
+				leftClick = true;
+				
+			//	mouseTimer.play();
 
+			}
+			if(event.isSecondaryButtonDown()){
+				System.out.println("right");
+				rightClick = true;
+			}
+		  }
+		});		
+		
+		mainGame.setOnMouseReleased(new EventHandler<MouseEvent>() {
+			
+		  @Override public void handle(MouseEvent event){
+			if(!event.isPrimaryButtonDown()){
+				System.out.println("left");
+				leftClick = false;
+
+			}
+			if(!event.isSecondaryButtonDown()){
+				System.out.println("right");
+				rightClick = false;
+			}
+		  }
+		});
 	}
 	
 	public void play(){
 		stage.setScene( mainGame );
+	}
+	
+	public void updateMouse(double x, double y){
+		mouseX = x;
+		mouseY = y;
 	}
 }
