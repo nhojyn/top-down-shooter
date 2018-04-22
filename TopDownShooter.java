@@ -169,7 +169,7 @@ public class TopDownShooter{
 				mobs.spawnSwarm(playground);				
 				mobMovement.play();
 			}
-		})
+		});
 	}
 	
 	public void play(){
