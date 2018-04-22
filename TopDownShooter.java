@@ -24,7 +24,6 @@ public class TopDownShooter{
 	Pane playground;
 	Scene mainGame;
 	Stage stage;
-	Swarm mobs;
 	boolean goNorth, goSouth, goEast, goWest;
 	
 	TopDownShooter(Stage s){
@@ -37,10 +36,10 @@ public class TopDownShooter{
 		playground.setPrefHeight(1000);
 		screen.setCenter(playground);
 		
-	//	Gun gun = new Gun();
-	//	playground.getChildren().add(gun);
-	//	gun.setLayoutX(500);
-	//	gun.setLayoutY(500);
+		Gun gun = new Gun();
+		playground.getChildren().add(gun);
+		gun.setLayoutX(500);
+		gun.setLayoutY(500);
 		
 		player = new Player();
 		playground.getChildren().add(player);
@@ -90,8 +89,6 @@ public class TopDownShooter{
                 if (goWest)  dx -= 2;
 
                 player.move(dx, dy);
-				
-				
             }
         };
         timer.start();
@@ -102,38 +99,7 @@ public class TopDownShooter{
 			player.rotate(event.getX(),event.getY());
 		  }
 		});
-		
-		//left click to shoot a bullet
-		mainGame.setOnMousePressed(new EventHandler<MouseEvent>() {
-		  @Override public void handle(MouseEvent event){
-			if(event.isPrimaryButtonDown()){
-				System.out.println("left");
-				player.getGun().shoot(playground,player,event.getX(), event.getY());
-			}
-			if(event.isSecondaryButtonDown()){
-				System.out.println("right");
-			}
-		  }
-		});
-		
-		//create swarm and test it
-		Swarm mobs = new Swarm(4);
-		Timeline mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
-		mobMovement.setCycleCount(Animation.INDEFINITE);
-		Button spawnBtn = new Button();
-		playground.getChildren().add(spawnBtn);
-		spawnBtn.setText("Spawn round");
-		spawnBtn.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				mobs.spawnSwarm(playground);				
-				mobMovement.play();
-			}
-		});
-		
-		
-		
-		
-		
+
 	}
 	
 	public void play(){
