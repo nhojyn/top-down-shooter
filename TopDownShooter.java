@@ -156,6 +156,20 @@ public class TopDownShooter{
 			}
 		  }
 		});
+		
+		//create swarm and test it
+		Swarm mobs = new Swarm(4);
+		Timeline mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
+		mobMovement.setCycleCount(Animation.INDEFINITE);
+		Button spawnBtn = new Button();
+		playground.getChildren().add(spawnBtn);
+		spawnBtn.setText("Spawn round");
+		spawnBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnSwarm(playground);				
+				mobMovement.play();
+			}
+		})
 	}
 	
 	public void play(){
