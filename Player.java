@@ -23,10 +23,11 @@ public class Player extends Pane{
 	Circle body;
 	Gun gun;
 	double angle;
+	Pane Playground;
 	
-	Player(){
+	Player(Pane p){
 		//setPrefSize(100,100);
-		
+		Playground=p;
 		body = new Circle(50);
 		body.setFill(Color.BLACK);
 		//body.setCenterX(getPrefWidth()/2);
@@ -35,7 +36,7 @@ public class Player extends Pane{
 		//setStyle("-fx-background-color: blue;");
 		
 		getChildren().add(body);
-		gun = new Gun();
+		gun = new Gun(p);
 		gun.setLayoutX(-50);
 		getChildren().add(gun);
 	}

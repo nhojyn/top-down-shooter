@@ -8,8 +8,6 @@ public class TopDownShooterGame extends Application{
 	}
 	@Override
 	public void start(Stage stage){
-		TopDownShooter game = new TopDownShooter(stage);
-		game.play();
-		stage.show();
+		MainMenu game = new MainMenu(stage);
 	}
 }
