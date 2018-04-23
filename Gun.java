@@ -22,12 +22,16 @@ import javafx.scene.transform.Rotate;
 public class Gun extends Rectangle{
 	double locX; 
 	double locY;
-	Gun(){
+	Pane Playground;
+	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+	Gun(Pane p){
+		Playground=p;
 		setWidth(5);
 		setHeight(40);
 		setFill(Color.BLUE);
-		
-
+		Timeline move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
+		move.setCycleCount(Animation.INDEFINITE);
+		move.play();
 	}
 	
 	public void setLocX(double x1){
@@ -56,8 +60,7 @@ public class Gun extends Rectangle{
 		
 	}
 	
-	public void shoot(Pane playGround, Player p, double mouseLocX, double mouseLocY){
-		Bullet b = new Bullet();
+	public void shoot(Player p, double mouseLocX, double mouseLocY){
 
 		double rad = Math.toRadians(p.getAngle());
 		double x = p.getLayoutX();
@@ -66,22 +69,28 @@ public class Gun extends Rectangle{
 		double sideA = mouseLocX - x;
 		double sideB = mouseLocY - y;
 		double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-		
-		
-		Timeline translate = new Timeline(new KeyFrame(Duration.millis(5), ae -> b.move(sideA/sideC*7,sideB/sideC*7)));
-		translate.setCycleCount(Animation.INDEFINITE);
-		translate.play();
 
-		//doesnt spawn where the tip of the gun is
-	//	double x2 = (x * Math.cos(rad) - y * Math.sin(rad));
-	//	double y2 = (x * Math.sin(rad) + y * Math.cos(rad));
+		Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
+
 		b.setLocation(x,y);
-		
-		//printout spawning spot
-		//System.out.println("x: " + x2 + "\ny:  " + y2);
+		bullets.add(b);
 	
-		playGround.getChildren().add(b);
+		Playground.getChildren().add(b);
 		
+	}
+	
+	public void move(){
+		for(int i=bullets.size()-1;i>=0;i--){
+			//NEED TO FIX THIS TO CALCULATE THE ACTUAL WIDTH AND HEIGHT OF THE SCREEN
+			//IN ORDER TO FIX THE SCENE NEEDS TO BE SET BEFORE move() IS CALLED
+			if(bullets.get(i).getLayoutX()<0||bullets.get(i).getLayoutY()<0||bullets.get(i).getLayoutX()>1080||bullets.get(i).getLayoutY()>1920){
+				Playground.getChildren().remove(bullets.get(i));
+				bullets.remove(i);
+			}
+		}
+		for(int i=bullets.size()-1;i>=0;i--){
+			bullets.get(i).move();
+		}
 	}
 
 }

@@ -42,15 +42,13 @@ public class TopDownShooter{
 	//	gun.setLayoutX(500);
 	//	gun.setLayoutY(500);
 		
-		player = new Player();
+		player = new Player(playground);
 		playground.getChildren().add(player);
 		
 		mainGame = new Scene(screen);
 		
-		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(playground,player,mouseX,mouseY)));			
+		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(player,mouseX,mouseY)));			
 		shootTimer.setCycleCount(Animation.INDEFINITE);
-		
-
 				
 		mainGame.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -96,7 +94,10 @@ public class TopDownShooter{
 
                 player.move(dx, dy);
 				//left mousekey is held down shoot, else stop
-				if(leftClick)shootTimer.play();
+				if(leftClick){
+					shootTimer.play();
+					player.rotate(mouseX,mouseY);
+				}
 				else shootTimer.stop();
 				
             }
@@ -129,14 +130,15 @@ public class TopDownShooter{
 			if(event.isPrimaryButtonDown()){
 		//		mouseTimer = new Timeline(new KeyFrame(Duration.millis(150), ae -> updateMouse(mouseY, mouseX)));
 			//	mouseTimer.setCycleCount(Animation.INDEFINITE);
-				System.out.println("left");
+				System.out.println("left pressed");
+				player.getGun().shoot(player,mouseX,mouseY);
 				leftClick = true;
 				
 			//	mouseTimer.play();
 
 			}
 			if(event.isSecondaryButtonDown()){
-				System.out.println("right");
+				System.out.println("right pressed");
 				rightClick = true;
 			}
 		  }
@@ -146,12 +148,12 @@ public class TopDownShooter{
 			
 		  @Override public void handle(MouseEvent event){
 			if(!event.isPrimaryButtonDown()){
-				System.out.println("left");
+				System.out.println("left released");
 				leftClick = false;
 
 			}
 			if(!event.isSecondaryButtonDown()){
-				System.out.println("right");
+				System.out.println("right released//");
 				rightClick = false;
 			}
 		  }
@@ -174,6 +176,8 @@ public class TopDownShooter{
 	
 	public void play(){
 		stage.setScene( mainGame );
+		player.setLayoutX(playground.getWidth()/2);
+		player.setLayoutY(playground.getHeight()/2);
 	}
 	
 	public void updateMouse(double x, double y){
