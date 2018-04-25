@@ -61,17 +61,18 @@ public class Gun extends Rectangle{
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
-
-		double rad = Math.toRadians(p.getAngle());
+		//points where the bullet should spawn(doesnt spawn at tip of gun)
 		double x = p.getLayoutX();
 		double y = p.getLayoutY();
 		
+		//finds the slope and uses rise over run to move the bullet(sideA=run, sideB=rise) and then uses sideC to have a common ratio to control speed of bullet
 		double sideA = mouseLocX - x;
 		double sideB = mouseLocY - y;
 		double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-
+		
+		//creates bullet and sets where it is, then adds to bullets arraylist
 		Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
-
+		
 		b.setLocation(x,y);
 		bullets.add(b);
 	
