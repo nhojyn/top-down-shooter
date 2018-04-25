@@ -5,9 +5,10 @@ import javafx.scene.layout.*;
 public class Bullet extends Pane{
 	double xSpeed;
 	double ySpeed;
+	Circle shell;
 
 	public Bullet(double xS, double yS){
-		Circle shell = new Circle(10);
+		shell = new Circle(10);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);
 		setPrefSize(20,20);
@@ -24,5 +25,9 @@ public class Bullet extends Pane{
 	public void move(){
 		setLayoutX(getLayoutX() + xSpeed);
 		setLayoutY(getLayoutY() + ySpeed);
+	}
+	
+	public double getRadius(){
+		return shell.getRadius();
 	}
 }

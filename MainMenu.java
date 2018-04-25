@@ -24,9 +24,9 @@ public class MainMenu{
 	TopDownShooter game;
 	Pane title;
 	Scene main;
+	Button mainBtn;
 	
 	Button playGame;
-	
 	
 	MainMenu(Stage s){
 		stage=s;
@@ -34,7 +34,17 @@ public class MainMenu{
 		stage.getIcons().add(new Image("pixel-heart.png"));
 		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
 		
-		game= new TopDownShooter(stage);
+		mainBtn = new Button();
+		mainBtn.setFont(f1);
+		mainBtn.setText("main menu");
+		mainBtn.setOnAction(new EventHandler <ActionEvent> (){
+			@Override
+			public void handle(ActionEvent event){
+				stage.setScene(main);
+			}
+		});
+		
+		game= new TopDownShooter(stage,mainBtn);
 		playGame = new Button();
 		playGame.setFont(f1);
 		playGame.setText("Play Game");

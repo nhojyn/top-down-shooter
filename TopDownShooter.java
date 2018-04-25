@@ -27,8 +27,11 @@ public class TopDownShooter{
 	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
 	double mouseY, mouseX;
 	Timeline mouseTimer, shootTimer;
-	TopDownShooter(Stage s){
+	Button mainMenu;
+	
+	TopDownShooter(Stage s,Button main){
 		stage=s;
+		mainMenu=main;
 		
 		screen=new BorderPane();
 		
@@ -37,13 +40,8 @@ public class TopDownShooter{
 		playground.setPrefHeight(1000);
 		screen.setCenter(playground);
 		
-	//	Gun gun = new Gun();
-	//	playground.getChildren().add(gun);
-	//	gun.setLayoutX(500);
-	//	gun.setLayoutY(500);
-		
 		player = new Player(playground);
-		playground.getChildren().add(player);
+		playground.getChildren().addAll(player,mainMenu);
 		
 		mainGame = new Scene(screen);
 		

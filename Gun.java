@@ -42,38 +42,40 @@ public class Gun extends Rectangle{
 	}
 	
 	//currently does not work
-	public void rotate(double x, double y){
-		double angle;
+	public void rotate(double newangle){
+		//double angle;
 	
-		Bounds boundsInScreen = localToScreen(getBoundsInLocal());
+		//Bounds boundsInScreen = localToScreen(getBoundsInLocal());
 		
-		//angle=Math.atan2(getLayoutY()-y,getLayoutX()-x+getWidth()/2);
+		//angle=Math.atan2(boundsInScreen.getMaxY()/2-y,boundsInScreen.getMaxX()/2-x);
 		
-		angle=Math.atan2(boundsInScreen.getMinY()/2-y,boundsInScreen.getMinX()/2-x);
-		
-		System.out.println(boundsInScreen.getMinY());
-		System.out.println(boundsInScreen.getMinX());
+		//System.out.println("max Y-"+boundsInScreen.getMaxY());
+		//System.out.println("min Y-"+boundsInScreen.getMinY());
+		//System.out.println(boundsInScreen.getMaxX());
 		
 		getTransforms().clear();
-		getTransforms().add(new Rotate(Math.toDegrees(angle)+90,getWidth()/2,0));
+		System.out.println(newangle);
+		Rotate rotation = new Rotate(Math.toDegrees(newangle)+90);
+		System.out.println(Math.toDegrees(newangle));
+		getTransforms().add(rotation);
 		
 		
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
-		//points where the bullet should spawn(doesnt spawn at tip of gun)
+
+		double rad = Math.toRadians(p.getAngle());
 		double x = p.getLayoutX();
 		double y = p.getLayoutY();
 		
-		//finds the slope and uses rise over run to move the bullet(sideA=run, sideB=rise) and then uses sideC to have a common ratio to control speed of bullet
 		double sideA = mouseLocX - x;
 		double sideB = mouseLocY - y;
 		double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-		
-		//creates bullet and sets where it is, then adds to bullets arraylist
+
 		Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
-		
-		b.setLocation(x,y);
+
+		b.setLocation(x-b.getRadius(),y-b.getRadius());
+		System.out.println("width"+b.getRadius());
 		bullets.add(b);
 	
 		Playground.getChildren().add(b);
