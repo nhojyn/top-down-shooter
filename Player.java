@@ -21,6 +21,7 @@ import javafx.scene.transform.Rotate;
 
 public class Player extends Pane{
 	Circle body;
+	Circle eye;
 	Gun gun;
 	double angle;
 	Pane Playground;
@@ -30,12 +31,15 @@ public class Player extends Pane{
 		Playground=p;
 		body = new Circle(50);
 		body.setFill(Color.BLACK);
+		eye = new Circle(5);
+		eye.setFill(Color.BLUE);
+		eye.setLayoutY(getLayoutY()+40);
 		//body.setCenterX(getPrefWidth()/2);
 		//System.out.println(getPrefWidth() + " " + getPrefHeight());
 		//body.setCenterY(getPrefHeight()/2);
 		//setStyle("-fx-background-color: blue;");
 		
-		getChildren().add(body);
+		getChildren().addAll(body,eye);
 		gun = new Gun(p);
 		gun.setLayoutX(-50);
 		getChildren().add(gun);
@@ -64,11 +68,12 @@ public class Player extends Pane{
 	public void rotate(double x, double y){
 			
 		angle=Math.atan2(getLayoutY()-y,getLayoutX()-x);
+		double gunAngle=Math.atan2(getLayoutY()-y-Math.sin(angle+Math.PI/2)*50,getLayoutX()-x-Math.cos(angle+Math.PI/2)*50)-angle-Math.PI/2;
 		
 		getTransforms().clear();
 		
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
-		//gun.rotate(x,y);
+		gun.rotate(gunAngle);
 	}
 	
 
