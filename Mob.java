@@ -9,6 +9,7 @@ import javafx.scene.transform.Rotate;
 public class Mob extends Pane{
 	
 	//fields
+	int health;
 	Rectangle body;
 	Rectangle front; //indicates where front of mob is
 	double speedModifier = 1.0; //total distance that it walks per cycle
@@ -20,6 +21,7 @@ public class Mob extends Pane{
 		
 		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
 		getChildren().add(front);
+		health = 0;
 		
 	}
 	
