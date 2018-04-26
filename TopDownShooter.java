@@ -28,8 +28,11 @@ public class TopDownShooter{
 	double mouseY, mouseX;
 	Timeline mouseTimer, shootTimer;
 	Button mainMenu;
+	boolean delay;
+	int delayCounter;
 	
 	TopDownShooter(Stage s,Button main){
+		delayCounter=6;
 		stage=s;
 		mainMenu=main;
 		
@@ -93,11 +96,8 @@ public class TopDownShooter{
                 player.move(dx, dy);
 				//left mousekey is held down shoot, else stop
 				if(leftClick){
-					shootTimer.play();
-					player.rotate(mouseX,mouseY);
+					shoot();
 				}
-				else shootTimer.stop();
-				
             }
         };
         timer.start();
@@ -129,7 +129,6 @@ public class TopDownShooter{
 		//		mouseTimer = new Timeline(new KeyFrame(Duration.millis(150), ae -> updateMouse(mouseY, mouseX)));
 			//	mouseTimer.setCycleCount(Animation.INDEFINITE);
 				System.out.println("left pressed");
-				player.getGun().shoot(player,mouseX,mouseY);
 				leftClick = true;
 				
 			//	mouseTimer.play();
@@ -176,6 +175,18 @@ public class TopDownShooter{
 		stage.setScene( mainGame );
 		player.setLayoutX(playground.getWidth()/2);
 		player.setLayoutY(playground.getHeight()/2);
+	}
+	
+	private void shoot(){
+		System.out.println(delayCounter);
+		if(delayCounter>5){
+			System.out.println("shoot");
+			player.getGun().shoot(player,mouseX,mouseY);
+			delayCounter=0;
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(30),ae -> delayCounter++));
+			delay.setCycleCount(6);
+			delay.play();
+		}
 	}
 	
 	public void updateMouse(double x, double y){
