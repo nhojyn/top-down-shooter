@@ -32,7 +32,7 @@ public class Mob extends Pane{
 	public double getLocY(){
 		return getLayoutY();
 	}
-	
+	public Rectangle getBody(){return body;}
 	//methods
 	public void chase(Player p){
 		double px = p.getLocX()- getLayoutX();
@@ -45,7 +45,7 @@ public class Mob extends Pane{
 		rotate(p.getLocX(),p.getLocY());
 	}
 	
-	private void move(double x, double y){
+	public void move(double x, double y){
 		setLayoutX(getLayoutX()+x);
 		setLayoutY(getLayoutY()+y);
 	}
