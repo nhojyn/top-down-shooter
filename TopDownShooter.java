@@ -21,17 +21,20 @@ import javafx.event.ActionEvent;
 public class TopDownShooter{
 	Player player;
 	BorderPane screen;
-	Pane playground;
+	public static Pane playground;
 	Scene mainGame;
 	Stage stage;
 	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
 	double mouseY, mouseX;
 	Timeline mouseTimer, shootTimer;
+	Button mainMenu;
 	boolean delay;
 	int delayCounter;
-	TopDownShooter(Stage s){
+	
+	TopDownShooter(Stage s,Button main){
 		delayCounter=6;
 		stage=s;
+		mainMenu=main;
 		
 		screen=new BorderPane();
 		
@@ -40,13 +43,8 @@ public class TopDownShooter{
 		playground.setPrefHeight(1000);
 		screen.setCenter(playground);
 		
-	//	Gun gun = new Gun();
-	//	playground.getChildren().add(gun);
-	//	gun.setLayoutX(500);
-	//	gun.setLayoutY(500);
-		
 		player = new Player(playground);
-		playground.getChildren().add(player);
+		playground.getChildren().addAll(player,mainMenu);
 		
 		mainGame = new Scene(screen);
 		
@@ -96,10 +94,10 @@ public class TopDownShooter{
                 if (goWest)  dx -= 2;
 
                 player.move(dx, dy);
+				//left mousekey is held down shoot, else stop
 				if(leftClick){
 					shoot();
 				}
-				
             }
         };
         timer.start();
@@ -131,7 +129,6 @@ public class TopDownShooter{
 		//		mouseTimer = new Timeline(new KeyFrame(Duration.millis(150), ae -> updateMouse(mouseY, mouseX)));
 			//	mouseTimer.setCycleCount(Animation.INDEFINITE);
 				System.out.println("left pressed");
-				//player.getGun().shoot(player,mouseX,mouseY);
 				leftClick = true;
 				
 			//	mouseTimer.play();
@@ -165,7 +162,7 @@ public class TopDownShooter{
 		mobMovement.setCycleCount(Animation.INDEFINITE);
 		Button spawnBtn = new Button();
 		playground.getChildren().add(spawnBtn);
-		spawnBtn.setText("Spawn Round");
+		spawnBtn.setText("Spawn round");
 		spawnBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				mobs.spawnSwarm(playground);				
@@ -186,14 +183,10 @@ public class TopDownShooter{
 			System.out.println("shoot");
 			player.getGun().shoot(player,mouseX,mouseY);
 			delayCounter=0;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(1),ae -> delayCounter++));
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(30),ae -> delayCounter++));
 			delay.setCycleCount(6);
 			delay.play();
 		}
-	}
-	
-	private void count(){
-		delayCounter++;
 	}
 	
 	public void updateMouse(double x, double y){
