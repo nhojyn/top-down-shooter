@@ -28,11 +28,10 @@ public class TopDownShooter{
 	double mouseY, mouseX;
 	Timeline mouseTimer, shootTimer;
 	Button mainMenu;
-	boolean delay;
-	int delayCounter;
+	boolean delayOff;
 	
 	TopDownShooter(Stage s,Button main){
-		delayCounter=6;
+		delayOff=true;
 		stage=s;
 		mainMenu=main;
 		
@@ -94,6 +93,7 @@ public class TopDownShooter{
                 if (goWest)  dx -= 2;
 
                 player.move(dx, dy);
+				player.rotate(mouseX,mouseY);
 				//left mousekey is held down shoot, else stop
 				if(leftClick){
 					shoot();
@@ -106,8 +106,6 @@ public class TopDownShooter{
 		  @Override public void handle(MouseEvent event) {
 			mouseX = event.getX();
 			mouseY = event.getY();
-			
-			player.rotate(mouseX,mouseY);
 		  }
 		});		
 		
@@ -116,8 +114,6 @@ public class TopDownShooter{
 		  @Override public void handle(MouseEvent event) {
 			mouseY = event.getY();
 			mouseX = event.getX();
-			
-			player.rotate(mouseX,mouseY);
 		  }
 		});
 		
@@ -126,16 +122,9 @@ public class TopDownShooter{
 			
 		  @Override public void handle(MouseEvent event){
 			if(event.isPrimaryButtonDown()){
-		//		mouseTimer = new Timeline(new KeyFrame(Duration.millis(150), ae -> updateMouse(mouseY, mouseX)));
-			//	mouseTimer.setCycleCount(Animation.INDEFINITE);
-				System.out.println("left pressed");
 				leftClick = true;
-				
-			//	mouseTimer.play();
-
 			}
 			if(event.isSecondaryButtonDown()){
-				System.out.println("right pressed");
 				rightClick = true;
 			}
 		  }
@@ -145,12 +134,10 @@ public class TopDownShooter{
 			
 		  @Override public void handle(MouseEvent event){
 			if(!event.isPrimaryButtonDown()){
-				System.out.println("left released");
 				leftClick = false;
 
 			}
 			if(!event.isSecondaryButtonDown()){
-				System.out.println("right released//");
 				rightClick = false;
 			}
 		  }
@@ -178,13 +165,10 @@ public class TopDownShooter{
 	}
 	
 	private void shoot(){
-		System.out.println(delayCounter);
-		if(delayCounter>5){
-			System.out.println("shoot");
+		if(delayOff){
 			player.getGun().shoot(player,mouseX,mouseY);
-			delayCounter=0;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(30),ae -> delayCounter++));
-			delay.setCycleCount(6);
+			delayOff=false;
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(1),ae -> delayOff=true));
 			delay.play();
 		}
 	}
