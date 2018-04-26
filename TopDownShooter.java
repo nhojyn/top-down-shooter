@@ -21,7 +21,7 @@ import javafx.event.ActionEvent;
 public class TopDownShooter{
 	Player player;
 	BorderPane screen;
-	Pane playground;
+	public static Pane playground;
 	Scene mainGame;
 	Stage stage;
 	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
