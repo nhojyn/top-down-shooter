@@ -18,13 +18,17 @@ import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.transform.Rotate;
+import javafx.geometry.Point2D;
 
 public class Gun extends Rectangle{
 	double locX; 
 	double locY;
 	Pane Playground;
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+	Point2D tip;
+	
 	Gun(Pane p){
+		tip= new Point2D (5,5);
 		Playground=p;
 		setWidth(5);
 		setHeight(40);
@@ -40,8 +44,7 @@ public class Gun extends Rectangle{
 	public void setLocY(double y1){
 		locY = y1;
 	}
-	
-	//currently does not work
+
 	public void rotate(double newangle){
 		//double angle;
 	
@@ -54,9 +57,7 @@ public class Gun extends Rectangle{
 		//System.out.println(boundsInScreen.getMaxX());
 		
 		getTransforms().clear();
-		System.out.println(newangle);
 		Rotate rotation = new Rotate(Math.toDegrees(newangle)+90);
-		System.out.println(Math.toDegrees(newangle));
 		getTransforms().add(rotation);
 		
 		
@@ -68,17 +69,21 @@ public class Gun extends Rectangle{
 		double x = p.getLayoutX();
 		double y = p.getLayoutY();
 		
-		double sideA = mouseLocX - x;
-		double sideB = mouseLocY - y;
-		double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+		Bounds boundsInScene = localToScene(getBoundsInLocal());
+		System.out.println(tip.getX());
+		
+		if(mouseLocX!=x&&mouseLocY!=y){
+			double sideA = mouseLocX - x;
+			double sideB = mouseLocY - y;
+			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 
-		Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
+			Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
 
-		b.setLocation(x-b.getRadius(),y-b.getRadius());
-		System.out.println("width"+b.getRadius());
-		bullets.add(b);
-	
-		Playground.getChildren().add(b);
+			b.setLocation(x-b.getRadius(),y-b.getRadius());
+			bullets.add(b);
+		
+			Playground.getChildren().add(b);
+		}
 		
 	}
 	
