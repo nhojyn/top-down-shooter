@@ -76,16 +76,17 @@ public class Swarm{
 	
 	private void checkRoomBounds(){
 		for(Mob m : swarm){
-			if(m.getLayoutX() >= playground.getPrefWidth()){
+			Bounds b = m.getBody().localToScene(m.getBoundsInLocal());
+			if(b.getMaxX() >= playground.getPrefWidth()){
 				m.move(-1,0);
 			}
-			else if(m.getLayoutX() <= 0){
+			else if(b.getMinX() <= 0){
 				m.move(1,0);
 			}
-			else if(m.getLayoutY() >= playground.getPrefHeight()){
+			else if(b.getMaxY()+m.getBody().getHeight() >= playground.getPrefHeight()){
 				m.move(0,-1);
 			}
-			else if(m.getLayoutY() <= 0){
+			else if(b.getMinY() <= 0){
 				m.move(0,1);
 			}
 		}
@@ -93,26 +94,31 @@ public class Swarm{
 	
 	private void checkMobCollisions(){
 		for(int a = 0; a < swarm.size(); a++){
-			for (int b = a; b < swarm.size(); b++){
+			for (int b = a+1; b < swarm.size(); b++){
 				Rectangle m1 = swarm.get(a).getBody(); //eventually should be Polygon
 				Rectangle m2 = swarm.get(b).getBody();
 				Bounds b1 = m1.localToScene(m1.getBoundsInLocal());
 				Bounds b2 = m2.localToScene(m2.getBoundsInLocal());
 				if(b1.intersects(b2)){
-					System.out.println("Intersects");
-					while(m1.getLayoutX() > m2.getLayoutX() && m1.getLayoutX()-m2.getLayoutX() <= m1.getWidth()){
+					System.out.println("m1 " + b1.getMinX() + " " + b1.getMinX() + " " + b1.getMaxX() + " " + b1.getMaxY());
+					System.out.println("m2 " + b2.getMinX() + " " + b2.getMinX() + " " + b2.getMaxX() + " " + b2.getMaxY());
+					if(b1.getMaxX() > b2.getMaxX() && Math.abs(b1.getMaxX()-b2.getMaxX()) <= m1.getWidth()){
+						System.out.println("condition1");
 						swarm.get(a).move(1,0);
 						swarm.get(b).move(-1,0);
 					}
-					while(m1.getLayoutX() < m2.getLayoutX() && m2.getLayoutX()-m1.getLayoutX() <= m1.getWidth()){
+					if(b1.getMaxX() < b2.getMaxX() && b2.getMaxX()-b1.getMaxX() <= m1.getWidth()){
+						System.out.println("condition2");
 						swarm.get(a).move(-1,0);
 						swarm.get(b).move(1,0);
 					}
-					while(m1.getLayoutY() > m2.getLayoutY() && m1.getLayoutY()-m2.getLayoutY() <= m1.getHeight()){
+					if(b1.getMaxY() > b2.getMaxY() && b1.getMaxY()-b2.getMaxY() <= m1.getHeight()){
+						System.out.println("condition3");
 						swarm.get(a).move(0,1);
 						swarm.get(b).move(0,-1);
 					}
-					while(m1.getLayoutY() < m2.getLayoutY() && m2.getLayoutY()-m1.getLayoutY() <= m1.getHeight()){
+					if(b1.getMaxY() < b2.getMaxY() && b2.getMaxY()-b1.getMaxY() <= m1.getHeight()){
+						System.out.println("condition4");
 						swarm.get(a).move(0,-1);
 						swarm.get(b).move(0,1);
 					}
