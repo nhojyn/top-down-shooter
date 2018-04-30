@@ -69,6 +69,14 @@ public class Swarm{
 		swarm = new ArrayList<Mob>();
 	}
 	
+	//TODO
+	/* Knocks back all mobs in the direction opposite of what they are facing by n pixels
+	 * @input: double n
+	*/
+	public void knockbackMobs(double n){
+	
+	}
+	
 	private void checkCollisions(){
 		checkRoomBounds();
 		checkMobCollisions();
@@ -100,25 +108,25 @@ public class Swarm{
 				Bounds b1 = m1.localToScene(m1.getBoundsInLocal());
 				Bounds b2 = m2.localToScene(m2.getBoundsInLocal());
 				if(b1.intersects(b2)){
-					System.out.println("m1 " + b1.getMinX() + " " + b1.getMinX() + " " + b1.getMaxX() + " " + b1.getMaxY());
-					System.out.println("m2 " + b2.getMinX() + " " + b2.getMinX() + " " + b2.getMaxX() + " " + b2.getMaxY());
-					if(b1.getMaxX() > b2.getMaxX() && Math.abs(b1.getMaxX()-b2.getMaxX()) <= m1.getWidth()){
-						System.out.println("condition1");
+					//System.out.println("m1 " + b1.getMinX() + " " + b1.getMinX() + " " + b1.getMaxX() + " " + b1.getMaxY());
+					//System.out.println("m2 " + b2.getMinX() + " " + b2.getMinX() + " " + b2.getMaxX() + " " + b2.getMaxY());
+					if(b1.getMaxX() > b2.getMaxX() && b1.getMaxX()-b2.getMaxX() <= m1.getWidth()){
+						//System.out.println("condition1");
 						swarm.get(a).move(1,0);
 						swarm.get(b).move(-1,0);
 					}
 					if(b1.getMaxX() < b2.getMaxX() && b2.getMaxX()-b1.getMaxX() <= m1.getWidth()){
-						System.out.println("condition2");
+						//System.out.println("condition2");
 						swarm.get(a).move(-1,0);
 						swarm.get(b).move(1,0);
 					}
 					if(b1.getMaxY() > b2.getMaxY() && b1.getMaxY()-b2.getMaxY() <= m1.getHeight()){
-						System.out.println("condition3");
+						//System.out.println("condition3");
 						swarm.get(a).move(0,1);
 						swarm.get(b).move(0,-1);
 					}
 					if(b1.getMaxY() < b2.getMaxY() && b2.getMaxY()-b1.getMaxY() <= m1.getHeight()){
-						System.out.println("condition4");
+						//System.out.println("condition4");
 						swarm.get(a).move(0,-1);
 						swarm.get(b).move(0,1);
 					}
