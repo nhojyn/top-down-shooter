@@ -19,7 +19,8 @@ public class Swarm{
 	//setters and getters
 	public ArrayList<Mob> getSwarm(){return swarm;}
 	
-	
+	public Mob getSwarm(int i){return swarm.get(i);}	
+
 	//methods
 	public void spawnSwarm(Pane main){
 		for(int i = 0; i < numMobs; i++){

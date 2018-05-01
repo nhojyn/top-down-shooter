@@ -1,3 +1,4 @@
+import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -52,5 +53,17 @@ public class Mob extends Pane{
 		double angle = Math.atan2(getLayoutY()-y,getLayoutX()-x);
 		getTransforms().clear();
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
+	}
+	
+	public void collideWithBullet(Gun g){
+		if(g.getBullets().size() > 0){
+		ArrayList<Bullet> b = g.getBullets();
+		for(int i = 0; i < b.size(); i++){
+	//		if(b.get(i).getCenterX() < body.getX() && b.get(i).getCenterX() > body.getX() + 50 && b.get(i).getCenterY() < body.getY() && b.get(i).getCenterY() < body.getY() + 50){
+				g.removeBullet(i);
+				//TopDownShooter.playground.getChildren().remove(b.get(i).getPosition());
+			//	b.remove(i);
+			}
+		}
 	}
 }
