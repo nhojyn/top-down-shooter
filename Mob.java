@@ -52,6 +52,23 @@ public class Mob extends Pane{
 		setLayoutY(getLayoutY()+y);
 	}
 	
+	/* Knocks back mob at angle or at vector from (x,y) to mob with magnitude m
+	 *
+	*/
+	public void knockback(double angle, double m){
+		
+	}
+	
+	public void knockback(double x, double y, double m){
+		double px = x - getLayoutX();
+		double py = y - getLayoutY();
+		
+		double distance = Math.pow(((px*px) + (py*py)),0.5);
+		
+		move(-px*m/distance,-py*m/distance);
+		
+	}
+	
 	private void rotate(double x, double y){
 		double angle = Math.atan2(getLayoutY()-y,getLayoutX()-x);
 		getTransforms().clear();

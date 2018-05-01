@@ -70,12 +70,22 @@ public class Swarm{
 	}
 	
 	//TODO
-	/* Knocks back all mobs in the direction opposite of what they are facing by n pixels
+	/* Knocks back all mobs in the direction opposite of what they are facing with magnitude m
 	 * @input: double n
 	*/
-	public void knockbackMobs(double n){
-	
+	public void knockbackMobs(Player p, double m){
+		for(Mob mob : swarm){
+			mob.knockback(p.getLocX(), p.getLocY(), m);
+		}
 	}
+	
+	public void knockbackMobsAnimated(Player p, double m){
+		Timeline delay = new Timeline(new KeyFrame(Duration.millis(5),ae -> knockbackMobs(p, m/50)));
+		delay.setCycleCount(50);
+		delay.play();
+	}
+	
+	
 	
 	private void checkCollisions(){
 		checkRoomBounds();
