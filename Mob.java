@@ -13,11 +13,14 @@ public class Mob extends Pane{
 	Rectangle body;
 	Rectangle front; //indicates where front of mob is
 	double speedModifier = 1.0; //total distance that it walks per cycle
+	int health;
 	
 	public Mob(){
 		body = new Rectangle(0,0,50,50);
 		body.setFill(Color.BLUE);
 		getChildren().add(body);
+		
+		health = 50;
 		
 		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
 		getChildren().add(front);
@@ -30,6 +33,9 @@ public class Mob extends Pane{
 	}
 	public double getLocY(){
 		return getLayoutY();
+	}
+	public int getHealth(){
+		return health;
 	}
 	
 	//methods
@@ -56,14 +62,19 @@ public class Mob extends Pane{
 	}
 	
 	public void collideWithBullet(Gun g){
-		if(g.getBullets().size() > 0){
 		ArrayList<Bullet> b = g.getBullets();
-		for(int i = 0; i < b.size(); i++){
-	//		if(b.get(i).getCenterX() < body.getX() && b.get(i).getCenterX() > body.getX() + 50 && b.get(i).getCenterY() < body.getY() && b.get(i).getCenterY() < body.getY() + 50){
-				g.removeBullet(i);
-				//TopDownShooter.playground.getChildren().remove(b.get(i).getPosition());
-			//	b.remove(i);
+		if(b.size() > 0){
+			for(int i = b.size()-1; i >= 0; i--){
+				//creates bounds to check if the bullet (b2) intersects body (b1)-- body is a rectangle right now
+				Bounds b1 = body.localToScene(body.getBoundsInLocal());
+				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
+				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
+				if(b1.intersects(b2)){
+					g.removeBullet(b.get(i));
+					health--;
+				}
 			}
 		}
 	}
+
 }

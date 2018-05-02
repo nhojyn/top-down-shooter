@@ -18,13 +18,16 @@ import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.transform.Rotate;
+import javafx.geometry.Point2D;
 
 public class Gun extends Rectangle{
 	double locX; 
 	double locY;
-	
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+	Point2D tip;
+	
 	Gun(){
+		tip= new Point2D (5,5);
 		setWidth(5);
 		setHeight(40);
 		setFill(Color.BLUE);
@@ -42,7 +45,7 @@ public class Gun extends Rectangle{
 	public ArrayList<Bullet> getBullets(){
 		return bullets;
 	}
-	//currently does not work
+	
 	public void rotate(double newangle){
 		//double angle;
 	
@@ -55,9 +58,7 @@ public class Gun extends Rectangle{
 		//System.out.println(boundsInScreen.getMaxX());
 		
 		getTransforms().clear();
-		System.out.println(newangle);
 		Rotate rotation = new Rotate(Math.toDegrees(newangle)+90);
-		System.out.println(Math.toDegrees(newangle));
 		getTransforms().add(rotation);
 		
 		
@@ -69,22 +70,24 @@ public class Gun extends Rectangle{
 		double x = p.getLayoutX();
 		double y = p.getLayoutY();
 		
-		double sideA = mouseLocX - x;
-		double sideB = mouseLocY - y;
-		double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-
-		Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
-
-		b.setLocation(x-b.getRadius(),y-b.getRadius());
-		System.out.println("width"+b.getRadius());
-		bullets.add(b);
-	
-		TopDownShooter.playground.getChildren().add(b);
+		Bounds boundsInScene = localToScene(getBoundsInLocal());
+		System.out.println(tip.getX());
 		
-		//sets the location of where the bullet is playground's array 
-		bullets.get(bullets.size()).setPosition(TopDownShooter.playground.getChildren().size());
+		if(mouseLocX!=x&&mouseLocY!=y){
+			double sideA = mouseLocX - x;
+			double sideB = mouseLocY - y;
+			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+
+			Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
+
+			b.setLocation(x-b.getRadius(),y-b.getRadius());
+			bullets.add(b);
+		
+			TopDownShooter.playground.getChildren().add(b);
+
+		}
+		
 	}
-	
 	
 	public void move(){
 		for(int i=bullets.size()-1;i>=0;i--){
@@ -100,13 +103,14 @@ public class Gun extends Rectangle{
 		}
 	}
 	
-	public void removeBullet(int i){
+	public void removeBullet(Bullet b){
 		//stops bullet speed
-		bullets.get(i).setXSpeed(0);
-		bullets.get(i).setYSpeed(0);
+	//	bullets.get(i).setXSpeed(0);
+	//	bullets.get(i).setYSpeed(0);
 		
 		//removes from playground first then removes from bullets array
-		TopDownShooter.playground.getChildren().remove(bullets.get(i).getPosition());
-		bullets.remove(i);
+		TopDownShooter.playground.getChildren().remove(b);
+		bullets.remove(b);
 	}
+
 }
