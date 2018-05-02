@@ -27,14 +27,13 @@ public class TopDownShooter{
 	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
 	double mouseY, mouseX;
 	Timeline mouseTimer, shootTimer, collision;
-	Button mainMenu;
 	boolean delayOff;
 	Swarm mobs;
+	UserInterface ui;
 	
 	TopDownShooter(Stage s,Button main){
 		delayOff=true;
 		stage=s;
-		mainMenu=main;
 		
 		screen=new BorderPane();
 		
@@ -43,8 +42,10 @@ public class TopDownShooter{
 		playground.setPrefHeight(1000);
 		screen.setCenter(playground);
 		
+		ui=new UserInterface(playground,main);
+		
 		player = new Player(playground);
-		playground.getChildren().addAll(player,mainMenu);
+		playground.getChildren().addAll(player);
 		
 		mainGame = new Scene(screen);
 		
@@ -187,7 +188,7 @@ public class TopDownShooter{
 		if(delayOff){
 			player.getGun().shoot(player,mouseX,mouseY);
 			delayOff=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(300),ae -> delayOff=true));
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(100),ae -> delayOff=true));
 			delay.play();
 		}
 	}
@@ -208,5 +209,9 @@ public class TopDownShooter{
 				}
 			}
 		}
+	}
+	public void reset(){
+		player.reset();
+		mobs.resetSwarm();
 	}
 }

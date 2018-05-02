@@ -76,5 +76,7 @@ public class Player extends Pane{
 		gun.rotate(gunAngle);
 	}
 	
-
+	public void reset(){
+		gun.clearBullets();
+	}
 }

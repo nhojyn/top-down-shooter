@@ -20,17 +20,20 @@ import javafx.event.ActionEvent;
 import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 
-public class Gun extends Rectangle{
+public class Gun extends Pane{
 	double locX; 
 	double locY;
+	Rectangle body;
+	Rectangle tip;
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
-	Point2D tip;
 	
 	Gun(){
-		tip= new Point2D (5,5);
-		setWidth(5);
-		setHeight(40);
-		setFill(Color.BLUE);
+		tip=new Rectangle(10,10);
+		tip.setFill(Color.RED);
+		body=new Rectangle(10,60);
+		body.setFill(Color.BLUE);
+		getChildren().addAll(body,tip);
+		tip.setLayoutY(body.getHeight());
 		Timeline move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
 		move.setCycleCount(Animation.INDEFINITE);
 		move.play();
@@ -70,17 +73,17 @@ public class Gun extends Rectangle{
 		double x = p.getLayoutX();
 		double y = p.getLayoutY();
 		
-		Bounds boundsInScene = localToScene(getBoundsInLocal());
-		System.out.println(tip.getX());
-		
 		if(mouseLocX!=x&&mouseLocY!=y){
-			double sideA = mouseLocX - x;
-			double sideB = mouseLocY - y;
+			double radius = 10;
+			Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
+			double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
+			double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 
-			Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7);
+			Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7,radius);
 
-			b.setLocation(x-b.getRadius(),y-b.getRadius());
+			//b.setLocation(x-b.getRadius(),y-b.getRadius());
+			b.setLocation(boundsInScene.getMinX()-radius/2,boundsInScene.getMinY()-radius/2);
 			bullets.add(b);
 		
 			TopDownShooter.playground.getChildren().add(b);
@@ -103,12 +106,14 @@ public class Gun extends Rectangle{
 		}
 	}
 	
+	public void clearBullets(){
+		for(int i=0;i<bullets.size();i++){
+			TopDownShooter.playground.getChildren().remove(bullets.get(i));
+		}
+		bullets.clear();
+	}
+	
 	public void removeBullet(Bullet b){
-		//stops bullet speed
-	//	bullets.get(i).setXSpeed(0);
-	//	bullets.get(i).setYSpeed(0);
-		
-		//removes from playground first then removes from bullets array
 		TopDownShooter.playground.getChildren().remove(b);
 		bullets.remove(b);
 	}

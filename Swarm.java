@@ -13,7 +13,7 @@ public class Swarm{
 	ArrayList<Mob> swarm = new ArrayList<Mob>();
 	int numMobs;
 	Timeline collisionCheck;
-  Pane playground;
+    Pane playground;
 	
 	//constructors
 	public Swarm(int n){
@@ -67,6 +67,9 @@ public class Swarm{
 	}
 	
 	public void resetSwarm(){
+		for(int i=0;i<swarm.size();i++){
+			TopDownShooter.playground.getChildren().remove(swarm.get(i));
+		}
 		swarm = new ArrayList<Mob>();
 	}
 	

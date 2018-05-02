@@ -8,8 +8,8 @@ public class Bullet extends Pane{
 	double ySpeed;
 	Circle shell;
 	
-	public Bullet(double xS, double yS){
-		shell = new Circle(10);
+	public Bullet(double xS, double yS,double radius){
+		shell = new Circle(radius);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);
 		setPrefSize(20,20);
