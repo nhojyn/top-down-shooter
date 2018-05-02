@@ -162,6 +162,19 @@ public class TopDownShooter{
 				mobMovement.play();
 			}
 		});
+		
+		//test knockback
+		Button knockBtn = new Button();
+		playground.getChildren().add(knockBtn);
+		knockBtn.setLayoutX(100);
+		knockBtn.setText("knockback");
+		knockBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobMovement.pause();
+				mobs.knockbackMobsAnimated(player, 300);
+				mobMovement.play();
+			}
+		});
 	}
 	
 	public void play(){

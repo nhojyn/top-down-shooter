@@ -10,20 +10,25 @@ import javafx.scene.transform.Rotate;
 public class Mob extends Pane{
 	
 	//fields
+	int health;
 	Rectangle body;
 	Rectangle front; //indicates where front of mob is
 	double speedModifier = 1.0; //total distance that it walks per cycle
 	int health;
+	boolean knockback;
+
 	
 	public Mob(){
 		body = new Rectangle(0,0,50,50);
 		body.setFill(Color.BLUE);
 		getChildren().add(body);
+		knockback = true;
 		
 		health = 50;
 		
 		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
 		getChildren().add(front);
+		health = 0;
 		
 	}
 	
@@ -38,6 +43,9 @@ public class Mob extends Pane{
 		return health;
 	}
 	
+
+	public Rectangle getBody(){return body;}
+
 	//methods
 	public void chase(Player p){
 		double px = p.getLocX()- getLayoutX();
@@ -50,9 +58,26 @@ public class Mob extends Pane{
 		rotate(p.getLocX(),p.getLocY());
 	}
 	
-	private void move(double x, double y){
+	public void move(double x, double y){
 		setLayoutX(getLayoutX()+x);
 		setLayoutY(getLayoutY()+y);
+	}
+	
+	/* Knocks back mob at angle or at vector from (x,y) to mob with magnitude m
+	 *
+	*/
+	public void knockback(double angle, double m){
+		
+	}
+	
+	public void knockback(double x, double y, double m){
+		double px = x - getLayoutX();
+		double py = y - getLayoutY();
+		
+		double distance = Math.pow(((px*px) + (py*py)),0.5);
+		
+		move(-px*m/distance,-py*m/distance);
+		
 	}
 	
 	private void rotate(double x, double y){
