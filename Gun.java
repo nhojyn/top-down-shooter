@@ -23,13 +23,11 @@ import javafx.geometry.Point2D;
 public class Gun extends Rectangle{
 	double locX; 
 	double locY;
-	Pane Playground;
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
 	Point2D tip;
 	
-	Gun(Pane p){
+	Gun(){
 		tip= new Point2D (5,5);
-		Playground=p;
 		setWidth(5);
 		setHeight(40);
 		setFill(Color.BLUE);
@@ -44,7 +42,10 @@ public class Gun extends Rectangle{
 	public void setLocY(double y1){
 		locY = y1;
 	}
-
+	public ArrayList<Bullet> getBullets(){
+		return bullets;
+	}
+	
 	public void rotate(double newangle){
 		//double angle;
 	
@@ -82,7 +83,8 @@ public class Gun extends Rectangle{
 			b.setLocation(x-b.getRadius(),y-b.getRadius());
 			bullets.add(b);
 		
-			Playground.getChildren().add(b);
+			TopDownShooter.playground.getChildren().add(b);
+
 		}
 		
 	}
@@ -92,13 +94,23 @@ public class Gun extends Rectangle{
 			//NEED TO FIX THIS TO CALCULATE THE ACTUAL WIDTH AND HEIGHT OF THE SCREEN
 			//IN ORDER TO FIX THE SCENE NEEDS TO BE SET BEFORE move() IS CALLED
 			if(bullets.get(i).getLayoutX()<0||bullets.get(i).getLayoutY()<0||bullets.get(i).getLayoutX()>1080||bullets.get(i).getLayoutY()>1920){
-				Playground.getChildren().remove(bullets.get(i));
+				TopDownShooter.playground.getChildren().remove(bullets.get(i));
 				bullets.remove(i);
 			}
 		}
 		for(int i=bullets.size()-1;i>=0;i--){
 			bullets.get(i).move();
 		}
+	}
+	
+	public void removeBullet(Bullet b){
+		//stops bullet speed
+	//	bullets.get(i).setXSpeed(0);
+	//	bullets.get(i).setYSpeed(0);
+		
+		//removes from playground first then removes from bullets array
+		TopDownShooter.playground.getChildren().remove(b);
+		bullets.remove(b);
 	}
 
 }

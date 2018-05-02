@@ -26,9 +26,10 @@ public class TopDownShooter{
 	Stage stage;
 	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
 	double mouseY, mouseX;
-	Timeline mouseTimer, shootTimer;
+	Timeline mouseTimer, shootTimer, collision;
 	Button mainMenu;
 	boolean delayOff;
+	Swarm mobs;
 	
 	TopDownShooter(Stage s,Button main){
 		delayOff=true;
@@ -49,7 +50,12 @@ public class TopDownShooter{
 		
 		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(player,mouseX,mouseY)));			
 		shootTimer.setCycleCount(Animation.INDEFINITE);
-				
+					
+		//checks if mob collides with bullet
+		collision = new Timeline(new KeyFrame(Duration.millis(10), ae -> bulletToMobChecker()));			
+		collision.setCycleCount(Animation.INDEFINITE);
+		collision.play();
+		
 		mainGame.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -144,7 +150,7 @@ public class TopDownShooter{
 		});
 		
 		//create swarm and test it
-		Swarm mobs = new Swarm(4);
+		mobs = new Swarm(4);
 		Timeline mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
 		mobMovement.setCycleCount(Animation.INDEFINITE);
 		Button spawnBtn = new Button();
@@ -189,5 +195,18 @@ public class TopDownShooter{
 	public void updateMouse(double x, double y){
 		mouseX = x;
 		mouseY = y;
+	}
+	public void bulletToMobChecker(){
+		//if there are mobs, check for each mob if they collided with bullet 
+		if(mobs.getSwarm().size() > 0){
+			for(int i = 0; i < mobs.getSwarm().size(); i++){
+				//colldeWithBullet is in Mob class
+				mobs.getSwarm(i).collideWithBullet(player.getGun());
+				if(mobs.getSwarm(i).getHealth() < 0){
+					playground.getChildren().remove(mobs.getSwarm(i));
+					mobs.getSwarm().remove(mobs.getSwarm(i));
+				}
+			}
+		}
 	}
 }

@@ -1,3 +1,4 @@
+import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -13,13 +14,17 @@ public class Mob extends Pane{
 	Rectangle body;
 	Rectangle front; //indicates where front of mob is
 	double speedModifier = 1.0; //total distance that it walks per cycle
+	int health;
 	boolean knockback;
+
 	
 	public Mob(){
 		body = new Rectangle(0,0,50,50);
 		body.setFill(Color.BLUE);
 		getChildren().add(body);
 		knockback = true;
+		
+		health = 50;
 		
 		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
 		getChildren().add(front);
@@ -34,7 +39,13 @@ public class Mob extends Pane{
 	public double getLocY(){
 		return getLayoutY();
 	}
+	public int getHealth(){
+		return health;
+	}
+	
+
 	public Rectangle getBody(){return body;}
+
 	//methods
 	public void chase(Player p){
 		double px = p.getLocX()- getLayoutX();
@@ -74,4 +85,21 @@ public class Mob extends Pane{
 		getTransforms().clear();
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
 	}
+	
+	public void collideWithBullet(Gun g){
+		ArrayList<Bullet> b = g.getBullets();
+		if(b.size() > 0){
+			for(int i = b.size()-1; i >= 0; i--){
+				//creates bounds to check if the bullet (b2) intersects body (b1)-- body is a rectangle right now
+				Bounds b1 = body.localToScene(body.getBoundsInLocal());
+				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
+				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
+				if(b1.intersects(b2)){
+					g.removeBullet(b.get(i));
+					health--;
+				}
+			}
+		}
+	}
+
 }
