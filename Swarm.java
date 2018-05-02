@@ -13,6 +13,7 @@ public class Swarm{
 	ArrayList<Mob> swarm = new ArrayList<Mob>();
 	int numMobs;
 	Timeline collisionCheck;
+  Pane playground;
 	
 	//constructors
 	public Swarm(int n){
@@ -24,7 +25,7 @@ public class Swarm{
 	
 	//setters and getters
 	public ArrayList<Mob> getSwarm(){return swarm;}
-	Pane playground;
+	public Mob getSwarm(int i){return swarm.get(i);}	
 	
 	//methods
 	public void spawnSwarm(Pane main){

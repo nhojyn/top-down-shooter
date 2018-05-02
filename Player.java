@@ -40,7 +40,7 @@ public class Player extends Pane{
 		//setStyle("-fx-background-color: blue;");
 		
 		getChildren().addAll(body,eye);
-		gun = new Gun(p);
+		gun = new Gun();
 		gun.setLayoutX(-50);
 		getChildren().add(gun);
 	}

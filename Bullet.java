@@ -1,3 +1,4 @@
+import java.util.*;
 import javafx.geometry.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
@@ -6,7 +7,7 @@ public class Bullet extends Pane{
 	double xSpeed;
 	double ySpeed;
 	Circle shell;
-
+	
 	public Bullet(double xS, double yS){
 		shell = new Circle(10);
 		shell.setFill(Color.BLACK);
@@ -18,6 +19,9 @@ public class Bullet extends Pane{
 		ySpeed=yS;
 	}
 
+	public double getxSpeed(){return xSpeed;}
+	public double getySpeed(){return ySpeed;}
+	
 	public void setLocation(double x, double y){
 		setLayoutX(x);
 		setLayoutY(y);
@@ -30,4 +34,8 @@ public class Bullet extends Pane{
 	public double getRadius(){
 		return shell.getRadius();
 	}
+	public double getCenterX(){return shell.getCenterX();}
+	public double getCenterY(){return shell.getCenterY();}
+	
+
 }
