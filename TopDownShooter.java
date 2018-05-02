@@ -187,7 +187,7 @@ public class TopDownShooter{
 		if(delayOff){
 			player.getGun().shoot(player,mouseX,mouseY);
 			delayOff=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(1),ae -> delayOff=true));
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(300),ae -> delayOff=true));
 			delay.play();
 		}
 	}
@@ -201,7 +201,7 @@ public class TopDownShooter{
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
 				//colldeWithBullet is in Mob class
-				mobs.getSwarm(i).collideWithBullet(player.getGun());
+				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));

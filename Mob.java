@@ -3,6 +3,8 @@ import javafx.geometry.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
+import javafx.animation.*;
 
 import javafx.scene.transform.Rotate;
 
@@ -10,11 +12,10 @@ import javafx.scene.transform.Rotate;
 public class Mob extends Pane{
 	
 	//fields
-	int health;
+	int health; //actually takes health+1 hits to kills (e.g. a mob with 2 health takes 3 bullets to kill)
 	Rectangle body;
 	Rectangle front; //indicates where front of mob is
 	double speedModifier = 1.0; //total distance that it walks per cycle
-	int health;
 	boolean knockback;
 
 	
@@ -23,12 +24,9 @@ public class Mob extends Pane{
 		body.setFill(Color.BLUE);
 		getChildren().add(body);
 		knockback = true;
-		
-		health = 50;
-		
+		health = 2;
 		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
 		getChildren().add(front);
-		health = 0;
 		
 	}
 	
@@ -80,13 +78,23 @@ public class Mob extends Pane{
 		
 	}
 	
+	/* Knockback method but animated (similar to ones in Swarm class)
+	 *
+	*/
+	public void animatedKnockback(double x, double y, double m){
+		Timeline delay = new Timeline(new KeyFrame(Duration.millis(5),ae -> knockback(x, y, m/20)));
+		delay.setCycleCount(20);
+		delay.play();	
+	}
+	
 	private void rotate(double x, double y){
 		double angle = Math.atan2(getLayoutY()-y,getLayoutX()-x);
 		getTransforms().clear();
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
 	}
 	
-	public void collideWithBullet(Gun g){
+	public void collideWithBullet(Player p){ //NOTE: now takes a player instead of gun
+		Gun g = p.getGun();
 		ArrayList<Bullet> b = g.getBullets();
 		if(b.size() > 0){
 			for(int i = b.size()-1; i >= 0; i--){
@@ -95,6 +103,13 @@ public class Mob extends Pane{
 				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
 				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
 				if(b1.intersects(b2)){
+					
+					//adding knockback to the mob, temporarily sets speed to 0 so they dont walk during animation
+					double temp = speedModifier;
+					speedModifier = 0;
+					animatedKnockback(p.getLocX(), p.getLocY(), 20);
+					speedModifier = temp;
+					
 					g.removeBullet(b.get(i));
 					health--;
 				}

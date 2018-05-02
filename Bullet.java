@@ -19,6 +19,9 @@ public class Bullet extends Pane{
 		ySpeed=yS;
 	}
 
+	public double getxSpeed(){return xSpeed;}
+	public double getySpeed(){return ySpeed;}
+	
 	public void setLocation(double x, double y){
 		setLayoutX(x);
 		setLayoutY(y);
