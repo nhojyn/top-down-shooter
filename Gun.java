@@ -68,14 +68,9 @@ public class Gun extends Pane{
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
-
-		double rad = Math.toRadians(p.getAngle());
-		double x = p.getLayoutX();
-		double y = p.getLayoutY();
-		
-		if(mouseLocX!=x&&mouseLocY!=y){
+		Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
+		if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
 			double radius = 10;
-			Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
 			double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
 			double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
@@ -94,9 +89,7 @@ public class Gun extends Pane{
 	
 	public void move(){
 		for(int i=bullets.size()-1;i>=0;i--){
-			//NEED TO FIX THIS TO CALCULATE THE ACTUAL WIDTH AND HEIGHT OF THE SCREEN
-			//IN ORDER TO FIX THE SCENE NEEDS TO BE SET BEFORE move() IS CALLED
-			if(bullets.get(i).getLayoutX()<0||bullets.get(i).getLayoutY()<0||bullets.get(i).getLayoutX()>1080||bullets.get(i).getLayoutY()>1920){
+			if(bullets.get(i).getLayoutX()<0||bullets.get(i).getLayoutY()<0||bullets.get(i).getLayoutX()>TopDownShooter.playground.getWidth()||bullets.get(i).getLayoutY()>TopDownShooter.playground.getHeight()){
 				TopDownShooter.playground.getChildren().remove(bullets.get(i));
 				bullets.remove(i);
 			}

@@ -15,6 +15,7 @@ public class Mob extends Pane{
 	int health; //actually takes health+1 hits to kills (e.g. a mob with 2 health takes 3 bullets to kill)
 	Rectangle body;
 	Rectangle front; //indicates where front of mob is
+	Rectangle middle;
 	double speedModifier = 1.0; //total distance that it walks per cycle
 	boolean knockback;
 
@@ -26,7 +27,9 @@ public class Mob extends Pane{
 		knockback = true;
 		health = 2;
 		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
-		getChildren().add(front);
+		middle = new Rectangle(body.getWidth()/2, body.getHeight()/2, 5,5);
+		middle.setFill(Color.RED);
+		getChildren().addAll(front,middle);
 		
 	}
 	
@@ -40,9 +43,17 @@ public class Mob extends Pane{
 	public int getHealth(){
 		return health;
 	}
-	
-
-	public Rectangle getBody(){return body;}
+	public Rectangle getBody(){
+		return body;
+	}
+	public double getAbsoluteMiddleX(){
+		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());
+		return boundsInScene.getMinX();
+	}
+	public double getAbsoluteMiddleY(){
+		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());
+		return boundsInScene.getMinY();
+	}
 
 	//methods
 	public void chase(Player p){

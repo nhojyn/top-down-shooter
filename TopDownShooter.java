@@ -30,6 +30,8 @@ public class TopDownShooter{
 	boolean delayOff;
 	Swarm mobs;
 	UserInterface ui;
+	ParticleEffects pe;
+	VBox devTools;
 	
 	TopDownShooter(Stage s,Button main){
 		delayOff=true;
@@ -37,15 +39,36 @@ public class TopDownShooter{
 		
 		screen=new BorderPane();
 		
+		devTools = new VBox();
+		devTools.setStyle("-fx-background-color: black");
+		devTools.setPrefWidth(220);
+		String cssLayout = "-fx-border-color: pink;\n" +
+                   "-fx-border-insets: 5 ;\n" +
+                   "-fx-border-width: 5;\n" +
+                   "-fx-border-style: solid;\n"+
+                   "-fx-background-color: black;";
+		
+		devTools.setStyle(cssLayout);
+		devTools.setSpacing(15);
+		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
+		Text devTitle = new Text("Dev Tools");
+		devTitle.setFont(f1);
+		devTitle.setFill(Color.WHITE);
+		devTools.getChildren().add(devTitle);
+		
 		playground = new Pane();
 		playground.setPrefWidth(1000);
 		playground.setPrefHeight(1000);
 		screen.setCenter(playground);
 		
+		pe=new ParticleEffects(playground);
+		
 		ui=new UserInterface(playground,main);
 		
 		player = new Player(playground);
 		playground.getChildren().addAll(player);
+		
+		screen.setRight(devTools);
 		
 		mainGame = new Scene(screen);
 		
@@ -93,11 +116,19 @@ public class TopDownShooter{
             @Override
             public void handle(long l) {
                 int dx = 0, dy = 0;
-
-                if (goNorth) dy -= 2;
-                if (goSouth) dy += 2;
-                if (goEast)  dx += 2;
-                if (goWest)  dx -= 2;
+				
+				if(player.getLayoutY()>0){
+					if (goNorth) dy -= 2;
+				}
+				if(player.getLayoutY()<playground.getWidth()){
+					if (goSouth) dy += 2;
+				}
+				if(player.getLayoutX()<playground.getHeight()){
+					if (goEast)  dx += 2;
+				}
+				if(player.getLayoutX()>0){
+					if (goWest)  dx -= 2;
+				}
 
                 player.move(dx, dy);
 				player.rotate(mouseX,mouseY);
@@ -155,7 +186,7 @@ public class TopDownShooter{
 		Timeline mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
 		mobMovement.setCycleCount(Animation.INDEFINITE);
 		Button spawnBtn = new Button();
-		playground.getChildren().add(spawnBtn);
+		devTools.getChildren().add(spawnBtn);
 		spawnBtn.setText("Spawn round");
 		spawnBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
@@ -166,7 +197,7 @@ public class TopDownShooter{
 		
 		//test knockback
 		Button knockBtn = new Button();
-		playground.getChildren().add(knockBtn);
+		devTools.getChildren().add(knockBtn);
 		knockBtn.setLayoutX(100);
 		knockBtn.setText("knockback");
 		knockBtn.setOnAction(new EventHandler<ActionEvent>(){
@@ -204,6 +235,7 @@ public class TopDownShooter{
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
+					pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 				}
