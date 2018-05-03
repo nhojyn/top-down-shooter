@@ -26,5 +26,6 @@ public class UserInterface{
 		playground=pg;
 		Mainmenu=main;
 		playground.getChildren().add(main);
+		Mainmenu.toFront();
 	}
 }
