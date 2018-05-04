@@ -18,17 +18,24 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 
-public class UserInterface{
+
+public class Status extends VBox{
+
+	private Text healthTxt;
+	private Text scoreTxt;
 	Pane playground;
-	Button Mainmenu;
 	
-	UserInterface(Pane pg, Button main){
-		playground=pg;
-		Mainmenu=main;
-		playground.getChildren().add(main);
-		Mainmenu.toFront();
+	public Status(Pane pg, Player p){
+		setLayoutX(150);
+		playground = pg;
+		healthTxt = new Text("Health: " + p.getHealth());
+		scoreTxt = new Text("Score: " + p.getScore());
+		getChildren().addAll(healthTxt, scoreTxt);
 		
 	}
+
+	public void setHealthTxt(int h){healthTxt.setText("Health: " + h);}
+	public void setScoreTxt(int s){scoreTxt.setText("Score: " + s);}
 
 	
 }

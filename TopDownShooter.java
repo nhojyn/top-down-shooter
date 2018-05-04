@@ -32,7 +32,7 @@ public class TopDownShooter{
 	UserInterface ui;
 	ParticleEffects pe;
 	VBox devTools;
-	
+	Status stats;
 	TopDownShooter(Stage s,Button main){
 		delayOff=true;
 		stage=s;
@@ -55,7 +55,7 @@ public class TopDownShooter{
 		devTitle.setFont(f1);
 		devTitle.setFill(Color.WHITE);
 		devTools.getChildren().add(devTitle);
-		
+
 		playground = new Pane();
 		playground.setPrefWidth(1000);
 		playground.setPrefHeight(1000);
@@ -67,8 +67,12 @@ public class TopDownShooter{
 		
 		player = new Player(playground);
 		playground.getChildren().addAll(player);
-		
+			
 		screen.setRight(devTools);
+		
+		//health
+		stats = new Status(playground,player);
+		playground.getChildren().addAll(stats);
 		
 		mainGame = new Scene(screen);
 		
@@ -76,7 +80,7 @@ public class TopDownShooter{
 		shootTimer.setCycleCount(Animation.INDEFINITE);
 					
 		//checks if mob collides with bullet
-		collision = new Timeline(new KeyFrame(Duration.millis(10), ae -> bulletToMobChecker()));			
+		collision = new Timeline(new KeyFrame(Duration.millis(10), ae -> collisionChecker()));			
 		collision.setCycleCount(Animation.INDEFINITE);
 		collision.play();
 		
@@ -215,6 +219,7 @@ public class TopDownShooter{
 		player.setLayoutY(playground.getHeight()/2);
 	}
 	
+
 	private void shoot(){
 		if(delayOff){
 			player.getGun().shoot(player,mouseX,mouseY);
@@ -228,10 +233,12 @@ public class TopDownShooter{
 		mouseX = x;
 		mouseY = y;
 	}
-	public void bulletToMobChecker(){
+	public void collisionChecker(){
 		//if there are mobs, check for each mob if they collided with bullet 
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
+				player.collideWithMob(mobs.getSwarm(i), stats);
+				
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
@@ -241,6 +248,8 @@ public class TopDownShooter{
 				}
 			}
 		}
+		
+	
 	}
 	public void reset(){
 		player.reset();

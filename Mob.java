@@ -108,9 +108,10 @@ public class Mob extends Pane{
 		Gun g = p.getGun();
 		ArrayList<Bullet> b = g.getBullets();
 		if(b.size() > 0){
+			//Change: moved b1 outside of loop to make loop more efficient
+			Bounds b1 = body.localToScene(body.getBoundsInLocal());
 			for(int i = b.size()-1; i >= 0; i--){
 				//creates bounds to check if the bullet (b2) intersects body (b1)-- body is a rectangle right now
-				Bounds b1 = body.localToScene(body.getBoundsInLocal());
 				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
 				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
 				if(b1.intersects(b2)){

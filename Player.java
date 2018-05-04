@@ -25,9 +25,12 @@ public class Player extends Pane{
 	Gun gun;
 	double angle;
 	Pane Playground;
+	int health, score;
 	
 	Player(Pane p){
 		//setPrefSize(100,100);
+		health = 1000;
+		score = 0;
 		Playground=p;
 		body = new Circle(50);
 		body.setFill(Color.BLACK);
@@ -45,6 +48,12 @@ public class Player extends Pane{
 		getChildren().add(gun);
 	}
 	
+	public int getHealth(){
+		return health;
+	}
+	public int getScore(){
+		return score;
+	}
 	public double getAngle(){
 		return angle;
 	}
@@ -79,4 +88,23 @@ public class Player extends Pane{
 	public void reset(){
 		gun.clearBullets();
 	}
+	
+	public void collideWithMob(Mob m, Status s){
+		Bounds b1 = m.getBody().localToScene(body.getBoundsInLocal());
+		Bounds b2 = body.localToScene(body.getBoundsInLocal());
+		//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
+		if(b1.intersects(b2)){
+			health--;
+			s.setHealthTxt(health);
+			System.out.println(health);
+			
+		}
+		
+	}
+	
+	public void addToScore(int i){
+		score += score;
+	}
+	
+	
 }
