@@ -29,7 +29,7 @@ public class ParticleEffects{
 	
 	public void RectExplosion(double x, double y){
 		ArrayList<RectParticle> rectParticles = new ArrayList<RectParticle>();
-		for(int i=0;i<(int)Math.random()*50+175;i++){
+		for(int i=0;i<(int)Math.random()*50+50;i++){
 			RectParticle r = new RectParticle();
 			r.setLayoutX(x);
 			r.setLayoutY(y);
@@ -58,7 +58,7 @@ public class ParticleEffects{
 	
 	public void CircleExplosion(double x, double y){
 		ArrayList<CircleParticle> circleParticles = new ArrayList<CircleParticle>();
-		for(int i=0;i<(int)Math.random()*50+175;i++){
+		for(int i=0;i<(int)Math.random()*50+50;i++){
 			CircleParticle r = new CircleParticle();
 			r.setLayoutX(x);
 			r.setLayoutY(y);

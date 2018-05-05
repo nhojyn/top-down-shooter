@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 
 public class TopDownShooter{
 	Player player;
@@ -32,6 +33,12 @@ public class TopDownShooter{
 	UserInterface ui;
 	ParticleEffects pe;
 	VBox devTools;
+	Status stats;
+	Timeline mobMovement;
+	
+	private final long[] frameTimes = new long[100];
+    private int frameTimeIndex = 0 ;
+    private boolean arrayFilled = false ;
 	
 	TopDownShooter(Stage s,Button main){
 		delayOff=true;
@@ -50,12 +57,36 @@ public class TopDownShooter{
 		
 		devTools.setStyle(cssLayout);
 		devTools.setSpacing(15);
+		
+        Label label = new Label();
+        AnimationTimer frameRateMeter = new AnimationTimer() {
+
+            @Override
+            public void handle(long now) {
+                long oldFrameTime = frameTimes[frameTimeIndex] ;
+                frameTimes[frameTimeIndex] = now ;
+                frameTimeIndex = (frameTimeIndex + 1) % frameTimes.length ;
+                if (frameTimeIndex == 0) {
+                    arrayFilled = true ;
+                }
+                if (arrayFilled) {
+                    long elapsedNanos = now - oldFrameTime ;
+                    long elapsedNanosPerFrame = elapsedNanos / frameTimes.length ;
+                    double frameRate = 1_000_000_000.0 / elapsedNanosPerFrame ;
+                    label.setText(String.format("Current frame rate: %.3f", frameRate));
+                }
+            }
+        };
+        frameRateMeter.start();
+		label.setTextFill(Color.web("#FFFFFF"));
+		devTools.getChildren().add(label);
+		
 		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
 		Text devTitle = new Text("Dev Tools");
 		devTitle.setFont(f1);
 		devTitle.setFill(Color.WHITE);
 		devTools.getChildren().add(devTitle);
-		
+
 		playground = new Pane();
 		playground.setPrefWidth(1000);
 		playground.setPrefHeight(1000);
@@ -67,8 +98,12 @@ public class TopDownShooter{
 		
 		player = new Player(playground);
 		playground.getChildren().addAll(player);
-		
+			
 		screen.setRight(devTools);
+		
+		//health
+		stats = new Status(playground,player);
+		playground.getChildren().addAll(stats);
 		
 		mainGame = new Scene(screen);
 		
@@ -76,9 +111,18 @@ public class TopDownShooter{
 		shootTimer.setCycleCount(Animation.INDEFINITE);
 					
 		//checks if mob collides with bullet
-		collision = new Timeline(new KeyFrame(Duration.millis(10), ae -> bulletToMobChecker()));			
+		/*
+		collision = new Timeline(new KeyFrame(Duration.millis(40), ae -> collisionChecker()));			
 		collision.setCycleCount(Animation.INDEFINITE);
 		collision.play();
+		*/
+		
+		AnimationTimer collision= new AnimationTimer(){
+			public void handle(long l){
+				collisionChecker();
+			}
+		};
+		collision.start();
 		
 		mainGame.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -183,7 +227,7 @@ public class TopDownShooter{
 		
 		//create swarm and test it
 		mobs = new Swarm(4);
-		Timeline mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
+		mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
 		mobMovement.setCycleCount(Animation.INDEFINITE);
 		Button spawnBtn = new Button();
 		devTools.getChildren().add(spawnBtn);
@@ -202,11 +246,15 @@ public class TopDownShooter{
 		knockBtn.setText("knockback");
 		knockBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				mobMovement.pause();
-				mobs.knockbackMobsAnimated(player, 300);
-				mobMovement.play();
+				knockBackMobs();
 			}
 		});
+	}
+	
+	private void knockBackMobs(){
+		mobMovement.pause();
+		mobs.knockbackMobsAnimated(player, 300);
+		mobMovement.play();
 	}
 	
 	public void play(){
@@ -215,6 +263,7 @@ public class TopDownShooter{
 		player.setLayoutY(playground.getHeight()/2);
 	}
 	
+
 	private void shoot(){
 		if(delayOff){
 			player.getGun().shoot(player,mouseX,mouseY);
@@ -228,10 +277,13 @@ public class TopDownShooter{
 		mouseX = x;
 		mouseY = y;
 	}
-	public void bulletToMobChecker(){
+	public void collisionChecker(){
 		//if there are mobs, check for each mob if they collided with bullet 
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
+				if(player.collideWithMob(mobs.getSwarm(i), stats)){
+					knockBackMobs();
+				}
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
@@ -241,6 +293,8 @@ public class TopDownShooter{
 				}
 			}
 		}
+		
+	
 	}
 	public void reset(){
 		player.reset();
