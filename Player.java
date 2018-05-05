@@ -89,17 +89,18 @@ public class Player extends Pane{
 		gun.clearBullets();
 	}
 	
-	public void collideWithMob(Mob m, Status s){
-		Bounds b1 = m.getBody().localToScene(body.getBoundsInLocal());
+	public boolean collideWithMob(Mob m, Status s){
+		Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
 		Bounds b2 = body.localToScene(body.getBoundsInLocal());
+		double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
 		//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
-		if(b1.intersects(b2)){
+		if(distance<body.getRadius()){
 			health--;
 			s.setHealthTxt(health);
 			System.out.println(health);
-			
+			return true;
 		}
-		
+		return false;
 	}
 	
 	public void addToScore(int i){

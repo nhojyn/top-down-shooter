@@ -46,6 +46,9 @@ public class Mob extends Pane{
 	public Rectangle getBody(){
 		return body;
 	}
+	public Rectangle getFront(){
+		return front;
+	}
 	public double getAbsoluteMiddleX(){
 		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());
 		return boundsInScene.getMinX();
