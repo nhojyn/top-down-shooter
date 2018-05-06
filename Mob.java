@@ -5,31 +5,21 @@ import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import javafx.animation.*;
-
 import javafx.scene.transform.Rotate;
 
-//eventually this class should be abstract
-public class Mob extends Pane{
+public abstract class Mob extends Pane implements TrueBounds{
 	
 	//fields
 	int health; //actually takes health+1 hits to kills (e.g. a mob with 2 health takes 3 bullets to kill)
-	Rectangle body;
+	Shape body;
 	Rectangle front; //indicates where front of mob is
 	Rectangle middle;
-	double speedModifier = 1.0; //total distance that it walks per cycle
+	double speedModifier; //total distance that it walks per cycle
 	boolean knockback;
-
+	boolean attacks;
+	ArrayList<MobProjectile> projectiles = new ArrayList<MobProjectile>();
 	
 	public Mob(){
-		body = new Rectangle(0,0,50,50);
-		body.setFill(Color.BLUE);
-		getChildren().add(body);
-		knockback = true;
-		health = 2;
-		front = new Rectangle(body.getWidth()/2-2.5, body.getHeight()-5, 5,5);
-		middle = new Rectangle(body.getWidth()/2, body.getHeight()/2, 5,5);
-		middle.setFill(Color.RED);
-		getChildren().addAll(front,middle);
 		
 	}
 	
@@ -43,11 +33,17 @@ public class Mob extends Pane{
 	public int getHealth(){
 		return health;
 	}
-	public Rectangle getBody(){
+	public Shape getBody(){
 		return body;
 	}
 	public Rectangle getFront(){
 		return front;
+	}
+	public boolean getAttacks(){
+		return attacks;
+	}
+	public boolean getKnockback(){
+		return knockback;
 	}
 	public double getAbsoluteMiddleX(){
 		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());
@@ -56,6 +52,9 @@ public class Mob extends Pane{
 	public double getAbsoluteMiddleY(){
 		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());
 		return boundsInScene.getMinY();
+	}
+	public ArrayList<MobProjectile> getProjectiles(){
+		return projectiles;
 	}
 
 	//methods
@@ -118,12 +117,13 @@ public class Mob extends Pane{
 				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
 				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
 				if(b1.intersects(b2)){
-					
 					//adding knockback to the mob, temporarily sets speed to 0 so they dont walk during animation
-					double temp = speedModifier;
-					speedModifier = 0;
-					animatedKnockback(p.getLocX(), p.getLocY(), 20);
-					speedModifier = temp;
+					if(knockback){
+						double temp = speedModifier;
+						speedModifier = 0;
+						animatedKnockback(p.getLocX(), p.getLocY(), 20); //last number should eventually be p.getGun().getKnockback()
+						speedModifier = temp;
+					}
 					
 					g.removeBullet(b.get(i));
 					health--;
@@ -132,4 +132,18 @@ public class Mob extends Pane{
 		}
 	}
 
+	public double getBodyHeight(){
+		return 0;
+	}
+	
+	public double getBodyWidth(){
+		return 0;
+	}
+	
+	/* For mobs that will shoot stuff, attack is called, but only if the boolean attacks is true
+	 *
+	*/
+	public void attack(){
+		
+	}
 }

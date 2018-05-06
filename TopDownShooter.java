@@ -291,6 +291,14 @@ public class TopDownShooter{
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 				}
+				//checks if player is getting hit by any MobProjectile
+				if(mobs.getSwarm().get(i).getAttacks()){
+					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
+						if(player.collideWithProjectile(p, stats)){
+							//TODO: grant player temporary invincibility (instead of knocking back mobs)
+						}
+					}
+				}
 			}
 		}
 		

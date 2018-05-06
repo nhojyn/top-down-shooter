@@ -103,6 +103,19 @@ public class Player extends Pane{
 		return false;
 	}
 	
+	//TODO: make this cleaner
+	public boolean collideWithProjectile(MobProjectile p, Status s){
+		Bounds b1 = p.localToScene(p.getBoundsInLocal());
+		Bounds b2 = body.localToScene(body.getBoundsInLocal());
+		if(b1.intersects(b2)){
+			health--;
+			s.setHealthTxt(health);
+			System.out.println(health);
+			return true;
+		}
+		return false;
+	}
+	
 	public void addToScore(int i){
 		score += score;
 	}
