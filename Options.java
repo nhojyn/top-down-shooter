@@ -23,6 +23,7 @@ public class Options extends VBox{
 	private Button Main;
 	double width=300;
 	double height=300;
+	Button test;
 	
 	public Options(Button main){
 		Main=main;
@@ -41,6 +42,7 @@ public class Options extends VBox{
 		title.setFont(f1);
 		title.setFill(Color.WHITE);
 		
+		test = new Button("test");
 		getChildren().addAll(title,main);
 	}
 	
@@ -51,4 +53,9 @@ public class Options extends VBox{
 	public double getPresetHeight(){
 		return height;
 	}
+	
+	public void resetButtons(){	
+-		getChildren().removeAll(Main,test);	
+-		getChildren().addAll(Main,test);	
+-	}
 }

@@ -49,6 +49,7 @@ public class UserInterface{
 				if(pauseBtn.getText().equals("pause")){
 					game.pause();
 					overlay.getChildren().add(options);
+					options.resetButtons();
 					pauseBtn.setText("play");
 				}else if(pauseBtn.getText().equals("play")){
 					game.resume();
