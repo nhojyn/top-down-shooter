@@ -17,7 +17,10 @@ public abstract class Mob extends Pane implements TrueBounds{
 	Rectangle middle;
 	double speedModifier; //total distance that it walks per cycle
 	boolean knockback;
-	boolean attacks;
+	boolean attacks; //shows whether or not the mob shoots and projectiles
+	boolean shooting; //shows whether or not the mob is CURRENTLY shooting
+	
+	//NOTE: all projectiles should start well outside the player pane (-10000,-10000) just in case
 	ArrayList<MobProjectile> projectiles = new ArrayList<MobProjectile>();
 	
 	public Mob(){
@@ -48,6 +51,9 @@ public abstract class Mob extends Pane implements TrueBounds{
 	}
 	public boolean getKnockback(){
 		return knockback;
+	}
+	public boolean getShooting(){
+		return shooting;
 	}
 	public double getAbsoluteMiddleX(){
 		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());

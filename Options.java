@@ -43,8 +43,7 @@ public class Options extends VBox{
 		title.setFill(Color.WHITE);
 		
 		test = new Button("test");
-		
-		getChildren().addAll(title,Main,test);
+		getChildren().addAll(title,main);
 	}
 	
 	public double getPresetWidth(){
@@ -55,8 +54,8 @@ public class Options extends VBox{
 		return height;
 	}
 	
-	public void resetButtons(){
-		getChildren().removeAll(Main,test);
-		getChildren().addAll(Main,test);
-	}
+	public void resetButtons(){	
+-		getChildren().removeAll(Main,test);	
+-		getChildren().addAll(Main,test);	
+-	}
 }

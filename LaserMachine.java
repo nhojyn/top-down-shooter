@@ -32,11 +32,13 @@ public class LaserMachine extends Mob implements TrueBounds{
 		health = 4;
 		attacks = true;
 		speedModifier = 1;
-		points=2;
+		points= 2;
+		shooting = false;
 		middle = new Rectangle(0,0,1,1);
 		front = new Rectangle(0,0,1,1);
 		middle.setFill(Color.RED);
 		getChildren().add(middle);
+		getChildren().add(front);
 		projectiles.add(new Laser(-5,-1000,10,2000,Color.RED));
 		projectiles.add(new Laser(-1000,-5,2000,10,Color.RED));
 
@@ -80,10 +82,12 @@ public class LaserMachine extends Mob implements TrueBounds{
 		speedModifier = 0;
 		body.setFill(Color.RED);
 		if(cooldown == -25){
+			shooting = true;
 			getChildren().add(projectiles.get(0));
 			getChildren().add(projectiles.get(1));
 		}
 		if(cooldown <= -50){
+			shooting = false;
 			getChildren().removeAll(projectiles.get(0),projectiles.get(1));
 			body.setFill(Color.GREEN);
 			speedModifier = 1;

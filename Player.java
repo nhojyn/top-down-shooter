@@ -94,13 +94,15 @@ public class Player extends Pane{
 	}
 	
 	public boolean collideWithMob(Mob m){
-		Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
-		Bounds b2 = body.localToScene(body.getBoundsInLocal());
-		double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
-		//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
-		if(distance<body.getRadius()){
-			health--;
-			return true;
+		if(!invincible){
+			Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
+			Bounds b2 = body.localToScene(body.getBoundsInLocal());
+			double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
+			//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
+			if(distance<body.getRadius()){
+				health--;
+				return true;
+			}
 		}
 		return false;
 	}
