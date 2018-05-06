@@ -11,7 +11,6 @@ public class Swarm{
 	
 	//fields
 	ArrayList<Mob> swarm = new ArrayList<Mob>();
-	int numMobs;
 	Timeline collisionCheck;
     Pane playground;
 	
@@ -20,8 +19,7 @@ public class Swarm{
 	/* There should eventually be a constructor that takes a list of mobs, so that each room can have a unique list
 	 * of mobs to them
 	*/
-	public Swarm(int n){
-		numMobs = n;
+	public Swarm(){
 		collisionCheck = new Timeline(new KeyFrame(Duration.millis(10),ae -> checkCollisions()));
 		collisionCheck.setCycleCount(Animation.INDEFINITE);
 		collisionCheck.play();
@@ -32,7 +30,7 @@ public class Swarm{
 	public Mob getSwarm(int i){return swarm.get(i);}	
 	
 	//methods
-	/*public void spawnSwarm(Pane main){
+	public void spawnZombieSwarm(Pane main, int numMobs){
 		playground = main;
 		for(int i = 0; i < numMobs; i++){
 			double spawnX = 0;
@@ -62,8 +60,8 @@ public class Swarm{
 		}
 		
 	}
-	*/
-	public void spawnSwarm(Pane main){
+	
+	public void spawnLaserSwarm(Pane main){
 		playground = main;
 		for(int i = 0; i < 1; i++){
 			double spawnX = 200;

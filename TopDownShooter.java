@@ -31,8 +31,8 @@ public class TopDownShooter{
 	ParticleEffects pe;
 	VBox devTools;
 	Status stats;
-	Timeline mobMovement;
 	Controls control;
+	AnimationTimer mobMovement;
 	
 	private final long[] frameTimes = new long[100];
     private int frameTimeIndex = 0 ;
@@ -116,23 +116,48 @@ public class TopDownShooter{
 		
 		AnimationTimer collision= new AnimationTimer(){
 			public void handle(long l){
-				collisionChecker();
+				playerCollisionChecker();
 			}
 		};
 		collision.start();
 		
+		AnimationTimer collision2= new AnimationTimer(){
+			public void handle(long l){
+				projectileCollisionChecker();
+			}
+		};
+		collision2.start();
 		
-		//create swarm and test it
-		mobs = new Swarm(4);
-		mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
-		mobMovement.setCycleCount(Animation.INDEFINITE);
-		Button spawnBtn = new Button();
-		devTools.getChildren().add(spawnBtn);
-		spawnBtn.setText("Spawn round");
-		spawnBtn.setOnAction(new EventHandler<ActionEvent>(){
+		
+		//create laser swarm and test it
+		mobs = new Swarm();
+		
+		mobMovement= new AnimationTimer(){
+			public void handle(long l){
+				mobs.swarmPlayer(player);
+			}
+		};
+		mobMovement.start();
+		//mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
+		//mobMovement.setCycleCount(Animation.INDEFINITE);
+		Button spawnLaserBtn = new Button();
+		devTools.getChildren().add(spawnLaserBtn);
+		spawnLaserBtn.setText("Spawn Laser Machine");
+		spawnLaserBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				mobs.spawnSwarm(playground);				
-				mobMovement.play();
+				mobs.spawnLaserSwarm(playground);				
+				//mobMovement.play();
+			}
+		});
+		
+		//create zombie swarm and test it
+		Button spawnZombieBtn = new Button();
+		devTools.getChildren().add(spawnZombieBtn);
+		spawnZombieBtn.setText("Spawn Zombie");
+		spawnZombieBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnZombieSwarm(playground,4);				
+				//mobMovement.play();
 			}
 		});
 		
@@ -149,9 +174,9 @@ public class TopDownShooter{
 	}
 	
 	private void knockBackMobs(){
-		mobMovement.pause();
+		mobMovement.stop();
 		mobs.knockbackMobsAnimated(player, 300);
-		mobMovement.play();
+		mobMovement.start();
 	}
 	
 	public void play(){
@@ -160,12 +185,29 @@ public class TopDownShooter{
 		player.setLayoutY(playground.getHeight()/2);
 	}
 	
-	public void collisionChecker(){
+	public void playerCollisionChecker(){
 		//if there are mobs, check for each mob if they collided with bullet 
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
 				if(player.collideWithMob(mobs.getSwarm(i), stats)){
 					knockBackMobs();
+					System.out.println("hit"+i);
+				}
+			}
+		}
+	}
+	
+	public void projectileCollisionChecker(){
+		if(mobs.getSwarm().size() > 0){
+			for(int i = 0; i < mobs.getSwarm().size(); i++){
+				//checks if player is getting hit by any MobProjectile
+				if(mobs.getSwarm().get(i).getAttacks()){
+					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
+						if(player.collideWithProjectile(p, stats)){
+							//TODO: grant player temporary invincibility (instead of knocking back mobs)
+							player.grantInvincibility(1);
+						}
+					}
 				}
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
@@ -173,14 +215,6 @@ public class TopDownShooter{
 					pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
-				}
-				//checks if player is getting hit by any MobProjectile
-				if(mobs.getSwarm().get(i).getAttacks()){
-					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
-						if(player.collideWithProjectile(p, stats)){
-							//TODO: grant player temporary invincibility (instead of knocking back mobs)
-						}
-					}
 				}
 			}
 		}
