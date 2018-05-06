@@ -53,6 +53,12 @@ public class Controls{
                     case D: goEast  = true; 
 						break;
                 }
+				//keys 1, 2, 3, 4, 5 changes weapons
+				//TODO: FINISH MORE GUNS TO ASSIGN FOR DIGIT CLICKED
+				if(event.getCode() == KeyCode.DIGIT1 || event.getCode() == KeyCode.DIGIT2 || event.getCode() == KeyCode.DIGIT3 || event.getCode() == KeyCode.DIGIT4 || event.getCode() == KeyCode.DIGIT5){
+					player.changeGun(Integer.parseInt(event.getText())-1);
+				//	System.out.println(event.getText());
+				}
             }
         });
 		
@@ -140,6 +146,8 @@ public class Controls{
 			}
 		  }
 		});
+		
+		
 	}
 		
 	public void updateMouse(double x, double y){

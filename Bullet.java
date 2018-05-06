@@ -3,18 +3,14 @@ import javafx.geometry.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
-public class Bullet extends Pane{
+public abstract class Bullet extends Pane{
 	double xSpeed;
 	double ySpeed;
 	Circle shell;
+	int speedMultiplier;
+	int radius;
 	
-	public Bullet(double xS, double yS,double radius){
-		shell = new Circle(radius);
-		shell.setFill(Color.BLACK);
-		getChildren().add(shell);
-		setPrefSize(20,20);
-		shell.setCenterX(10);
-		shell.setCenterY(10);
+	public Bullet(double xS, double yS){
 		xSpeed=xS;
 		ySpeed=yS;
 	}
@@ -27,8 +23,8 @@ public class Bullet extends Pane{
 		setLayoutY(y);
 	}
 	public void move(){
-		setLayoutX(getLayoutX() + xSpeed);
-		setLayoutY(getLayoutY() + ySpeed);
+		setLayoutX(getLayoutX() + xSpeed*speedMultiplier);
+		setLayoutY(getLayoutY() + ySpeed*speedMultiplier);
 	}
 	
 	public double getRadius(){
