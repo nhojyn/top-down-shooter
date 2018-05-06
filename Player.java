@@ -22,15 +22,16 @@ import javafx.scene.transform.Rotate;
 public class Player extends Pane{
 	Circle body;
 	Circle eye;
-	Gun gun;
+	ArrayList<Gun> guns;
 	double angle;
 	Pane Playground;
-	int health, score;
+	int health, score, currentGun;
 	
 	Player(Pane p){
 		//setPrefSize(100,100);
 		health = 100;
 		score = 0;
+		currentGun = 0;
 		Playground=p;
 		body = new Circle(50);
 		body.setFill(Color.BLACK);
@@ -43,9 +44,10 @@ public class Player extends Pane{
 		//setStyle("-fx-background-color: blue;");
 		
 		getChildren().addAll(body,eye);
-		gun = new Gun();
-		gun.setLayoutX(-50);
-		getChildren().add(gun);
+		guns = new ArrayList<Gun>();
+		guns.add(new ShotGun());
+		guns.add(new Pistol());
+		getChildren().add(guns.get(currentGun));
 	}
 	
 	public int getHealth(){
@@ -58,7 +60,7 @@ public class Player extends Pane{
 		return angle;
 	}
 	public Gun getGun(){
-		return gun;
+		return guns.get(currentGun);
 	}
 	public double getLocX(){
 		return getLayoutX();
@@ -70,8 +72,8 @@ public class Player extends Pane{
 	public void move(int x, int y){
 		setLayoutX(getLayoutX()+x);
 		setLayoutY(getLayoutY()+y);
-		gun.setLocX(getLayoutX()+x+50);
-		gun.setLocY(getLayoutY()+y);
+		guns.get(currentGun).setLocX(getLayoutX()+x+50);
+		guns.get(currentGun).setLocY(getLayoutY()+y);
 	}
 
 	public void rotate(double x, double y){
@@ -82,11 +84,11 @@ public class Player extends Pane{
 		getTransforms().clear();
 		
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
-		gun.rotate(gunAngle);
+		guns.get(currentGun).rotate(gunAngle);
 	}
 	
 	public void reset(){
-		gun.clearBullets();
+		guns.get(currentGun).clearBullets();
 	}
 	
 	public boolean collideWithMob(Mob m, Status s){
@@ -109,7 +111,6 @@ public class Player extends Pane{
 		if(b1.intersects(b2)){
 			health--;
 			s.setHealthTxt(health);
-			System.out.println(health);
 			return true;
 		}
 		return false;
@@ -119,5 +120,14 @@ public class Player extends Pane{
 		score += score;
 	}
 	
+	//removes the current gun and then changes to the new one
+	public void changeGun(int i){
+		if(i < guns.size()){
+			getChildren().remove(guns.get(currentGun));
+			getChildren().add(guns.get(i));
+			currentGun = i;
+		}
+		
+	}
 	
 }
