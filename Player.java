@@ -26,10 +26,12 @@ public class Player extends Pane{
 	double angle;
 	Pane Playground;
 	int health, score;
+	boolean invincible;
 	
 	Player(Pane p){
 		//setPrefSize(100,100);
 		health = 100;
+		invincible=false;
 		score = 0;
 		Playground=p;
 		body = new Circle(50);
@@ -104,15 +106,29 @@ public class Player extends Pane{
 	
 	//TODO: make this cleaner
 	public boolean collideWithProjectile(MobProjectile p, Status s){
-		Bounds b1 = p.localToScene(p.getBoundsInLocal());
-		Bounds b2 = body.localToScene(body.getBoundsInLocal());
-		if(b1.intersects(b2)){
-			health--;
-			s.setHealthTxt(health);
-			System.out.println(health);
-			return true;
+		if(!invincible){
+			Bounds b1 = p.localToScene(p.getBoundsInLocal());
+			Bounds b2 = body.localToScene(body.getBoundsInLocal());
+			if(b1.intersects(b2)){
+				health--;
+				s.setHealthTxt(health);
+				System.out.println(health);
+				return true;
+			}
 		}
 		return false;
+	}
+	
+	public void grantInvincibility(double sec){
+		invincible=true;
+		body.setFill(Color.RED);
+		Timeline delay = new Timeline(new KeyFrame(Duration.millis(sec*1000),ae -> invincibilityOff()));
+		delay.play();
+	}
+	
+	private void invincibilityOff(){
+		invincible=false;
+		body.setFill(Color.BLACK);
 	}
 	
 	public void addToScore(int i){
