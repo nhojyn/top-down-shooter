@@ -106,7 +106,7 @@ public class TopDownShooter{
 		
 		centered.getChildren().addAll(playground,overlay);
 		screen.setCenter(centered);
-		
+
 		pe=new ParticleEffects(playground);
 		
 		player = new Player(playground);
@@ -192,6 +192,7 @@ public class TopDownShooter{
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
 				if(player.collideWithMob(mobs.getSwarm(i))){
 					player.grantInvincibility(1);
+
 					knockBackMobs();
 					ui.getStatus().setHealthTxt(player.getHealth());
 					ui.getHealthBar().setHP(player.getHealth());
@@ -222,7 +223,7 @@ public class TopDownShooter{
 					}
 					if(mobs.getSwarm(i) instanceof ZombieMob){
 						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
-					}
+          }
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
 					playground.getChildren().remove(mobs.getSwarm(i));

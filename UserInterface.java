@@ -66,6 +66,7 @@ public class UserInterface{
 		healthBar = new HealthBar(player.getHealth());
 		healthBar.setLayoutX(250);
 		overlay.getChildren().addAll(pauseBtn,stats,healthBar);
+
 		
 	}
 	

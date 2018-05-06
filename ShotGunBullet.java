@@ -10,6 +10,7 @@ public class ShotGunBullet extends Bullet{
 		super();
 		setxSpeed(xS+spray*Math.random()-spray/2);
 		setySpeed(yS+spray*Math.random()-spray/2);
+
 		speedMultiplier = 1;
 		radius = 5;
 		shell = new Circle(radius);
