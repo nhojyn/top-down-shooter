@@ -9,3 +9,8 @@
 - added in keys to change weapon (1-5)
 
 - there might be other stuff im missing so if i missed something, ask me
+---------------------------------------------
+- Shotgun fixed
+- Hp bar added
+- Particle effects for laser mob updated
+- fire rate added
