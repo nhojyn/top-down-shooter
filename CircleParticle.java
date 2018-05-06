@@ -33,8 +33,8 @@ public class CircleParticle extends Circle implements Animated{
 			yVel=-yVel;
 		}
 		fade=Math.random()/20+.015;
-		setFill(Color.GRAY);
-		setRadius(20);
+		setFill(Color.GREEN);
+		setRadius(5);
 		
 	}
 	

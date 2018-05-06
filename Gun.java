@@ -20,23 +20,21 @@ import javafx.event.ActionEvent;
 import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 
-public class Gun extends Pane{
+public abstract class Gun extends Pane{
 	double locX; 
 	double locY;
 	Rectangle body;
 	Rectangle tip;
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+	int ammo;
+	double fireRate;
+	Timeline move;
 	
 	Gun(){
-		tip=new Rectangle(10,10);
-		tip.setFill(Color.RED);
-		body=new Rectangle(10,60);
-		body.setFill(Color.BLUE);
-		getChildren().addAll(body,tip);
-		tip.setLayoutY(body.getHeight());
-		Timeline move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
+		move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
 		move.setCycleCount(Animation.INDEFINITE);
 		move.play();
+		setLayoutX(-50);
 	}
 	
 	public void setLocX(double x1){
@@ -48,42 +46,15 @@ public class Gun extends Pane{
 	public ArrayList<Bullet> getBullets(){
 		return bullets;
 	}
+	public double getFireRate(){
+		return fireRate;
+	}
 	
 	public void rotate(double newangle){
-		//double angle;
-	
-		//Bounds boundsInScreen = localToScreen(getBoundsInLocal());
-		
-		//angle=Math.atan2(boundsInScreen.getMaxY()/2-y,boundsInScreen.getMaxX()/2-x);
-		
-		//System.out.println("max Y-"+boundsInScreen.getMaxY());
-		//System.out.println("min Y-"+boundsInScreen.getMinY());
-		//System.out.println(boundsInScreen.getMaxX());
 		
 		getTransforms().clear();
 		Rotate rotation = new Rotate(Math.toDegrees(newangle)+90);
 		getTransforms().add(rotation);
-		
-		
-	}
-	
-	public void shoot(Player p, double mouseLocX, double mouseLocY){
-		Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
-		if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
-			double radius = 10;
-			double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
-			double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-
-			Bullet b = new Bullet(sideA/sideC*7,sideB/sideC*7,radius);
-
-			//b.setLocation(x-b.getRadius(),y-b.getRadius());
-			b.setLocation(boundsInScene.getMinX()-radius/2,boundsInScene.getMinY()-radius/2);
-			bullets.add(b);
-		
-			TopDownShooter.playground.getChildren().add(b);
-
-		}
 		
 	}
 	
@@ -110,5 +81,14 @@ public class Gun extends Pane{
 		TopDownShooter.playground.getChildren().remove(b);
 		bullets.remove(b);
 	}
-
+	
+	public abstract void shoot(Player p, double mouseLocX, double mouseLocY);
+	
+	public void pause(){
+		move.pause();
+	}
+	
+	public void play(){
+		move.play();
+	}
 }

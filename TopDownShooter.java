@@ -13,6 +13,7 @@ import javafx.animation.Timeline;
 import javafx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,27 +26,28 @@ public class TopDownShooter{
 	public static Pane playground;
 	Scene mainGame;
 	Stage stage;
-	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
-	double mouseY, mouseX;
-	Timeline mouseTimer, shootTimer, collision;
-	boolean delayOff;
 	Swarm mobs;
 	UserInterface ui;
 	ParticleEffects pe;
 	VBox devTools;
-	Status stats;
-	Timeline mobMovement;
+	Controls control;
+	AnimationTimer mobMovement;
+	AnimationTimer collision;
+	
+	//width and height of main screen
+	int width = 1000;
+	int height = 1000;
 	
 	private final long[] frameTimes = new long[100];
     private int frameTimeIndex = 0 ;
     private boolean arrayFilled = false ;
 	
 	TopDownShooter(Stage s,Button main){
-		delayOff=true;
 		stage=s;
 		
 		screen=new BorderPane();
 		
+		//devTools holds all of the developer tools
 		devTools = new VBox();
 		devTools.setStyle("-fx-background-color: black");
 		devTools.setPrefWidth(220);
@@ -57,7 +59,9 @@ public class TopDownShooter{
 		
 		devTools.setStyle(cssLayout);
 		devTools.setSpacing(15);
+		screen.setRight(devTools);
 		
+		//label is a frameRate meter
         Label label = new Label();
         AnimationTimer frameRateMeter = new AnimationTimer() {
 
@@ -86,156 +90,73 @@ public class TopDownShooter{
 		devTitle.setFont(f1);
 		devTitle.setFill(Color.WHITE);
 		devTools.getChildren().add(devTitle);
-
+		
+		//overlay and stackpane are so that the ui is over the stuff in the playground
+		Pane overlay = new Pane();
+		overlay.setPrefWidth(width);
+		overlay.setPrefHeight(height);
+		
+		StackPane centered = new StackPane();
+		centered.setPrefWidth(width);
+		centered.setPrefHeight(height);
+		
 		playground = new Pane();
-		playground.setPrefWidth(1000);
-		playground.setPrefHeight(1000);
-		screen.setCenter(playground);
+		playground.setPrefWidth(width);
+		playground.setPrefHeight(height);
 		
+		centered.getChildren().addAll(playground,overlay);
+		screen.setCenter(centered);
+
 		pe=new ParticleEffects(playground);
-		
-		ui=new UserInterface(playground,main);
 		
 		player = new Player(playground);
 		playground.getChildren().addAll(player);
-			
-		screen.setRight(devTools);
 		
-		//health
-		stats = new Status(playground,player);
-		playground.getChildren().addAll(stats);
+		ui=new UserInterface(overlay,main,this,player);
 		
 		mainGame = new Scene(screen);
 		
-		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(player,mouseX,mouseY)));			
-		shootTimer.setCycleCount(Animation.INDEFINITE);
+		//Moved all the controls in Controls class
+		control = new Controls(mainGame, player, playground);
 					
 		//checks if mob collides with bullet
-		/*
-		collision = new Timeline(new KeyFrame(Duration.millis(40), ae -> collisionChecker()));			
-		collision.setCycleCount(Animation.INDEFINITE);
-		collision.play();
-		*/
-		
-		AnimationTimer collision= new AnimationTimer(){
+		collision= new AnimationTimer(){
 			public void handle(long l){
-				collisionChecker();
+				playerCollisionChecker();
+				projectileCollisionChecker();
 			}
 		};
 		collision.start();
 		
-		mainGame.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case W:    goNorth = true;
-						break;
-                    case S:  goSouth = true; 
-						break;
-                    case A:  goWest  = true; 
-						break;
-                    case D: goEast  = true; 
-						break;
-                }
-            }
-        });
+		//create laser swarm and test it
+		mobs = new Swarm();
 		
-		mainGame.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case W:    goNorth = false; 
-						break;
-                    case S:  goSouth = false; 
-						break;
-                    case A:  goWest  = false; 
-						break;
-                    case D: goEast  = false; 
-						break;
-                }
-            }
-        });
-		
-		AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long l) {
-                int dx = 0, dy = 0;
-				
-				if(player.getLayoutY()>0){
-					if (goNorth) dy -= 2;
-				}
-				if(player.getLayoutY()<playground.getWidth()){
-					if (goSouth) dy += 2;
-				}
-				if(player.getLayoutX()<playground.getHeight()){
-					if (goEast)  dx += 2;
-				}
-				if(player.getLayoutX()>0){
-					if (goWest)  dx -= 2;
-				}
-
-                player.move(dx, dy);
-				player.rotate(mouseX,mouseY);
-				//left mousekey is held down shoot, else stop
-				if(leftClick){
-					shoot();
-				}
-            }
-        };
-        timer.start();
-		
-		mainGame.setOnMouseMoved(new EventHandler<MouseEvent>() {
-		  @Override public void handle(MouseEvent event) {
-			mouseX = event.getX();
-			mouseY = event.getY();
-		  }
-		});		
-		
-		//when holding down and moving mouse 
-		mainGame.setOnMouseDragged(new EventHandler<MouseEvent>() {
-		  @Override public void handle(MouseEvent event) {
-			mouseY = event.getY();
-			mouseX = event.getX();
-		  }
-		});
-		
-		//left click to shoot a bullet
-		mainGame.setOnMousePressed(new EventHandler<MouseEvent>() {
-			
-		  @Override public void handle(MouseEvent event){
-			if(event.isPrimaryButtonDown()){
-				leftClick = true;
+		mobMovement= new AnimationTimer(){
+			public void handle(long l){
+				mobs.swarmPlayer(player);
 			}
-			if(event.isSecondaryButtonDown()){
-				rightClick = true;
-			}
-		  }
-		});		
-		
-		mainGame.setOnMouseReleased(new EventHandler<MouseEvent>() {
-			
-		  @Override public void handle(MouseEvent event){
-			if(!event.isPrimaryButtonDown()){
-				leftClick = false;
-
-			}
-			if(!event.isSecondaryButtonDown()){
-				rightClick = false;
-			}
-		  }
-		});
-		
-		//create swarm and test it
-		mobs = new Swarm(4);
-		mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
-		mobMovement.setCycleCount(Animation.INDEFINITE);
-		Button spawnBtn = new Button();
-		devTools.getChildren().add(spawnBtn);
-		spawnBtn.setText("Spawn round");
-		spawnBtn.setOnAction(new EventHandler<ActionEvent>(){
+		};
+		mobMovement.start();
+		//mobMovement = new Timeline(new KeyFrame(Duration.millis(20),ae -> mobs.swarmPlayer(player)));
+		//mobMovement.setCycleCount(Animation.INDEFINITE);
+		Button spawnLaserBtn = new Button();
+		devTools.getChildren().add(spawnLaserBtn);
+		spawnLaserBtn.setText("Spawn Laser Machine");
+		spawnLaserBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				mobs.spawnSwarm(playground);				
-				mobMovement.play();
+				mobs.spawnLaserSwarm(playground);				
+				//mobMovement.play();
+			}
+		});
+		
+		//create zombie swarm and test it
+		Button spawnZombieBtn = new Button();
+		devTools.getChildren().add(spawnZombieBtn);
+		spawnZombieBtn.setText("Spawn Zombie");
+		spawnZombieBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnZombieSwarm(playground,4);				
+				//mobMovement.play();
 			}
 		});
 		
@@ -252,9 +173,9 @@ public class TopDownShooter{
 	}
 	
 	private void knockBackMobs(){
-		mobMovement.pause();
+		mobMovement.stop();
 		mobs.knockbackMobsAnimated(player, 300);
-		mobMovement.play();
+		mobMovement.start();
 	}
 	
 	public void play(){
@@ -263,49 +184,82 @@ public class TopDownShooter{
 		player.setLayoutY(playground.getHeight()/2);
 	}
 	
-
-	private void shoot(){
-		if(delayOff){
-			player.getGun().shoot(player,mouseX,mouseY);
-			delayOff=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(100),ae -> delayOff=true));
-			delay.play();
-		}
-	}
-	
-	public void updateMouse(double x, double y){
-		mouseX = x;
-		mouseY = y;
-	}
-	public void collisionChecker(){
+	//BUG:THIS METHOD WILL SOMETIMES TRIGGER TWICE, MOST LIKELY DUE TO THE ANIMATION TIMER CALLING
+	//THE METHOD BEFORE IT IS DONE CALCULATING
+	public void playerCollisionChecker(){
 		//if there are mobs, check for each mob if they collided with bullet 
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
-				if(player.collideWithMob(mobs.getSwarm(i), stats)){
+				if(player.collideWithMob(mobs.getSwarm(i))){
+					player.grantInvincibility(1);
+
 					knockBackMobs();
+					ui.getStatus().setHealthTxt(player.getHealth());
+					ui.getHealthBar().setHP(player.getHealth());
+					System.out.println("hit"+i);
+				}
+			}
+		}
+	}
+	
+	public void projectileCollisionChecker(){
+		if(mobs.getSwarm().size() > 0){
+			for(int i = 0; i < mobs.getSwarm().size(); i++){
+				//checks if player is getting hit by any MobProjectile
+				if(mobs.getSwarm().get(i).getAttacks()){
+					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
+						if(player.collideWithProjectile(p)){
+							player.grantInvincibility(1);
+							ui.getStatus().setHealthTxt(player.getHealth());
+							ui.getHealthBar().setHP(player.getHealth());
+						}
+					}
 				}
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
-					pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					if(mobs.getSwarm(i) instanceof LaserMachine){
+						pe.CircleExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					}
+					if(mobs.getSwarm(i) instanceof ZombieMob){
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+          }
+					player.addToScore(mobs.getSwarm(i).getPoints());
+					ui.setScore(player.getScore());
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 				}
-				//checks if player is getting hit by any MobProjectile
-				if(mobs.getSwarm().get(i).getAttacks()){
-					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
-						if(player.collideWithProjectile(p, stats)){
-							//TODO: grant player temporary invincibility (instead of knocking back mobs)
-						}
-					}
-				}
 			}
 		}
-		
-	
 	}
+	
 	public void reset(){
 		player.reset();
 		mobs.resetSwarm();
+		ui.reset();
+	}
+	
+	public void pause(){
+		mobMovement.stop();
+		collision.stop();
+		player.pause();
+		control.pause();
+		mobs.pause();
+	}
+	
+	public void resume(){
+		mobMovement.start();
+		collision.start();
+		player.play();
+		control.play();
+		mobs.play();
+	}
+	
+	public double getWidth(){
+		return width;
+	}
+	
+	public double getHeight(){
+		return height;
 	}
 }
