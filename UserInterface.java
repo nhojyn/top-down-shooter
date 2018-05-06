@@ -19,20 +19,54 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 
 public class UserInterface{
-	Pane playground;
+	Pane overlay;
 	Button Mainmenu;
+	Button pauseBtn;
 	Player player;
 	Status stats;
 	private HealthBar healthBar;
+	Options options;
+	TopDownShooter game;
 	
-	UserInterface(Pane pg, Button main,Player p){
+	UserInterface(Pane ol, Button main,TopDownShooter TDS ,Player p){
 		player=p;
-		playground=pg;
+		overlay=ol;
 		Mainmenu=main;
-		stats = new Status(playground,player);
+		game=TDS;
+		
+		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
+		
+		options = new Options(Mainmenu);
+		options.setLayoutX(game.getWidth()/2-options.getPresetWidth()/2);
+		options.setLayoutY(game.getHeight()/2-options.getPresetHeight()/2);
+		
+		pauseBtn = new Button();
+		pauseBtn.setFont(f1);
+		pauseBtn.setText("pause");
+		pauseBtn.setOnAction(new EventHandler <ActionEvent> (){
+			@Override
+			public void handle(ActionEvent event){
+				if(pauseBtn.getText().equals("pause")){
+					game.pause();
+					overlay.getChildren().add(options);
+					pauseBtn.setText("play");
+				}else if(pauseBtn.getText().equals("play")){
+					game.resume();
+					overlay.getChildren().remove(options);
+					pauseBtn.setText("pause");
+				}else{
+					System.out.println("error");
+				}
+				//stage.setScene(main);
+			}
+		});
+		
+		stats = new Status(overlay,player);
+		stats.setLayoutX(150);
 		healthBar = new HealthBar(player.getHealth());
-		healthBar.setLayoutX(300);
-		playground.getChildren().addAll(main,stats,healthBar);
+		healthBar.setLayoutX(250);
+		overlay.getChildren().addAll(pauseBtn,stats,healthBar);
+
 		
 	}
 	
@@ -42,5 +76,15 @@ public class UserInterface{
 	
 	public HealthBar getHealthBar(){
 		return healthBar;
+	}
+	
+	public void setScore(int score){
+		stats.setScoreTxt(score);
+	}
+	
+	public void reset(){
+		game.resume();
+		overlay.getChildren().remove(options);
+		pauseBtn.setText("pause");
 	}
 }

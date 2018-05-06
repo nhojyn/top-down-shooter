@@ -47,7 +47,7 @@ public class MainMenu{
 		});
 		
 		mainBtn.setFont(f1);
-		mainBtn.setText("main menu");
+		mainBtn.setText("Main Menu");
 		mainBtn.setOnAction(new EventHandler <ActionEvent> (){
 			@Override
 			public void handle(ActionEvent event){

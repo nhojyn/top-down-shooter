@@ -131,7 +131,7 @@ public class Player extends Pane{
 	}
 	
 	public void addToScore(int i){
-		score += score;
+		score += i;
 	}
 	
 	//removes the current gun and then changes to the new one
@@ -141,7 +141,17 @@ public class Player extends Pane{
 			getChildren().add(guns.get(i));
 			currentGun = i;
 		}
-		
 	}
 	
+	public void pause(){
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).pause();
+		}
+	}
+	
+	public void play(){
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).play();
+		}
+	}
 }

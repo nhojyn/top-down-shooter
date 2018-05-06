@@ -1,16 +1,8 @@
 # I have listed changes i forgot to put in description here. Read it before you do stuff
 # top-down-shooter
 
-- basework for future new guns made
-- Gun class made abstract
-- Bullet class made abstract
-- added pistol which is the primary gun
-- added in shotgun(CURRENTLY BULLETS DON'T SHOOT SCATTERED) 
-- added in keys to change weapon (1-5)
+--added a pause button with options screen(ANYTHING THAT MOVES IN THE FUTURE HAS TO HAVE A PAUSE METHOD)
+--increased shotgun spread
+--made the UI overlay the mobs and bullets
+--each mob has a "points" variable which is how many points you get after killing it
 
-- there might be other stuff im missing so if i missed something, ask me
----------------------------------------------
-- Shotgun fixed
-- Hp bar added
-- Particle effects for laser mob updated
-- fire rate added

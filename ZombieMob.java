@@ -11,6 +11,7 @@ public class ZombieMob extends Mob implements TrueBounds{
 	
 	public ZombieMob(){
 		speedModifier = 1;
+		points=1;
 		body = new Rectangle(0,0,50,50);
 		body.setFill(Color.BLUE);
 		getChildren().add(body);

@@ -180,4 +180,12 @@ public class Swarm{
 		}
 	}
 	
+	public void pause(){
+		collisionCheck.pause();
+	}
+	
+	public void play(){
+		collisionCheck.play();
+	}
+	
 }
