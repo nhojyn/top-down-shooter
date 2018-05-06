@@ -9,7 +9,9 @@
 - Added checker for MobProjectiles (in collisionChecker() in game class)
 - spawn swarm button changed to spawn LaserMachine instead of ZombieMob (temporary change)
 
-- body for Mob is now a Shape, no longer a rectangle
+
+- body for Mob is now a Shape, no longer a rectangle (new mob has Circle for body, some mobs should have Polygon eventually)
+-- for hitboxes of mobs it might be good to use multiple rectangles/circles
 - new interface "TrueBounds" to make sure that every mob returns the height and width of the body and not their pane (to deal with projectiles)
 - check interface for method names and stuff
 - there might be other stuff im missing so if i missed something, ask me
