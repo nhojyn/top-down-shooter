@@ -29,7 +29,7 @@ public class Player extends Pane{
 	
 	Player(Pane p){
 		//setPrefSize(100,100);
-		health = 1000;
+		health = 100;
 		score = 0;
 		Playground=p;
 		body = new Circle(50);
@@ -97,7 +97,6 @@ public class Player extends Pane{
 		if(distance<body.getRadius()){
 			health--;
 			s.setHealthTxt(health);
-			System.out.println(health);
 			return true;
 		}
 		return false;
