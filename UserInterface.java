@@ -21,14 +21,26 @@ import javafx.event.ActionEvent;
 public class UserInterface{
 	Pane playground;
 	Button Mainmenu;
+	Player player;
+	Status stats;
+	private HealthBar healthBar;
 	
-	UserInterface(Pane pg, Button main){
+	UserInterface(Pane pg, Button main,Player p){
+		player=p;
 		playground=pg;
 		Mainmenu=main;
-		playground.getChildren().add(main);
-		Mainmenu.toFront();
+		stats = new Status(playground,player);
+		healthBar = new HealthBar(player.getHealth());
+		healthBar.setLayoutX(300);
+		playground.getChildren().addAll(main,stats,healthBar);
 		
 	}
-
 	
+	public Status getStatus(){
+		return stats;
+	}
+	
+	public HealthBar getHealthBar(){
+		return healthBar;
+	}
 }

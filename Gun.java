@@ -27,6 +27,7 @@ public abstract class Gun extends Pane{
 	Rectangle tip;
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
 	int ammo;
+	double fireRate;
 	
 	Gun(){
 		Timeline move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
@@ -43,6 +44,9 @@ public abstract class Gun extends Pane{
 	}
 	public ArrayList<Bullet> getBullets(){
 		return bullets;
+	}
+	public double getFireRate(){
+		return fireRate;
 	}
 	
 	public void rotate(double newangle){

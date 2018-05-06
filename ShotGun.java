@@ -30,13 +30,13 @@ public class ShotGun extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	ShotGun(){
 		super();
+		fireRate=.5;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.RED);
 		body=new Rectangle(10,60);
-		body.setFill(Color.BLUE);
+		body.setFill(Color.GREEN);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
-
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){

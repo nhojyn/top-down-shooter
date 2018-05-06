@@ -26,7 +26,6 @@ public class Controls{
 	Scene mainGame;
 	Player player;
 	Pane playground;
-	Timeline shootTimer;
 	
 	public Controls(Scene mg, Player p, Pane pg){
 		delayOff=true;
@@ -36,9 +35,6 @@ public class Controls{
 		player = p;
 		
 		playground = pg;
-		
-		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(player,mouseX,mouseY)));			
-		shootTimer.setCycleCount(Animation.INDEFINITE);
 					
 		mg.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -159,7 +155,7 @@ public class Controls{
 		if(delayOff){
 			player.getGun().shoot(player, mouseX, mouseY);
 			delayOff=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(100),ae -> delayOff=true));
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(player.getGun().getFireRate()*1000),ae -> delayOff=true));
 			delay.play();
 		}
 	}

@@ -6,8 +6,8 @@ import javafx.scene.layout.*;
 public class ShotGunBullet extends Bullet{
 
 	public ShotGunBullet(double xS, double yS){
-		super(xS, yS);
-		speedMultiplier = 2;
+		super(xS+2*Math.random()-1, yS+2*Math.random()-1);
+		speedMultiplier = 1;
 		radius = 5;
 		shell = new Circle(radius);
 		shell.setFill(Color.BLACK);

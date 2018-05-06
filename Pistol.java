@@ -24,6 +24,7 @@ public class Pistol extends Gun{
 	//NOTE: THIS IS THE PRIMARY GUN AND SHOULD HAVE INFINITE AMMO
 	Pistol(){
 		super();
+		fireRate=.1;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.RED);
 		body=new Rectangle(10,60);

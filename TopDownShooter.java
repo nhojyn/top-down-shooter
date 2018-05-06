@@ -13,6 +13,7 @@ import javafx.animation.Timeline;
 import javafx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -30,7 +31,6 @@ public class TopDownShooter{
 	UserInterface ui;
 	ParticleEffects pe;
 	VBox devTools;
-	Status stats;
 	Controls control;
 	AnimationTimer mobMovement;
 	
@@ -91,16 +91,12 @@ public class TopDownShooter{
 		
 		pe=new ParticleEffects(playground);
 		
-		ui=new UserInterface(playground,main);
-		
 		player = new Player(playground);
 		playground.getChildren().addAll(player);
+		
+		ui=new UserInterface(playground,main,player);
 			
 		screen.setRight(devTools);
-		
-		//health
-		stats = new Status(playground,player);
-		playground.getChildren().addAll(stats);
 		
 		mainGame = new Scene(screen);
 		
@@ -189,8 +185,10 @@ public class TopDownShooter{
 		//if there are mobs, check for each mob if they collided with bullet 
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
-				if(player.collideWithMob(mobs.getSwarm(i), stats)){
+				if(player.collideWithMob(mobs.getSwarm(i))){
 					knockBackMobs();
+					ui.getStatus().setHealthTxt(player.getHealth());
+					ui.getHealthBar().setHP(player.getHealth());
 					System.out.println("hit"+i);
 				}
 			}
@@ -203,16 +201,23 @@ public class TopDownShooter{
 				//checks if player is getting hit by any MobProjectile
 				if(mobs.getSwarm().get(i).getAttacks()){
 					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
-						if(player.collideWithProjectile(p, stats)){
+						if(player.collideWithProjectile(p)){
 							//TODO: grant player temporary invincibility (instead of knocking back mobs)
 							player.grantInvincibility(1);
+							ui.getStatus().setHealthTxt(player.getHealth());
+							ui.getHealthBar().setHP(player.getHealth());
 						}
 					}
 				}
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
-					pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					if(mobs.getSwarm(i) instanceof LaserMachine){
+						pe.CircleExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					}
+					if(mobs.getSwarm(i) instanceof ZombieMob){
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					}
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 				}
