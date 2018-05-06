@@ -23,11 +23,10 @@ public class Status extends VBox{
 
 	private Text healthTxt;
 	private Text scoreTxt;
-	Pane playground;
-	
-	public Status(Pane pg, Player p){
-		setLayoutX(150);
-		playground = pg;
+	Pane overlay;
+	private HealthBar healthBar;
+	public Status(Pane ol, Player p){
+		overlay = ol;
 		healthTxt = new Text("Health: " + p.getHealth());
 		scoreTxt = new Text("Score: " + p.getScore());
 		getChildren().addAll(healthTxt, scoreTxt);

@@ -13,6 +13,7 @@ import javafx.animation.Timeline;
 import javafx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -25,14 +26,17 @@ public class TopDownShooter{
 	public static Pane playground;
 	Scene mainGame;
 	Stage stage;
-	Timeline mouseTimer, collision;
 	Swarm mobs;
 	UserInterface ui;
 	ParticleEffects pe;
 	VBox devTools;
-	Status stats;
 	Controls control;
 	AnimationTimer mobMovement;
+	AnimationTimer collision;
+	
+	//width and height of main screen
+	int width = 1000;
+	int height = 1000;
 	
 	private final long[] frameTimes = new long[100];
     private int frameTimeIndex = 0 ;
@@ -43,6 +47,7 @@ public class TopDownShooter{
 		
 		screen=new BorderPane();
 		
+		//devTools holds all of the developer tools
 		devTools = new VBox();
 		devTools.setStyle("-fx-background-color: black");
 		devTools.setPrefWidth(220);
@@ -54,7 +59,9 @@ public class TopDownShooter{
 		
 		devTools.setStyle(cssLayout);
 		devTools.setSpacing(15);
+		screen.setRight(devTools);
 		
+		//label is a frameRate meter
         Label label = new Label();
         AnimationTimer frameRateMeter = new AnimationTimer() {
 
@@ -83,24 +90,29 @@ public class TopDownShooter{
 		devTitle.setFont(f1);
 		devTitle.setFill(Color.WHITE);
 		devTools.getChildren().add(devTitle);
-
+		
+		//overlay and stackpane are so that the ui is over the stuff in the playground
+		Pane overlay = new Pane();
+		overlay.setPrefWidth(width);
+		overlay.setPrefHeight(height);
+		
+		StackPane centered = new StackPane();
+		centered.setPrefWidth(width);
+		centered.setPrefHeight(height);
+		
 		playground = new Pane();
-		playground.setPrefWidth(1000);
-		playground.setPrefHeight(1000);
-		screen.setCenter(playground);
+		playground.setPrefWidth(width);
+		playground.setPrefHeight(height);
+		
+		centered.getChildren().addAll(playground,overlay);
+		screen.setCenter(centered);
 		
 		pe=new ParticleEffects(playground);
 		
-		ui=new UserInterface(playground,main);
-		
 		player = new Player(playground);
 		playground.getChildren().addAll(player);
-			
-		screen.setRight(devTools);
 		
-		//health
-		stats = new Status(playground,player);
-		playground.getChildren().addAll(stats);
+		ui=new UserInterface(overlay,main,this,player);
 		
 		mainGame = new Scene(screen);
 		
@@ -108,26 +120,13 @@ public class TopDownShooter{
 		control = new Controls(mainGame, player, playground);
 					
 		//checks if mob collides with bullet
-		/*
-		collision = new Timeline(new KeyFrame(Duration.millis(40), ae -> collisionChecker()));			
-		collision.setCycleCount(Animation.INDEFINITE);
-		collision.play();
-		*/
-		
-		AnimationTimer collision= new AnimationTimer(){
+		collision= new AnimationTimer(){
 			public void handle(long l){
 				playerCollisionChecker();
-			}
-		};
-		collision.start();
-		
-		AnimationTimer collision2= new AnimationTimer(){
-			public void handle(long l){
 				projectileCollisionChecker();
 			}
 		};
-		collision2.start();
-		
+		collision.start();
 		
 		//create laser swarm and test it
 		mobs = new Swarm();
@@ -185,12 +184,17 @@ public class TopDownShooter{
 		player.setLayoutY(playground.getHeight()/2);
 	}
 	
+	//BUG:THIS METHOD WILL SOMETIMES TRIGGER TWICE, MOST LIKELY DUE TO THE ANIMATION TIMER CALLING
+	//THE METHOD BEFORE IT IS DONE CALCULATING
 	public void playerCollisionChecker(){
 		//if there are mobs, check for each mob if they collided with bullet 
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
-				if(player.collideWithMob(mobs.getSwarm(i), stats)){
+				if(player.collideWithMob(mobs.getSwarm(i))){
+					player.grantInvincibility(1);
 					knockBackMobs();
+					ui.getStatus().setHealthTxt(player.getHealth());
+					ui.getHealthBar().setHP(player.getHealth());
 					System.out.println("hit"+i);
 				}
 			}
@@ -203,16 +207,24 @@ public class TopDownShooter{
 				//checks if player is getting hit by any MobProjectile
 				if(mobs.getSwarm().get(i).getAttacks()){
 					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
-						if(player.collideWithProjectile(p, stats)){
-							//TODO: grant player temporary invincibility (instead of knocking back mobs)
+						if(player.collideWithProjectile(p)){
 							player.grantInvincibility(1);
+							ui.getStatus().setHealthTxt(player.getHealth());
+							ui.getHealthBar().setHP(player.getHealth());
 						}
 					}
 				}
 				//colldeWithBullet is in Mob class
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
-					pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					if(mobs.getSwarm(i) instanceof LaserMachine){
+						pe.CircleExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					}
+					if(mobs.getSwarm(i) instanceof ZombieMob){
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					}
+					player.addToScore(mobs.getSwarm(i).getPoints());
+					ui.setScore(player.getScore());
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 				}
@@ -223,5 +235,30 @@ public class TopDownShooter{
 	public void reset(){
 		player.reset();
 		mobs.resetSwarm();
+		ui.reset();
+	}
+	
+	public void pause(){
+		mobMovement.stop();
+		collision.stop();
+		player.pause();
+		control.pause();
+		mobs.pause();
+	}
+	
+	public void resume(){
+		mobMovement.start();
+		collision.start();
+		player.play();
+		control.play();
+		mobs.play();
+	}
+	
+	public double getWidth(){
+		return width;
+	}
+	
+	public double getHeight(){
+		return height;
 	}
 }

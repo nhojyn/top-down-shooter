@@ -4,10 +4,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 public class ShotGunBullet extends Bullet{
-
+	double spray=3;
+	
 	public ShotGunBullet(double xS, double yS){
-		super(xS, yS);
-		speedMultiplier = 2;
+		super();
+		setxSpeed(xS+spray*Math.random()-spray/2);
+		setySpeed(yS+spray*Math.random()-spray/2);
+		speedMultiplier = 1;
 		radius = 5;
 		shell = new Circle(radius);
 		shell.setFill(Color.BLACK);

@@ -27,9 +27,11 @@ public abstract class Gun extends Pane{
 	Rectangle tip;
 	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
 	int ammo;
+	double fireRate;
+	Timeline move;
 	
 	Gun(){
-		Timeline move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
+		move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
 		move.setCycleCount(Animation.INDEFINITE);
 		move.play();
 		setLayoutX(-50);
@@ -44,22 +46,15 @@ public abstract class Gun extends Pane{
 	public ArrayList<Bullet> getBullets(){
 		return bullets;
 	}
+	public double getFireRate(){
+		return fireRate;
+	}
 	
 	public void rotate(double newangle){
-		//double angle;
-	
-		//Bounds boundsInScreen = localToScreen(getBoundsInLocal());
-		
-		//angle=Math.atan2(boundsInScreen.getMaxY()/2-y,boundsInScreen.getMaxX()/2-x);
-		
-		//System.out.println("max Y-"+boundsInScreen.getMaxY());
-		//System.out.println("min Y-"+boundsInScreen.getMinY());
-		//System.out.println(boundsInScreen.getMaxX());
 		
 		getTransforms().clear();
 		Rotate rotation = new Rotate(Math.toDegrees(newangle)+90);
 		getTransforms().add(rotation);
-		
 		
 	}
 	
@@ -88,5 +83,12 @@ public abstract class Gun extends Pane{
 	}
 	
 	public abstract void shoot(Player p, double mouseLocX, double mouseLocY);
-
+	
+	public void pause(){
+		move.pause();
+	}
+	
+	public void play(){
+		move.play();
+	}
 }

@@ -11,6 +11,7 @@ public abstract class Mob extends Pane implements TrueBounds{
 	
 	//fields
 	int health; //actually takes health+1 hits to kills (e.g. a mob with 2 health takes 3 bullets to kill)
+	int points;
 	Shape body;
 	Rectangle front; //indicates where front of mob is
 	Rectangle middle;
@@ -32,6 +33,9 @@ public abstract class Mob extends Pane implements TrueBounds{
 	}
 	public int getHealth(){
 		return health;
+	}
+	public int getPoints(){
+		return points;
 	}
 	public Shape getBody(){
 		return body;

@@ -26,19 +26,17 @@ public class Controls{
 	Scene mainGame;
 	Player player;
 	Pane playground;
-	Timeline shootTimer;
+	boolean isPaused;
 	
 	public Controls(Scene mg, Player p, Pane pg){
 		delayOff=true;
+		isPaused=false;
 		
 		mainGame = mg;
 		
 		player = p;
 		
 		playground = pg;
-		
-		shootTimer= new Timeline(new KeyFrame(Duration.millis(100), ae -> player.getGun().shoot(player,mouseX,mouseY)));			
-		shootTimer.setCycleCount(Animation.INDEFINITE);
 					
 		mg.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -55,9 +53,10 @@ public class Controls{
                 }
 				//keys 1, 2, 3, 4, 5 changes weapons
 				//TODO: FINISH MORE GUNS TO ASSIGN FOR DIGIT CLICKED
-				if(event.getCode() == KeyCode.DIGIT1 || event.getCode() == KeyCode.DIGIT2 || event.getCode() == KeyCode.DIGIT3 || event.getCode() == KeyCode.DIGIT4 || event.getCode() == KeyCode.DIGIT5){
-					player.changeGun(Integer.parseInt(event.getText())-1);
-				//	System.out.println(event.getText());
+				if(!isPaused){
+					if(event.getCode() == KeyCode.DIGIT1 || event.getCode() == KeyCode.DIGIT2 || event.getCode() == KeyCode.DIGIT3 || event.getCode() == KeyCode.DIGIT4 || event.getCode() == KeyCode.DIGIT5){
+						player.changeGun(Integer.parseInt(event.getText())-1);
+					}
 				}
             }
         });
@@ -81,26 +80,28 @@ public class Controls{
 		AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                int dx = 0, dy = 0;
-				
-				if(player.getLayoutY()>0){
-					if (goNorth) dy -= 2;
-				}
-				if(player.getLayoutY()<playground.getWidth()){
-					if (goSouth) dy += 2;
-				}
-				if(player.getLayoutX()<playground.getHeight()){
-					if (goEast)  dx += 2;
-				}
-				if(player.getLayoutX()>0){
-					if (goWest)  dx -= 2;
-				}
+				if(!isPaused){
+					int dx = 0, dy = 0;
+					
+					if(player.getLayoutY()>0){
+						if (goNorth) dy -= 2;
+					}
+					if(player.getLayoutY()<playground.getWidth()){
+						if (goSouth) dy += 2;
+					}
+					if(player.getLayoutX()<playground.getHeight()){
+						if (goEast)  dx += 2;
+					}
+					if(player.getLayoutX()>0){
+						if (goWest)  dx -= 2;
+					}
 
-                player.move(dx, dy);
-				player.rotate(mouseX,mouseY);
-				//left mousekey is held down shoot, else stop
-				if(leftClick){
-					shoot();
+					player.move(dx, dy);
+					player.rotate(mouseX,mouseY);
+					//left mousekey is held down shoot, else stop
+					if(leftClick){
+						shoot();
+					}
 				}
             }
         };
@@ -159,9 +160,17 @@ public class Controls{
 		if(delayOff){
 			player.getGun().shoot(player, mouseX, mouseY);
 			delayOff=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(100),ae -> delayOff=true));
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(player.getGun().getFireRate()*1000),ae -> delayOff=true));
 			delay.play();
 		}
+	}
+	
+	public void pause(){
+		isPaused=true;
+	}
+	
+	public void play(){
+		isPaused=false;
 	}
 
 }

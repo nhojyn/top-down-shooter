@@ -30,7 +30,7 @@ public class Player extends Pane{
 	
 	Player(Pane p){
 		//setPrefSize(100,100);
-		health = 100;
+		health = 10;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
@@ -93,28 +93,25 @@ public class Player extends Pane{
 		guns.get(currentGun).clearBullets();
 	}
 	
-	public boolean collideWithMob(Mob m, Status s){
+	public boolean collideWithMob(Mob m){
 		Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
 		Bounds b2 = body.localToScene(body.getBoundsInLocal());
 		double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
 		//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
 		if(distance<body.getRadius()){
 			health--;
-			s.setHealthTxt(health);
 			return true;
 		}
 		return false;
 	}
 	
 	//TODO: make this cleaner
-	public boolean collideWithProjectile(MobProjectile p, Status s){
+	public boolean collideWithProjectile(MobProjectile p){
 		if(!invincible){
 			Bounds b1 = p.localToScene(p.getBoundsInLocal());
 			Bounds b2 = body.localToScene(body.getBoundsInLocal());
 			if(b1.intersects(b2)){
 				health--;
-				s.setHealthTxt(health);
-				System.out.println(health);
 				return true;
 			}
 		}
@@ -134,7 +131,7 @@ public class Player extends Pane{
 	}
 	
 	public void addToScore(int i){
-		score += score;
+		score += i;
 	}
 	
 	//removes the current gun and then changes to the new one
@@ -144,7 +141,17 @@ public class Player extends Pane{
 			getChildren().add(guns.get(i));
 			currentGun = i;
 		}
-		
 	}
 	
+	public void pause(){
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).pause();
+		}
+	}
+	
+	public void play(){
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).play();
+		}
+	}
 }
