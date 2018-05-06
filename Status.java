@@ -24,6 +24,7 @@ public class Status extends VBox{
 	private Text healthTxt;
 	private Text scoreTxt;
 	Pane playground;
+	private HealthBar healthBar;
 	
 	public Status(Pane pg, Player p){
 		setLayoutX(150);
