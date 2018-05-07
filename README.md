@@ -1,11 +1,19 @@
 # I have listed changes i forgot to put in description here. Read it before you do stuff
 # top-down-shooter
 
---added a pause button with options screen(ANYTHING THAT MOVES IN THE FUTURE HAS TO HAVE A PAUSE METHOD)
+Changes:
+- the list of bullets is now initialized in TopDownShooter class
+- gun now has a different constructor
+- shotgun now shoots 5 bullets 
+- shotgun shoots slower 
+- added in damage(varies on each gun)
+- mobs now take damage according to bullet's damage
+- changed zombie + laser mob health
 
---increased shotgun spread
+New:
+- bazooka + bazooka bullets
 
---made the UI overlay the mobs and bullets
-
---each mob has a "points" variable which is how many points you get after killing it
+To do(rough sketch):
+- implement ammo system
+- add more guns
 

@@ -25,12 +25,13 @@ public abstract class Gun extends Pane{
 	double locY;
 	Rectangle body;
 	Rectangle tip;
-	ArrayList<Bullet> bullets= new ArrayList<Bullet>();
+	ArrayList<Bullet> bullets;
 	int ammo;
 	double fireRate;
 	Timeline move;
 	
-	Gun(){
+	Gun(ArrayList<Bullet> b){
+		bullets = b;
 		move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
 		move.setCycleCount(Animation.INDEFINITE);
 		move.play();

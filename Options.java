@@ -55,7 +55,7 @@ public class Options extends VBox{
 	}
 	
 	public void resetButtons(){	
--		getChildren().removeAll(Main,test);	
--		getChildren().addAll(Main,test);	
--	}
+		getChildren().removeAll(Main,test);	
+		getChildren().addAll(Main,test);	
+	}
 }

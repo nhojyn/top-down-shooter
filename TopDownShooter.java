@@ -33,6 +33,7 @@ public class TopDownShooter{
 	Controls control;
 	AnimationTimer mobMovement;
 	AnimationTimer collision;
+	ArrayList<Bullet> bullets;
 	
 	//width and height of main screen
 	int width = 1000;
@@ -109,7 +110,8 @@ public class TopDownShooter{
 
 		pe=new ParticleEffects(playground);
 		
-		player = new Player(playground);
+		bullets = new ArrayList<Bullet>();
+		player = new Player(playground, bullets);
 		playground.getChildren().addAll(player);
 		
 		ui=new UserInterface(overlay,main,this,player);
