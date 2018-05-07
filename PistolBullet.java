@@ -4,12 +4,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 public class PistolBullet extends Bullet{
-
+	
 	public PistolBullet(double xS, double yS){
 		super(xS, yS);
 		speedMultiplier = 1;
-		radius = 9;
-		shell = new Circle(radius);
+		damage = 4;
+		shell = new Circle(9);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);
 		setPrefSize(10,10);

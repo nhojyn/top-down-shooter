@@ -32,7 +32,7 @@ public class LaserMachine extends Mob implements TrueBounds{
 		health = 4;
 		attacks = true;
 		speedModifier = 1;
-		points= 2;
+		points= 10;
 		shooting = false;
 		middle = new Rectangle(0,0,1,1);
 		front = new Rectangle(0,0,1,1);
