@@ -17,7 +17,10 @@ public abstract class Mob extends Pane implements TrueBounds{
 	Rectangle middle;
 	double speedModifier; //total distance that it walks per cycle
 	boolean knockback;
-	boolean attacks;
+	boolean attacks; //shows whether or not the mob shoots and projectiles
+	boolean shooting; //shows whether or not the mob is CURRENTLY shooting
+	
+	//NOTE: all projectiles should start well outside the player pane (-10000,-10000) just in case
 	ArrayList<MobProjectile> projectiles = new ArrayList<MobProjectile>();
 	
 	public Mob(){
@@ -48,6 +51,9 @@ public abstract class Mob extends Pane implements TrueBounds{
 	}
 	public boolean getKnockback(){
 		return knockback;
+	}
+	public boolean getShooting(){
+		return shooting;
 	}
 	public double getAbsoluteMiddleX(){
 		Bounds boundsInScene = middle.localToScene(middle.getBoundsInLocal());
@@ -121,6 +127,9 @@ public abstract class Mob extends Pane implements TrueBounds{
 				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
 				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
 				if(b1.intersects(b2)){
+					//NOTE: now each bullet has their own damage 
+					health = health - b.get(i).getDamage();
+					g.removeBullet(b.get(i));
 					//adding knockback to the mob, temporarily sets speed to 0 so they dont walk during animation
 					if(knockback){
 						double temp = speedModifier;
@@ -128,9 +137,6 @@ public abstract class Mob extends Pane implements TrueBounds{
 						animatedKnockback(p.getLocX(), p.getLocY(), 20); //last number should eventually be p.getGun().getKnockback()
 						speedModifier = temp;
 					}
-					
-					g.removeBullet(b.get(i));
-					health--;
 				}
 			}
 		}

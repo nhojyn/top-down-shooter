@@ -33,6 +33,7 @@ public class TopDownShooter{
 	Controls control;
 	AnimationTimer mobMovement;
 	AnimationTimer collision;
+	ArrayList<Bullet> bullets;
 	
 	//width and height of main screen
 	int width = 1000;
@@ -109,7 +110,8 @@ public class TopDownShooter{
 
 		pe=new ParticleEffects(playground);
 		
-		player = new Player(playground);
+		bullets = new ArrayList<Bullet>();
+		player = new Player(playground, bullets);
 		playground.getChildren().addAll(player);
 		
 		ui=new UserInterface(overlay,main,this,player);
@@ -206,7 +208,7 @@ public class TopDownShooter{
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
 				//checks if player is getting hit by any MobProjectile
-				if(mobs.getSwarm().get(i).getAttacks()){
+				if(mobs.getSwarm().get(i).getAttacks() && mobs.getSwarm().get(i).getShooting()){
 					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
 						if(player.collideWithProjectile(p)){
 							player.grantInvincibility(1);
@@ -223,7 +225,7 @@ public class TopDownShooter{
 					}
 					if(mobs.getSwarm(i) instanceof ZombieMob){
 						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
-          }
+					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
 					playground.getChildren().remove(mobs.getSwarm(i));

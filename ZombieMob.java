@@ -16,8 +16,9 @@ public class ZombieMob extends Mob implements TrueBounds{
 		body.setFill(Color.BLUE);
 		getChildren().add(body);
 		knockback = true;
-		health = 2;
+		health = 12;
 		attacks = false;
+		shooting = false;
 		front = new Rectangle(((Rectangle)body).getWidth()/2-2.5,((Rectangle)body).getHeight()-5, 5,5);
 		middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 5,5);
 		middle.setFill(Color.RED);

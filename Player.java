@@ -28,7 +28,7 @@ public class Player extends Pane{
 	boolean invincible;
 	int health, score, currentGun;
 	
-	Player(Pane p){
+	Player(Pane p, ArrayList<Bullet> b){
 		//setPrefSize(100,100);
 		health = 10;
 		invincible=false;
@@ -46,9 +46,12 @@ public class Player extends Pane{
 		//setStyle("-fx-background-color: blue;");
 		
 		getChildren().addAll(body,eye);
+		
 		guns = new ArrayList<Gun>();
-		guns.add(new ShotGun());
-		guns.add(new Pistol());
+		guns.add(new Pistol(b));
+		guns.add(new ShotGun(b));
+		guns.add(new Bazooka(b));
+		
 		getChildren().add(guns.get(currentGun));
 	}
 	
@@ -94,13 +97,15 @@ public class Player extends Pane{
 	}
 	
 	public boolean collideWithMob(Mob m){
-		Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
-		Bounds b2 = body.localToScene(body.getBoundsInLocal());
-		double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
-		//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
-		if(distance<body.getRadius()){
-			health--;
-			return true;
+		if(!invincible){
+			Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
+			Bounds b2 = body.localToScene(body.getBoundsInLocal());
+			double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
+			//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
+			if(distance<body.getRadius()){
+				health--;
+				return true;
+			}
 		}
 		return false;
 	}
