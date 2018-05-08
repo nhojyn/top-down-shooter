@@ -27,6 +27,7 @@ public class Player extends Pane{
 	Pane Playground;
 	boolean invincible;
 	int health, score, currentGun;
+	Rectangle hitbox;
 	
 	Player(Pane p, ArrayList<Bullet> b){
 		//setPrefSize(100,100);
@@ -44,6 +45,9 @@ public class Player extends Pane{
 		//System.out.println(getPrefWidth() + " " + getPrefHeight());
 		//body.setCenterY(getPrefHeight()/2);
 		//setStyle("-fx-background-color: blue;");
+		hitbox = new Rectangle(body.getCenterX()-body.getRadius()+7.5, body.getCenterY()-body.getRadius()+7.5, 2*body.getRadius()-15, 2*body.getRadius()-15);
+		getChildren().add(hitbox);
+		hitbox.setFill(Color.TRANSPARENT);
 		
 		getChildren().addAll(body,eye);
 		
@@ -72,6 +76,9 @@ public class Player extends Pane{
 	}
 	public double getLocY(){
 		return getLayoutY();
+	}
+	public Circle getBody(){
+		return body;
 	}
 	
 	public void move(int x, int y){
@@ -115,7 +122,8 @@ public class Player extends Pane{
 		if(!invincible){
 			Bounds b1 = p.localToScene(p.getBoundsInLocal());
 			Bounds b2 = body.localToScene(body.getBoundsInLocal());
-			if(b1.intersects(b2)){
+			Bounds b3 = hitbox.localToScene(hitbox.getBoundsInLocal());
+			if(b1.intersects(b3)){
 				health--;
 				return true;
 			}
