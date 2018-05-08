@@ -21,6 +21,8 @@ import javafx.event.ActionEvent;
 public class Options extends VBox{
 	private Text title;
 	private Button Main;
+	StackPane centeredTitle;
+	StackPane centeredMain;
 	double width=300;
 	double height=300;
 	Button test;
@@ -41,9 +43,13 @@ public class Options extends VBox{
 		title = new Text("Options");
 		title.setFont(f1);
 		title.setFill(Color.WHITE);
+		centeredTitle = new StackPane();
+		centeredTitle.getChildren().add(title);
+		centeredMain = new StackPane();
+		centeredMain.getChildren().add(Main);
 		
 		test = new Button("test");
-		getChildren().addAll(title,main);
+		getChildren().addAll(centeredTitle,centeredMain);
 	}
 	
 	public double getPresetWidth(){
@@ -55,7 +61,7 @@ public class Options extends VBox{
 	}
 	
 	public void resetButtons(){	
-		getChildren().removeAll(Main,test);	
-		getChildren().addAll(Main,test);	
+		getChildren().removeAll(centeredMain);	
+		getChildren().addAll(centeredMain);	
 	}
 }

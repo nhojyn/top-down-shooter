@@ -103,6 +103,8 @@ public class Player extends Pane{
 	
 	public void reset(){
 		guns.get(currentGun).clearBullets();
+		health=10;
+		score=0;
 	}
 	
 	public boolean collideWithMob(Mob m){
