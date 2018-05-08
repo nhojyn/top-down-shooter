@@ -24,7 +24,7 @@ public class Pistol extends Gun{
 	//NOTE: THIS IS THE PRIMARY GUN AND SHOULD HAVE INFINITE AMMO
 	Pistol(ArrayList<Bullet> b){
 		super(b);
-		fireRate=.1;
+		fireRate=.2;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.RED);
 		body=new Rectangle(10,60);
@@ -39,12 +39,11 @@ public class Pistol extends Gun{
 		//	double sideA = mouseLocX - boundsInScene.getMinX()/2;
 		//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
 		
-			double sideA = mouseLocX - boundsInScene.getMinX();
-			double sideB = mouseLocY - boundsInScene.getMinY();
+			double sideA = mouseLocX - boundsInScene.getMinX()-9/2;
+			double sideB = mouseLocY - boundsInScene.getMinY()-9/2;
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 
-			PistolBullet b = new PistolBullet(sideA/sideC*7,sideB/sideC*7);
-
+			PistolBullet b = new PistolBullet(sideA/sideC*5,sideB/sideC*5);
 			//b.setLocation(x-b.getRadius(),y-b.getRadius());
 			b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
 			bullets.add(b);
