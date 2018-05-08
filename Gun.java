@@ -79,8 +79,19 @@ public abstract class Gun extends Pane{
 	}
 	
 	public void removeBullet(Bullet b){
-		TopDownShooter.playground.getChildren().remove(b);
-		bullets.remove(b);
+		//checks if there is an explosion animation 
+		if(b.getExplosionTimer()==null){
+			TopDownShooter.playground.getChildren().remove(b);
+			bullets.remove(b);
+		}else{
+			b.getExplosionTimer().play();
+			b.getExplosionTimer().setOnFinished(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					TopDownShooter.playground.getChildren().remove(b);
+					bullets.remove(b);
+				}
+			});
+		}
 	}
 	
 	public abstract void shoot(Player p, double mouseLocX, double mouseLocY);

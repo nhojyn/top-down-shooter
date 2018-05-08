@@ -3,14 +3,14 @@ import javafx.geometry.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
-public class PistolBullet extends Bullet{
+public class SniperBullet extends Bullet{
 	
-	public PistolBullet(double xS, double yS){
+	public SniperBullet(double xS, double yS){
 		super(xS, yS);
-		speedMultiplier = .4;
-		damage = 4;
-		shell = new Circle(9);
-		shell.setFill(Color.BLACK);
+		speedMultiplier = .6;
+		damage = 25;
+		shell = new Circle(7);
+		shell.setFill(Color.BROWN);
 		getChildren().add(shell);
 		setPrefSize(10,10);
 		shell.setCenterX(10);
