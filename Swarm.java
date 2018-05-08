@@ -92,6 +92,22 @@ public class Swarm{
 		
 	}
 	
+	public void spawnZombieBoss(Pane main){
+		playground = main;
+		for(int i = 0; i < 1; i++){
+			double spawnX = 400;
+			double spawnY = 400;
+			
+			Mob temp = new ZombieBoss(main,this);
+			swarm.add(temp);
+			main.getChildren().add(temp);
+			temp.setLayoutX(spawnX);
+			temp.setLayoutY(spawnY);
+			
+		}
+		
+	}
+	
 	public void swarmPlayer(Player p){
 		for(int i = 0; i < swarm.size(); i++){
 			swarm.get(i).chase(p);
@@ -132,19 +148,20 @@ public class Swarm{
 	
 	private void checkRoomBounds(){
 		for(Mob m : swarm){
-			//used to be //Bounds b = m.getBody().localToScene(m.getBoundsInLocal());
-			Bounds b = m.getBody().localToScene(m.getBody().getBoundsInLocal());
-			if(b.getMaxX() >= playground.getPrefWidth()){
-				m.move(-1,0);
-			}
-			else if(b.getMinX() <= 0){
-				m.move(1,0);
-			}
-			else if(b.getMaxY()+m.getBodyHeight() >= playground.getPrefHeight()){
-				m.move(0,-1);
-			}
-			else if(b.getMinY() <= 0){
-				m.move(0,1);
+			if(!m.isBoss()){
+				Bounds b = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+				if(b.getMaxX() >= playground.getPrefWidth()){
+					m.move(-1,0);
+				}
+				else if(b.getMinX() <= 0){
+					m.move(1,0);
+				}
+				else if(b.getMaxY()+m.getBodyHeight() >= playground.getPrefHeight()){
+					m.move(0,-1);
+				}
+				else if(b.getMinY() <= 0){
+					m.move(0,1);
+				}
 			}
 		}
 	}
@@ -154,26 +171,28 @@ public class Swarm{
 			for (int b = a+1; b < swarm.size(); b++){
 				Mob m1 = swarm.get(a);
 				Mob m2 = swarm.get(b);
-				Shape s1 = m1.getBody(); //eventually should be Polygon
-				Shape s2 = m2.getBody();
-				Bounds b1 = s1.localToScene(s1.getBoundsInLocal());
-				Bounds b2 = s2.localToScene(s2.getBoundsInLocal());
-				if(b1.intersects(b2)){
-					if(b1.getMaxX() > b2.getMaxX() && b1.getMaxX()-b2.getMaxX() <= m1.getBodyWidth()){
-						swarm.get(a).move(1,0);
-						swarm.get(b).move(-1,0);
-					}
-					if(b1.getMaxX() < b2.getMaxX() && b2.getMaxX()-b1.getMaxX() <= m1.getBodyWidth()){
-						swarm.get(a).move(-1,0);
-						swarm.get(b).move(1,0);
-					}
-					if(b1.getMaxY() > b2.getMaxY() && b1.getMaxY()-b2.getMaxY() <= m1.getBodyHeight()){
-						swarm.get(a).move(0,1);
-						swarm.get(b).move(0,-1);
-					}
-					if(b1.getMaxY() < b2.getMaxY() && b2.getMaxY()-b1.getMaxY() <= m1.getBodyHeight()){
-						swarm.get(a).move(0,-1);
-						swarm.get(b).move(0,1);
+				if(!m1.isBoss() && !m2.isBoss()){
+					Shape s1 = m1.getBody(); //eventually should be Polygon
+					Shape s2 = m2.getBody();
+					Bounds b1 = s1.localToScene(s1.getBoundsInLocal());
+					Bounds b2 = s2.localToScene(s2.getBoundsInLocal());
+					if(b1.intersects(b2)){
+						if(b1.getMaxX() > b2.getMaxX() && b1.getMaxX()-b2.getMaxX() <= m1.getBodyWidth()){
+							swarm.get(a).move(1,0);
+							swarm.get(b).move(-1,0);
+						}
+						if(b1.getMaxX() < b2.getMaxX() && b2.getMaxX()-b1.getMaxX() <= m1.getBodyWidth()){
+							swarm.get(a).move(-1,0);
+							swarm.get(b).move(1,0);
+						}
+						if(b1.getMaxY() > b2.getMaxY() && b1.getMaxY()-b2.getMaxY() <= m1.getBodyHeight()){
+							swarm.get(a).move(0,1);
+							swarm.get(b).move(0,-1);
+						}
+						if(b1.getMaxY() < b2.getMaxY() && b2.getMaxY()-b1.getMaxY() <= m1.getBodyHeight()){
+							swarm.get(a).move(0,-1);
+							swarm.get(b).move(0,1);
+						}
 					}
 				}
 			}

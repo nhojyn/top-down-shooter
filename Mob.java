@@ -19,12 +19,13 @@ public abstract class Mob extends Pane implements TrueBounds{
 	boolean knockback;
 	boolean attacks; //shows whether or not the mob shoots and projectiles
 	boolean shooting; //shows whether or not the mob is CURRENTLY shooting
+	boolean isBoss; //janky but necessary to show whether it is a boss or not
 	
 	//NOTE: all projectiles should start well outside the player pane (-10000,-10000) just in case
 	ArrayList<MobProjectile> projectiles = new ArrayList<MobProjectile>();
 	
 	public Mob(){
-		
+		isBoss = false;
 	}
 	
 	//setters and getters
@@ -66,7 +67,15 @@ public abstract class Mob extends Pane implements TrueBounds{
 	public ArrayList<MobProjectile> getProjectiles(){
 		return projectiles;
 	}
-
+	public boolean isBoss(){
+		return isBoss;
+	}
+	public void setSpeedModifier(double d){
+		speedModifier = d;
+	}
+	public double getSpeedModifier(){
+		return speedModifier;
+	}
 	//methods
 	public void chase(Player p){
 		double px = p.getLocX() - getLayoutX();
