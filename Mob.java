@@ -69,8 +69,8 @@ public abstract class Mob extends Pane implements TrueBounds{
 
 	//methods
 	public void chase(Player p){
-		double px = p.getLocX() - getLayoutX() - front.getLayoutX() - body.getLayoutX();
-		double py = p.getLocY() - getLayoutY() - front.getLayoutY() - body.getLayoutY();
+		double px = p.getLocX() - getLayoutX();
+		double py = p.getLocY() - getLayoutY();
 		
 		double distance = Math.pow(((px*px) + (py*py)),0.5);
 		
