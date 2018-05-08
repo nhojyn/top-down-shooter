@@ -2,18 +2,18 @@
 # top-down-shooter
 
 Changes:
-- the list of bullets is now initialized in TopDownShooter class
-- gun now has a different constructor
-- shotgun now shoots 5 bullets 
-- shotgun shoots slower 
-- added in damage(varies on each gun)
-- mobs now take damage according to bullet's damage
-- changed zombie + laser mob health
+-the list of bullets is now initialized in TopDownShooter class
+-gun now has a different constructor
+-shotgun now shoots 5 bullets 
+-shotgun shoots slower 
+-added in damage(varies on each gun)
+-mobs now take damage according to bullet's damage
+-changed zombie + laser mob health
 
 New:
-- bazooka + bazooka bullets
+-bazooka + bazooka bullets
 
 To do(rough sketch):
-- implement ammo system
-- add more guns
+-implement ammo system
+-add more guns
 
