@@ -11,13 +11,15 @@ public class ShotGunBullet extends Bullet{
 		setxSpeed(xS+spray*Math.random()-spray/2);
 		setySpeed(yS+spray*Math.random()-spray/2);
 		damage = 3;
-		speedMultiplier = 1;
+		speedMultiplier = .4;
 		shell = new Circle(5);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);
 		setPrefSize(10,10);
 		shell.setCenterX(10);
 		shell.setCenterY(10);
+		
+		explosionTimer = null;
 	}
 
 	

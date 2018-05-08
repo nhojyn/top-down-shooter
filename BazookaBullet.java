@@ -14,9 +14,9 @@ public class BazookaBullet extends Bullet{
 		setxSpeed(xS);
 		setySpeed(yS);
 
-		damage = 1;
+		damage = 2;
 		
-		speedMultiplier = 0.1;
+		speedMultiplier = .1;
 		shell = new Circle(15);
 		shell.setFill(Color.ORANGE);
 		getChildren().add(shell);
@@ -24,7 +24,16 @@ public class BazookaBullet extends Bullet{
 		shell.setCenterX(15);
 		shell.setCenterY(15);
 		
+		//change cyclecount to control how big the explosion is
+		explosionTimer = new Timeline(new KeyFrame(Duration.millis(20),ae -> explode()));
+		explosionTimer.setCycleCount(20);
 	}
 	
 
+	//stop bullet and increases the size of bullet until its 65 or greater then remove
+	public void explode(){
+		setxSpeed(0);
+		setySpeed(0);
+		setRadius(getRadius()+2);
+	}
 }

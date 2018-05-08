@@ -19,12 +19,11 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
-
 public class Bazooka extends Gun{
 	Timeline explosionTimer;
 	Bazooka(ArrayList<Bullet> b){
 		super(b);
-		fireRate=0.5;
+		fireRate=1.5;
 		tip=new Rectangle(20,20);
 		tip.setFill(Color.RED);
 		body=new Rectangle(20,60);
@@ -38,12 +37,12 @@ public class Bazooka extends Gun{
 		//	double radius = 10;
 		//	double sideA = mouseLocX - boundsInScene.getMinX()/2;
 		//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-		
-			double sideA = mouseLocX - boundsInScene.getMinX();
-			double sideB = mouseLocY - boundsInScene.getMinY();
+			//radius of bullet: 15
+			double sideA = mouseLocX - boundsInScene.getMinX()-15/2;
+			double sideB = mouseLocY - boundsInScene.getMinY()-15/2;
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 
-			BazookaBullet b = new BazookaBullet(sideA/sideC*7,sideB/sideC*7);
+			BazookaBullet b = new BazookaBullet(sideA/sideC*5,sideB/sideC*5);
 
 			//b.setLocation(x-b.getRadius(),y-b.getRadius());
 			b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
@@ -54,29 +53,6 @@ public class Bazooka extends Gun{
 		}
 		
 	}
-	//before removing the bullet, make the bullet explode
-	public void removeBullet(Bullet b){//NOTE: removeBullet() will be called whenever colliding
-		//conditional is used to make sure the timeline isnt remade and the size of the bullet should be at default 15
-		if(b.getRadius() == 15){
-			//change to 16 to fix bug where it collides more than once running explode()
-			b.setRadius(16);
-			explosionTimer = new Timeline(new KeyFrame(Duration.millis(20),ae -> explode(b)));
-			explosionTimer.setCycleCount(Animation.INDEFINITE);
-			explosionTimer.play();
-		}
-	}
 
-	//stop bullet and increases the size of bullet until its 65 or greater then remove
-	public void explode(Bullet b){
-		b.setxSpeed(0);
-		b.setySpeed(0);
-		if(b.getRadius() < 65){
-			b.setRadius(b.getRadius()+2);
-		}else{
-			TopDownShooter.playground.getChildren().remove(b);
-			bullets.remove(b);
-		}
-		
-	}
 	
 }
