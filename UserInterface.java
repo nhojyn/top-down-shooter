@@ -103,7 +103,7 @@ public class UserInterface{
 	public void addBossHP(int i){
 		bossHealthBar = new BossHealthBar(i);
 		bossHealthBar.setLayoutX(80);
-		bossHealthBar.setLayoutY(960);
+		bossHealthBar.setLayoutY(900);
 		overlay.getChildren().add(bossHealthBar);
 	}
 	
