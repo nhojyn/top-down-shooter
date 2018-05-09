@@ -10,6 +10,7 @@ import javafx.scene.transform.Rotate;
 public class ZombieMob extends Mob implements TrueBounds{
 	
 	public ZombieMob(){
+		super();
 		speedModifier = 1;
 		points=1;
 		body = new Rectangle(0,0,50,50);

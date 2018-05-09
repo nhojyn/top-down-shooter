@@ -85,6 +85,8 @@ public class UserInterface{
 	
 	public void reset(){
 		game.resume();
+		stats.reset();
+		healthBar.setHP(player.getHealth());
 		overlay.getChildren().remove(options);
 		pauseBtn.setText("pause");
 	}

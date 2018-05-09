@@ -21,14 +21,16 @@ import javafx.event.ActionEvent;
 
 public class Status extends VBox{
 
+	Player player;
 	private Text healthTxt;
 	private Text scoreTxt;
 	Pane overlay;
 	private HealthBar healthBar;
 	public Status(Pane ol, Player p){
+		player=p;
 		overlay = ol;
-		healthTxt = new Text("Health: " + p.getHealth());
-		scoreTxt = new Text("Score: " + p.getScore());
+		healthTxt = new Text("Health: " + player.getHealth());
+		scoreTxt = new Text("Score: " + player.getScore());
 		getChildren().addAll(healthTxt, scoreTxt);
 		
 	}
@@ -36,5 +38,8 @@ public class Status extends VBox{
 	public void setHealthTxt(int h){healthTxt.setText("Health: " + h);}
 	public void setScoreTxt(int s){scoreTxt.setText("Score: " + s);}
 
-	
+	public void reset(){
+		healthTxt.setText("Health: " + player.getHealth());
+		scoreTxt.setText("Score: " + player.getScore());
+	}
 }

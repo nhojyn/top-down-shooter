@@ -103,9 +103,14 @@ public class Player extends Pane{
 	
 	public void reset(){
 		guns.get(currentGun).clearBullets();
+		health=10;
+		score=0;
 	}
 	
 	public boolean collideWithMob(Mob m){
+		if(m.isBoss() && !invincible){
+			return collideWithBoss((Boss)m);
+		}
 		if(!invincible){
 			Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
 			Bounds b2 = body.localToScene(body.getBoundsInLocal());
@@ -115,6 +120,17 @@ public class Player extends Pane{
 				health--;
 				return true;
 			}
+		}
+		return false;
+	}
+	
+	private boolean collideWithBoss(Boss b){
+		Bounds b1 = b.getFront().localToScene(b.getFront().getBoundsInLocal());
+		Bounds b2 = hitbox.localToScene(hitbox.getBoundsInLocal());
+		if(b1.intersects(b2)){
+			health--;
+			b.knockbackPlayer(this);
+			return true;
 		}
 		return false;
 	}
@@ -168,5 +184,26 @@ public class Player extends Pane{
 		for(int i=0;i<guns.size();i++){
 			guns.get(i).play();
 		}
+	}
+	
+
+	
+	/* Knockback method but animated (same thing as mob but it stops at the edge of the playground)
+	 *
+	*/
+	public void animatedKnockback(double x, double y, double m){
+		Timeline delay = new Timeline(new KeyFrame(Duration.millis(5),ae -> knockback(x, y, m/30)));
+		delay.setCycleCount(30);
+		delay.play();	
+	}
+	
+	private void knockback(double x, double y, double m){
+		double px = x - getLayoutX();
+		double py = y - getLayoutY();
+		
+		double distance = Math.pow(((px*px) + (py*py)),0.5);
+		
+		move((int)(-px*m/distance),(int)(-py*m/distance));
+		
 	}
 }

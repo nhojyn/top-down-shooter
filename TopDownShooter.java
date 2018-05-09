@@ -172,6 +172,16 @@ public class TopDownShooter{
 				knockBackMobs();
 			}
 		});
+		
+		//create zombie swarm and test it
+		Button spawnZombieBossBtn = new Button();
+		devTools.getChildren().add(spawnZombieBossBtn);
+		spawnZombieBossBtn.setText("Spawn ZombieBoss");
+		spawnZombieBossBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnZombieBoss(playground);
+			}
+		});
 	}
 	
 	private void knockBackMobs(){
