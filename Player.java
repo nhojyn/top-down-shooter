@@ -83,6 +83,9 @@ public class Player extends Pane{
 	public Circle getBody(){
 		return body;
 	}
+	public ArrayList<Gun> getGuns(){
+		return guns;
+	}
 	
 	public void move(int x, int y){
 		setLayoutX(getLayoutX()+x);
