@@ -92,14 +92,17 @@ public class Swarm{
 		
 	}
 	
-	public void spawnZombieBoss(Pane main){
+	public void spawnZombieBoss(Pane main, UserInterface ui){
 		playground = main;
 		for(int i = 0; i < 1; i++){
 			double spawnX = 400;
 			double spawnY = 400;
 			
-			Mob temp = new ZombieBoss(main,this);
+			Mob temp = new ZombieBoss(main,this,ui);
 			swarm.add(temp);
+			
+			ui.addBossHP(temp.getHealth());
+			
 			main.getChildren().add(temp);
 			temp.setLayoutX(spawnX);
 			temp.setLayoutY(spawnY);

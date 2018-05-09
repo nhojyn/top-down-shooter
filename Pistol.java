@@ -24,6 +24,7 @@ public class Pistol extends Gun{
 	//NOTE: THIS IS THE PRIMARY GUN AND SHOULD HAVE INFINITE AMMO
 	Pistol(ArrayList<Bullet> b){
 		super(b);
+		ammo=9999;
 		fireRate=.2;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.RED);
