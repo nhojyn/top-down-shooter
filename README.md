@@ -1,6 +1,7 @@
 # Top Down Shooter (5/8/2018)
 
 Changes:
+-made pistol weaker(damage 3 -> 2)
 - balanced weapons more(go ahead and change if u want)
 
 property | variable name
@@ -21,10 +22,22 @@ damage | damage (in bullet class)
 - Player has ```collideWithBoss()``` method, will run if ```isBoss == true```
   
 New:
+- flamethrower
+- detects ammo
+- enemy gets knockback according to bullet's knockback(all have been defaulted to 20 except for flamethrower)
 - sniper
 - machinegun
 - ZombieBoss
 
 To do(rough sketch):
-- implement ammo system
+- limit flame range
+- balance gun
+- display ammo (not displaying correctly)
 
+If you want to balance guns:
+
+property   -    variable name
+[bullet speed - speedMultplier(in bullet class)]
+[fire rate - firerate(in gun class)]
+[damage - damage(in bullet class)]
+[knockback mobs - knockBack(in bullet class)}
