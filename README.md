@@ -1,7 +1,7 @@
 # Top Down Shooter (5/8/2018)
 
 Changes:
--made pistol weaker(damage 3 -> 2)
+- made pistol weaker(damage 3 -> 2)
 - balanced weapons more(go ahead and change if u want)
 
 property | variable name
@@ -9,7 +9,7 @@ property | variable name
 bullet speed | speedMultiplier (in bullet class)
 fire rate | firerate (in gun class)
 damage | damage (in bullet class)
-
+knockback mobs | knockBack (in bullet class)
 
 - moved explosion method to bullet class
 
@@ -34,10 +34,3 @@ To do(rough sketch):
 - balance gun
 - display ammo (not displaying correctly)
 
-If you want to balance guns:
-
-property   -    variable name
-[bullet speed - speedMultplier(in bullet class)]
-[fire rate - firerate(in gun class)]
-[damage - damage(in bullet class)]
-[knockback mobs - knockBack(in bullet class)}
