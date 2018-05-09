@@ -77,6 +77,9 @@ public class HealthBar extends Pane{
 		if(i<10){
 			HPnum.setLayoutX(25);
 		}
+		if(i>=10){
+			HPnum.setLayoutX(15);
+		}
 		HPbar.setWidth((size/total)*i);
 	}
 	
