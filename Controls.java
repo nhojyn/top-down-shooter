@@ -54,7 +54,7 @@ public class Controls{
 				//keys 1, 2, 3, 4, 5 changes weapons
 				//TODO: FINISH MORE GUNS TO ASSIGN FOR DIGIT CLICKED
 				if(!isPaused){
-					if(event.getCode() == KeyCode.DIGIT1 || event.getCode() == KeyCode.DIGIT2 || event.getCode() == KeyCode.DIGIT3 || event.getCode() == KeyCode.DIGIT4 || event.getCode() == KeyCode.DIGIT5){
+					if(event.getCode()==KeyCode.DIGIT1||event.getCode()==KeyCode.DIGIT2||event.getCode()==KeyCode.DIGIT3||event.getCode()==KeyCode.DIGIT4||event.getCode()==KeyCode.DIGIT5||event.getCode()==KeyCode.DIGIT6||event.getCode()==KeyCode.DIGIT7||event.getCode()==KeyCode.DIGIT8){
 						player.changeGun(Integer.parseInt(event.getText())-1);
 					}
 				}

@@ -25,6 +25,7 @@ public class Sniper extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	Sniper(ArrayList<Bullet> b){
 		super(b);
+		ammo = 10;
 		fireRate=.9;
 		tip=new Rectangle(7,10);
 		tip.setFill(Color.BROWN);
@@ -35,24 +36,25 @@ public class Sniper extends Gun{
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
-		Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
-		if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
-		//	double radius = 10;
-		//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
-		//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-			//radius of bullet: 7
-			double sideA = mouseLocX - boundsInScene.getMinX()-7/2;
-			double sideB = mouseLocY - boundsInScene.getMinY()-7/2;
-			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-	
-			SniperBullet b = new SniperBullet(sideA/sideC*5,sideB/sideC*5);
-			b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
-			bullets.add(b);
-	
-			TopDownShooter.playground.getChildren().addAll(b);
-
-		}
+		if(ammo > 0){
+			Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
+			if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
+			//	double radius = 10;
+			//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
+			//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
+				//radius of bullet: 7
+				double sideA = mouseLocX - boundsInScene.getMinX()-7/2;
+				double sideB = mouseLocY - boundsInScene.getMinY()-7/2;
+				double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 		
+				SniperBullet b = new SniperBullet(sideA/sideC*5,sideB/sideC*5);
+				b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
+				bullets.add(b);
+		
+				TopDownShooter.playground.getChildren().addAll(b);
+				ammo--;
+			}
+		}
 	}
 	
 }

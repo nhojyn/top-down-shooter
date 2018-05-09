@@ -2,18 +2,22 @@
 # top-down-shooter
 
 Changes:
-- balanced weapons more(go ahead and change if u want)
+-made pistol weaker(damage 3 -> 2)
+
+New:
+- flamethrower
+- detects ammo
+- enemy gets knockback according to bullet's knockback(all have been defaulted to 20 except for flamethrower)
+
+To do(rough sketch):
+- limit flame range
+- balance gun
+- display ammo (not displaying correctly)
+
+If you want to balance guns:
+
 property   -    variable name
 [bullet speed - speedMultplier(in bullet class)]
 [fire rate - firerate(in gun class)]
 [damage - damage(in bullet class)]
-
--moved explosion method to bullet class
-
-New:
-- sniper
-- machinegun
-
-To do(rough sketch):
-- implement ammo system
-
+[knockback mobs - knockBack(in bullet class)}

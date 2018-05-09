@@ -136,16 +136,16 @@ public abstract class Mob extends Pane implements TrueBounds{
 				Bounds b2 = g.getBullets().get(i).localToScene(g.getBullets().get(i).getBoundsInLocal());
 				//when collides removeBullet(Bullet b) removes bullet from playground and arraylist bullets and then subtracts health
 				if(b1.intersects(b2)){
-					//NOTE: now each bullet has their own damage 
-					health = health - b.get(i).getDamage();
-					g.removeBullet(b.get(i));
 					//adding knockback to the mob, temporarily sets speed to 0 so they dont walk during animation
 					if(knockback){
 						double temp = speedModifier;
 						speedModifier = 0;
-						animatedKnockback(p.getLocX(), p.getLocY(), 20); //last number should eventually be p.getGun().getKnockback()
+						animatedKnockback(p.getLocX(), p.getLocY(), b.get(i).getKnockBack()); //last number should eventually be p.getGun().getKnockback()
 						speedModifier = temp;
 					}
+					//NOTE: now each bullet has their own damage 
+					health = health - b.get(i).getDamage();
+					g.removeBullet(b.get(i));
 				}
 			}
 		}

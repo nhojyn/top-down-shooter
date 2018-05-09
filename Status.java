@@ -24,6 +24,7 @@ public class Status extends VBox{
 	Player player;
 	private Text healthTxt;
 	private Text scoreTxt;
+	private Text ammoTxt;
 	Pane overlay;
 	private HealthBar healthBar;
 	public Status(Pane ol, Player p){
@@ -31,15 +32,18 @@ public class Status extends VBox{
 		overlay = ol;
 		healthTxt = new Text("Health: " + player.getHealth());
 		scoreTxt = new Text("Score: " + player.getScore());
-		getChildren().addAll(healthTxt, scoreTxt);
+		ammoTxt = new Text("Ammo: " + player.getGun().getAmmo());
+		getChildren().addAll(healthTxt, scoreTxt,ammoTxt);
 		
 	}
 
 	public void setHealthTxt(int h){healthTxt.setText("Health: " + h);}
 	public void setScoreTxt(int s){scoreTxt.setText("Score: " + s);}
+	public void setAmmoTxt(int a){ammoTxt.setText("Ammo: " + player.getGun().getAmmo());}
 
 	public void reset(){
 		healthTxt.setText("Health: " + player.getHealth());
 		scoreTxt.setText("Score: " + player.getScore());
+		ammoTxt.setText("Ammo: " + player.getGun().getAmmo());
 	}
 }

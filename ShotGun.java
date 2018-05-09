@@ -25,6 +25,7 @@ public class ShotGun extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	ShotGun(ArrayList<Bullet> b){
 		super(b);
+		ammo = 30;
 		fireRate=.7;
 		tip=new Rectangle(15,15);
 		tip.setFill(Color.TRANSPARENT);
@@ -35,37 +36,34 @@ public class ShotGun extends Gun{
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
-		Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
-		if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
-		//	double radius = 10;
-		//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
-		//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-		
-			//radius of bullet: 
-			double sideA = mouseLocX - boundsInScene.getMinX()-5/2;
-			double sideB = mouseLocY - boundsInScene.getMinY()-5/2;
-			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-			//spawns 5 bullets
-			ShotGunBullet b = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
-			ShotGunBullet b1 = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
-			ShotGunBullet b2 = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
-			ShotGunBullet b3 = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
-			ShotGunBullet b4 = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
+		if(ammo > 0){
+			Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
+			if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
+			//	double radius = 10;
+			//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
+			//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
 			
-			b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
-			b1.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
-			b2.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);	
-			b3.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
-			b4.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
-
-			bullets.add(b);
-			bullets.add(b1);
-			bullets.add(b2);			
-			bullets.add(b3);
-			bullets.add(b4);
-		
-			TopDownShooter.playground.getChildren().addAll(b,b1,b2,b3,b4);
-
+				//radius of bullet: 
+				double sideA = mouseLocX - boundsInScene.getMinX()-5/2;
+				double sideB = mouseLocY - boundsInScene.getMinY()-5/2;
+				double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+				int counter = 0;
+				//spawns 5 bullets and then stops the loop
+				while(ammo > 0){
+					ShotGunBullet b = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
+					
+					b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
+				
+					bullets.add(b);
+					TopDownShooter.playground.getChildren().addAll(b);
+					ammo--;
+					counter++;
+					if(counter == 5){
+						break;
+					}
+				}
+			
+			}
 		}
 		
 	}
