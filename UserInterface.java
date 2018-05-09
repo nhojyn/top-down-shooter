@@ -27,6 +27,9 @@ public class UserInterface{
 	private HealthBar healthBar;
 	Options options;
 	TopDownShooter game;
+	AmmoCounter ammoCounter;
+	ScoreCounter scoreCounter;
+	BossHealthBar bossHealthBar;
 	
 	UserInterface(Pane ol, Button main,TopDownShooter TDS ,Player p){
 		player=p;
@@ -61,31 +64,65 @@ public class UserInterface{
 				//stage.setScene(main);
 			}
 		});
+		int spacing = 15;
+		pauseBtn.setLayoutX(spacing);
+		pauseBtn.setLayoutY(spacing);
 		
-		stats = new Status(overlay,player);
-		stats.setLayoutX(150);
+		//stats = new Status(overlay,player);
+		//stats.setLayoutX(150);
 		healthBar = new HealthBar(player.getHealth());
-		healthBar.setLayoutX(250);
-		overlay.getChildren().addAll(pauseBtn,stats,healthBar);
-
+		healthBar.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-145);
+		
+		ammoCounter = new AmmoCounter(player.getGun().getAmmo());
+		ammoCounter.setLayoutX(game.getWidth()-330);
+		ammoCounter.setLayoutY(-42);
+		
+		scoreCounter = new ScoreCounter(0);
+		scoreCounter.setLayoutX(game.getWidth()-180);
+		
+		overlay.getChildren().addAll(pauseBtn,healthBar,ammoCounter,scoreCounter);
 		
 	}
-	
+	/*
 	public Status getStatus(){
 		return stats;
 	}
-	
+	*/
 	public HealthBar getHealthBar(){
 		return healthBar;
 	}
 	
+	public AmmoCounter getAmmoCounter(){
+		return ammoCounter;
+	}
+	
 	public void setScore(int score){
-		stats.setScoreTxt(score);
+		scoreCounter.setScoreNum(score);
+	}
+	
+	public void addBossHP(int i){
+		bossHealthBar = new BossHealthBar(i);
+		bossHealthBar.setLayoutX(80);
+		bossHealthBar.setLayoutY(960);
+		overlay.getChildren().add(bossHealthBar);
+	}
+	
+	public void removeBossHP(){
+		if(bossHealthBar != null){
+			overlay.getChildren().remove(bossHealthBar);
+			bossHealthBar = null;
+		}
+	}
+	
+	public void setBossHP(int i){
+		if(bossHealthBar != null){
+			bossHealthBar.setHP(i);
+		}
 	}
 	
 	public void reset(){
 		game.resume();
-		stats.reset();
+		//stats.reset();
 		healthBar.setHP(player.getHealth());
 		overlay.getChildren().remove(options);
 		pauseBtn.setText("pause");

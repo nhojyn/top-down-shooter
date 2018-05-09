@@ -119,7 +119,7 @@ public class TopDownShooter{
 		mainGame = new Scene(screen);
 		
 		//Moved all the controls in Controls class
-		control = new Controls(mainGame, player, playground);
+		control = new Controls(mainGame, player, playground,ui);
 					
 		//checks if mob collides with bullet
 		collision= new AnimationTimer(){
@@ -179,7 +179,20 @@ public class TopDownShooter{
 		spawnZombieBossBtn.setText("Spawn ZombieBoss");
 		spawnZombieBossBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				mobs.spawnZombieBoss(playground);
+				mobs.spawnZombieBoss(playground,ui);
+			}
+		});
+		
+		//give guns more ammo
+		Button addAmmo = new Button();
+		devTools.getChildren().add(addAmmo);
+		addAmmo.setText("Add ammo");
+		addAmmo.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				for(int i=0; i<player.getGuns().size();i++){
+					player.getGuns().get(i).setAmmo(10000);
+					//ui.getStatus().setAmmoTxt(player.getGun().getAmmo());
+				}
 			}
 		});
 	}
@@ -206,9 +219,8 @@ public class TopDownShooter{
 					player.grantInvincibility(1);
 
 					knockBackMobs();
-					ui.getStatus().setHealthTxt(player.getHealth());
+					//ui.getStatus().setHealthTxt(player.getHealth());
 					ui.getHealthBar().setHP(player.getHealth());
-					System.out.println("hit"+i);
 				}
 			}
 		}
@@ -222,7 +234,7 @@ public class TopDownShooter{
 					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
 						if(player.collideWithProjectile(p)){
 							player.grantInvincibility(1);
-							ui.getStatus().setHealthTxt(player.getHealth());
+							//ui.getStatus().setHealthTxt(player.getHealth());
 							ui.getHealthBar().setHP(player.getHealth());
 						}
 					}
@@ -235,6 +247,9 @@ public class TopDownShooter{
 					}
 					if(mobs.getSwarm(i) instanceof ZombieMob){
 						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+					}
+					if(mobs.getSwarm(i) instanceof ZombieBoss){
+						ui.removeBossHP();
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());

@@ -37,9 +37,15 @@ public class Status extends VBox{
 		
 	}
 
-	public void setHealthTxt(int h){healthTxt.setText("Health: " + h);}
-	public void setScoreTxt(int s){scoreTxt.setText("Score: " + s);}
-	public void setAmmoTxt(int a){ammoTxt.setText("Ammo: " + player.getGun().getAmmo());}
+	public void setHealthTxt(int h){
+		healthTxt.setText("Health: " + h);
+		}
+	public void setScoreTxt(int s){
+		scoreTxt.setText("Score: " + s);
+		}
+	public void setAmmoTxt(int a){
+		ammoTxt.setText("Ammo: " + player.getGun().getAmmo());
+		}
 
 	public void reset(){
 		healthTxt.setText("Health: " + player.getHealth());

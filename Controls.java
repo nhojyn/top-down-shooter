@@ -27,12 +27,15 @@ public class Controls{
 	Player player;
 	Pane playground;
 	boolean isPaused;
+	UserInterface ui;
 	
-	public Controls(Scene mg, Player p, Pane pg){
+	public Controls(Scene mg, Player p, Pane pg,UserInterface userint){
 		delayOff=true;
 		isPaused=false;
 		
 		mainGame = mg;
+		
+		ui=userint;
 		
 		player = p;
 		
@@ -56,6 +59,7 @@ public class Controls{
 				if(!isPaused){
 					if(event.getCode()==KeyCode.DIGIT1||event.getCode()==KeyCode.DIGIT2||event.getCode()==KeyCode.DIGIT3||event.getCode()==KeyCode.DIGIT4||event.getCode()==KeyCode.DIGIT5||event.getCode()==KeyCode.DIGIT6||event.getCode()==KeyCode.DIGIT7||event.getCode()==KeyCode.DIGIT8){
 						player.changeGun(Integer.parseInt(event.getText())-1);
+						ui.getAmmoCounter().setAmmoNum(player.getGun().getAmmo());
 					}
 				}
             }
@@ -159,6 +163,16 @@ public class Controls{
 	private void shoot(){
 		if(delayOff){
 			player.getGun().shoot(player, mouseX, mouseY);
+			ui.getAmmoCounter().setAmmoNum(player.getGun().getAmmo());
+			delayOff=false;
+			Timeline delay = new Timeline(new KeyFrame(Duration.millis(player.getGun().getFireRate()*1000),ae -> delayOff=true));
+			delay.play();
+		}
+	}
+	
+	private void blink(){
+		if(delayOff){
+			player.setLayoutX(player.getLayoutX());
 			delayOff=false;
 			Timeline delay = new Timeline(new KeyFrame(Duration.millis(player.getGun().getFireRate()*1000),ae -> delayOff=true));
 			delay.play();

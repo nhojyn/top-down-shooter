@@ -15,8 +15,8 @@ public class ZombieBoss extends Boss implements TrueBounds{
 	Swarm mobs;
 	Pane pg;
 	boolean grown = false;
-	public ZombieBoss(Pane main, Swarm s){
-		super();
+	public ZombieBoss(Pane main, Swarm s,UserInterface ui){
+		super(ui);
 		mobs = s;
 		pg = main;
 		health = 300;

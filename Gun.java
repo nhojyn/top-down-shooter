@@ -53,6 +53,9 @@ public abstract class Gun extends Pane{
 	public int getAmmo(){
 		return ammo;
 	}
+	public void setAmmo(int i){
+		ammo=i;
+	}
 	public void rotate(double newangle){
 		
 		getTransforms().clear();
