@@ -8,7 +8,7 @@ public class PistolBullet extends Bullet{
 	public PistolBullet(double xS, double yS){
 		super(xS, yS);
 		speedMultiplier = .4;
-		damage = 4;
+		damage = 3;
 		shell = new Circle(9);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);

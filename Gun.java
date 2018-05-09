@@ -50,7 +50,9 @@ public abstract class Gun extends Pane{
 	public double getFireRate(){
 		return fireRate;
 	}
-	
+	public int getAmmo(){
+		return ammo;
+	}
 	public void rotate(double newangle){
 		
 		getTransforms().clear();

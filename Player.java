@@ -57,6 +57,7 @@ public class Player extends Pane{
 		guns.add(new Sniper(b));
 		guns.add(new Bazooka(b));
 		guns.add(new MachineGun(b));
+		guns.add(new FlameThrower(b));
 		
 		getChildren().add(guns.get(currentGun));
 	}

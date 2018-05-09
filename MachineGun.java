@@ -25,6 +25,7 @@ public class MachineGun extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	MachineGun(ArrayList<Bullet> b){
 		super(b);
+		ammo = 250;
 		fireRate=.07;
 		tip=new Rectangle(17,17);
 		tip.setFill(Color.PINK);
@@ -35,22 +36,24 @@ public class MachineGun extends Gun{
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
-		Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
-		if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
-		//	double radius = 10;
-		//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
-		//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-			//radius of bullet:7
-			double sideA = mouseLocX - boundsInScene.getMinX()-8/2;
-			double sideB = mouseLocY - boundsInScene.getMinY()-8/2;
-			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+		if(ammo > 0){
+			Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
+			if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
+			//	double radius = 10;
+			//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
+			//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
+				//radius of bullet:7
+				double sideA = mouseLocX - boundsInScene.getMinX()-8/2;
+				double sideB = mouseLocY - boundsInScene.getMinY()-8/2;
+				double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+				
+				MachineGunBullet b = new MachineGunBullet(sideA/sideC*5,sideB/sideC*5);
+				b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
+				bullets.add(b);
 			
-			MachineGunBullet b = new MachineGunBullet(sideA/sideC*5,sideB/sideC*5);
-			b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
-			bullets.add(b);
-		
-			TopDownShooter.playground.getChildren().addAll(b);
-
+				TopDownShooter.playground.getChildren().addAll(b);
+				ammo--;
+			}
 		}
 		
 	}

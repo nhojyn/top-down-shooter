@@ -19,42 +19,43 @@ import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
-public class Bazooka extends Gun{
-	Timeline explosionTimer;
-	Bazooka(ArrayList<Bullet> b){
+
+public class FlameThrower extends Gun{
+
+	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
+	FlameThrower(ArrayList<Bullet> b){
 		super(b);
-		ammo = 5;
-		fireRate=1.5;
-		tip=new Rectangle(20,20);
-		tip.setFill(Color.RED);
-		body=new Rectangle(20,60);
-		body.setFill(Color.RED);
+		ammo = 1000;
+		fireRate=.0001;
+		tip=new Rectangle(15,15);
+		tip.setFill(Color.GREY);
+		body=new Rectangle(15,60);
+		body.setFill(Color.GREY);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
 	}
+	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
 		if(ammo > 0){
 			Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
 			if(mouseLocX!=boundsInScene.getMinX()&&mouseLocY!=boundsInScene.getMinY()){
 			//	double radius = 10;
-			//	double sideA = mouseLocX - boundsInScene.getMinX()/2;
+			//	double sideA = mouseLocX - boundsInScene.getMinX()-radius/2;
 			//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-				//radius of bullet: 15
-				double sideA = mouseLocX - boundsInScene.getMinX()-15/2;
-				double sideB = mouseLocY - boundsInScene.getMinY()-15/2;
+				//radius of bullet:7
+				double sideA = mouseLocX - boundsInScene.getMinX()-8/2;
+				double sideB = mouseLocY - boundsInScene.getMinY()-8/2;
 				double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-	
-				BazookaBullet b = new BazookaBullet(sideA/sideC*5,sideB/sideC*5);
-	
-				//b.setLocation(x-b.getRadius(),y-b.getRadius());
+				
+				Flame b = new Flame(sideA/sideC*5,sideB/sideC*5);
 				b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
 				bullets.add(b);
-		
-				TopDownShooter.playground.getChildren().add(b);
+			
+				TopDownShooter.playground.getChildren().addAll(b);
 				ammo--;
 			}
 		}
+		
 	}
-
 	
 }

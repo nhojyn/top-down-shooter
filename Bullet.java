@@ -27,10 +27,14 @@ public abstract class Bullet extends Pane{
 	double speedMultiplier;
 	int damage;
 	Timeline explosionTimer;
+	double distanceLimit, knockBack;
 	
 	public Bullet(double xS, double yS){
 		xSpeed=xS;
 		ySpeed=yS;
+		distanceLimit=-1;
+		//default knockback
+		knockBack = 20;
 	}
 	
 	public Bullet(){
@@ -44,6 +48,8 @@ public abstract class Bullet extends Pane{
 	public double getCenterY(){return shell.getCenterY();}
 	public int getDamage(){return damage;}
 	public Timeline getExplosionTimer(){return explosionTimer;}
+	public double getKnockBack(){return knockBack;}
+	
 	public void setxSpeed(double xS){
 		xSpeed=xS;
 	}
