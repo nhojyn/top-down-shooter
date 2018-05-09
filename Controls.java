@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 
 public class Controls{
 	boolean delayOff;
+	boolean delayOffBlink;
 	boolean goNorth, goSouth, goEast, goWest, leftClick, rightClick;
 	double mouseY, mouseX;
 	Scene mainGame;
@@ -31,6 +32,7 @@ public class Controls{
 	
 	public Controls(Scene mg, Player p, Pane pg,UserInterface userint){
 		delayOff=true;
+		delayOffBlink=true;
 		isPaused=false;
 		
 		mainGame = mg;
@@ -135,6 +137,7 @@ public class Controls{
 			}
 			if(event.isSecondaryButtonDown()){
 				rightClick = true;
+				player.blink(mouseX,mouseY);
 			}
 		  }
 		});		
@@ -169,16 +172,20 @@ public class Controls{
 			delay.play();
 		}
 	}
-	
+	/*
 	private void blink(){
-		if(delayOff){
-			player.setLayoutX(player.getLayoutX());
-			delayOff=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.millis(player.getGun().getFireRate()*1000),ae -> delayOff=true));
+		if(delayOffBlink){
+			double sideA = mouseX - player.getLayoutX();
+			double sideB = mouseY - player.getLayoutY();
+			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+			player.setLayoutX(player.getLayoutX()+sideA/sideC*100);
+			player.setLayoutY(player.getLayoutY()+sideB/sideC*100);
+			delayOffBlink=false;
+			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> delayOffBlink=true));
 			delay.play();
 		}
 	}
-	
+	*/
 	public void pause(){
 		isPaused=true;
 	}

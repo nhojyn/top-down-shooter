@@ -28,9 +28,11 @@ public class Player extends Pane{
 	boolean invincible;
 	int health, score, currentGun;
 	Rectangle hitbox;
+	boolean delayOffBlink;
 	
 	Player(Pane p, ArrayList<Bullet> b){
 		//setPrefSize(100,100);
+		delayOffBlink=true;
 		health = 10;
 		invincible=false;
 		score = 0;
@@ -209,5 +211,47 @@ public class Player extends Pane{
 		
 		move((int)(-px*m/distance),(int)(-py*m/distance));
 		
+	}
+	
+	public void blink(double mouseX, double mouseY){
+		if(delayOffBlink){
+			double sideA = mouseX - getLayoutX();
+			double sideB = mouseY - getLayoutY();
+			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
+			int numImg=4;
+			int distance=150;
+			ArrayList<Circle> afterImages = new ArrayList<Circle>();
+			for(int i=1;i<numImg+1;i++){
+				Circle afterImage = new Circle(body.getRadius());
+				afterImages.add(afterImage);
+				afterImage.setFill(body.getFill());
+				afterImage.setLayoutX(getLayoutX()+sideA/sideC*distance*i/(numImg+1));
+				afterImage.setLayoutY(getLayoutY()+sideB/sideC*distance*i/(numImg+1));
+				afterImage.setOpacity(.6-.4/i);
+				Playground.getChildren().add(afterImage);
+			}
+			/*
+			Timeline delete = new Timeline(new KeyFrame(Duration.millis(100),ae -> Playground.getChildren().remove(afterImages.get(0))));
+			delete.setCycleCount(3);
+			delete.play();
+			Timeline delete2 = new Timeline(new KeyFrame(Duration.millis(100),ae -> afterImages.remove(0)));
+			delete2.setCycleCount(3);
+			delete2.play();
+			*/
+			Timeline delete = new Timeline(new KeyFrame(Duration.millis(70),ae -> deleteAfterImages(afterImages)));
+			delete.setCycleCount(numImg);
+			delete.play();
+			
+			setLayoutX(getLayoutX()+sideA/sideC*distance);
+			setLayoutY(getLayoutY()+sideB/sideC*distance);
+			delayOffBlink=false;
+			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> delayOffBlink=true));
+			delay.play();
+		}
+	}
+	
+	private void deleteAfterImages(ArrayList<Circle> AfImg){
+		Playground.getChildren().remove(AfImg.get(0));
+		AfImg.remove(0);
 	}
 }
