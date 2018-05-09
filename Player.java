@@ -38,11 +38,11 @@ public class Player extends Pane{
 		score = 0;
 		currentGun = 0;
 		Playground=p;
-		body = new Circle(50);
+		body = new Circle(30);
 		body.setFill(Color.BLACK);
 		eye = new Circle(5);
 		eye.setFill(Color.BLUE);
-		eye.setLayoutY(getLayoutY()+40);
+		eye.setLayoutY(getLayoutY()+body.getRadius()-eye.getRadius());
 		//body.setCenterX(getPrefWidth()/2);
 		//System.out.println(getPrefWidth() + " " + getPrefHeight());
 		//body.setCenterY(getPrefHeight()/2);
@@ -54,12 +54,12 @@ public class Player extends Pane{
 		getChildren().addAll(body,eye);
 		
 		guns = new ArrayList<Gun>();
-		guns.add(new Pistol(b));
-		guns.add(new ShotGun(b));
-		guns.add(new Sniper(b));
-		guns.add(new Bazooka(b));
-		guns.add(new MachineGun(b));
-		guns.add(new FlameThrower(b));
+		guns.add(new Pistol(b,body.getRadius()));
+		guns.add(new ShotGun(b,body.getRadius()));
+		guns.add(new Sniper(b,body.getRadius()));
+		guns.add(new Bazooka(b,body.getRadius()));
+		guns.add(new MachineGun(b,body.getRadius()));
+		guns.add(new FlameThrower(b,body.getRadius()));
 		
 		getChildren().add(guns.get(currentGun));
 	}
@@ -218,7 +218,7 @@ public class Player extends Pane{
 			double sideA = mouseX - getLayoutX();
 			double sideB = mouseY - getLayoutY();
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-			int numImg=4;
+			int numImg=5;
 			int distance=150;
 			ArrayList<Circle> afterImages = new ArrayList<Circle>();
 			for(int i=1;i<numImg+1;i++){

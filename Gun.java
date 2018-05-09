@@ -30,12 +30,12 @@ public abstract class Gun extends Pane{
 	double fireRate;
 	Timeline move;
 	
-	Gun(ArrayList<Bullet> b){
+	Gun(ArrayList<Bullet> b,double radius){
 		bullets = b;
 		move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
 		move.setCycleCount(Animation.INDEFINITE);
 		move.play();
-		setLayoutX(-50);
+		setLayoutX(-radius);
 	}
 	
 	public void setLocX(double x1){

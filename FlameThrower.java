@@ -23,8 +23,8 @@ import javafx.geometry.Point2D;
 public class FlameThrower extends Gun{
 
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
-	FlameThrower(ArrayList<Bullet> b){
-		super(b);
+	FlameThrower(ArrayList<Bullet> b,double radius){
+		super(b,radius);
 		ammo = 1000;
 		fireRate=.0001;
 		tip=new Rectangle(15,15);
