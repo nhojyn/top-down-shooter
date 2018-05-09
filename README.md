@@ -1,3 +1,12 @@
+# Top Down Shooter (5/9/2018)
+Changes:
+- Shotgun only shoots one bullet per shot instead of 5
+- Cleaned up UI
+- GOT RID OF STATUS CLASS (ill remove the class next patch if there are no issues)
+- added Boss HP counter
+  - All Boss must create a hp bar when spawned (IMPORTANT)
+- added blink ability (needs to be fine tuned)
+
 # Top Down Shooter (5/8/2018)
 
 Changes:
