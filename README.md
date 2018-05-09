@@ -4,13 +4,11 @@
 Changes:
 - balanced weapons more(go ahead and change if u want)
 
-property   -    variable name
-
-[bullet speed - speedMultplier(in bullet class)]
-
-[fire rate - firerate(in gun class)]
-
-[damage - damage(in bullet class)]
+property | variable name
+--- | ---
+bullet speed | speedMultiplier (in bullet class)
+fire rate | firerate (in gun class)
+damage | damage (in bullet class)
 
 
 - moved explosion method to bullet class
