@@ -38,7 +38,7 @@ public class Player extends Pane{
 		score = 0;
 		currentGun = 0;
 		Playground=p;
-		body = new Circle(50);
+		body = new Circle(30);
 		body.setFill(Color.BLACK);
 		eye = new Circle(5);
 		eye.setFill(Color.BLUE);
@@ -47,7 +47,7 @@ public class Player extends Pane{
 		//System.out.println(getPrefWidth() + " " + getPrefHeight());
 		//body.setCenterY(getPrefHeight()/2);
 		//setStyle("-fx-background-color: blue;");
-		hitbox = new Rectangle(body.getCenterX()-body.getRadius()+7.5, body.getCenterY()-body.getRadius()+7.5, 2*body.getRadius()-15, 2*body.getRadius()-15);
+		hitbox = new Rectangle(body.getCenterX()-body.getRadius()+6, body.getCenterY()-body.getRadius()+6, 2*body.getRadius()-12, 2*body.getRadius()-12);
 		getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 		

@@ -25,7 +25,7 @@ public class Pistol extends Gun{
 	Pistol(ArrayList<Bullet> b){
 		super(b);
 		ammo=9999;
-		fireRate=.2;
+		fireRate=.3;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.RED);
 		body=new Rectangle(10,60);
