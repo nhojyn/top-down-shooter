@@ -21,8 +21,8 @@ import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 public class Bazooka extends Gun{
 	Timeline explosionTimer;
-	Bazooka(ArrayList<Bullet> b){
-		super(b);
+	Bazooka(ArrayList<Bullet> b,double radius){
+		super(b,radius);
 		ammo = 5;
 		fireRate=1.5;
 		tip=new Rectangle(20,20);
