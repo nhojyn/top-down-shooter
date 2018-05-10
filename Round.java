@@ -27,7 +27,7 @@ public class Round{
 		listOfMobs = list;
 		timeBetweenWaves = time;
 		currentWave = 0;
-		
+		mobs = s;
 		//finds the number of waves
 		numWaves = 1;
 		for(int[] i : list){
