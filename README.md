@@ -1,4 +1,4 @@
-## Make sure to check the Wiki for mp3 files to download
+## Make sure to check the unzip the folder inside
 
 # Top Down Shooter (5/9/2018)
 Changes:
