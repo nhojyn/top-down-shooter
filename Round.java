@@ -21,9 +21,9 @@ public class Round{
 	*/
 	ArrayList<int[]> listOfMobs = new ArrayList<int[]>();
 	
-	Swarm mobs; //mobs is the swarm that is created from listOfMobs
+	Swarm mobs; //mobs is the swarm that is inside the main game
 	
-	public Round(ArrayList<int[]> list, double time, Pane main){
+	public Round(ArrayList<int[]> list, double time, Pane main, Swarm s){
 		listOfMobs = list;
 		timeBetweenWaves = time;
 		currentWave = 0;
