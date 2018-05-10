@@ -220,30 +220,36 @@ public class Player extends Pane{
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 			int numImg=5;
 			int distance=150;
+			double finalXdis = sideA/sideC*distance;
+			double finalYdis = sideB/sideC*distance;
+			//Next four if statements are so they dont blink off the screen
+			if(finalXdis+getLayoutX()>Playground.getWidth()){
+				finalXdis=Playground.getWidth()-getLayoutX()-body.getRadius();
+			}
+			if(finalXdis+getLayoutX()<0){
+				finalXdis=-getLayoutX()+body.getRadius();
+			}
+			if(finalYdis+getLayoutY()>Playground.getHeight()){
+				finalYdis=Playground.getHeight()-getLayoutY()-body.getRadius();
+			}
+			if(finalYdis+getLayoutY()<0){
+				finalYdis=-getLayoutY()+body.getRadius();
+			}
 			ArrayList<Circle> afterImages = new ArrayList<Circle>();
 			for(int i=1;i<numImg+1;i++){
 				Circle afterImage = new Circle(body.getRadius());
 				afterImages.add(afterImage);
 				afterImage.setFill(body.getFill());
-				afterImage.setLayoutX(getLayoutX()+sideA/sideC*distance*i/(numImg+1));
-				afterImage.setLayoutY(getLayoutY()+sideB/sideC*distance*i/(numImg+1));
+				afterImage.setLayoutX(getLayoutX()+finalXdis*i/(numImg+1));
+				afterImage.setLayoutY(getLayoutY()+finalYdis*i/(numImg+1));
 				afterImage.setOpacity(.6-.4/i);
 				Playground.getChildren().add(afterImage);
 			}
-			/*
-			Timeline delete = new Timeline(new KeyFrame(Duration.millis(100),ae -> Playground.getChildren().remove(afterImages.get(0))));
-			delete.setCycleCount(3);
-			delete.play();
-			Timeline delete2 = new Timeline(new KeyFrame(Duration.millis(100),ae -> afterImages.remove(0)));
-			delete2.setCycleCount(3);
-			delete2.play();
-			*/
 			Timeline delete = new Timeline(new KeyFrame(Duration.millis(70),ae -> deleteAfterImages(afterImages)));
 			delete.setCycleCount(numImg);
 			delete.play();
-			
-			setLayoutX(getLayoutX()+sideA/sideC*distance);
-			setLayoutY(getLayoutY()+sideB/sideC*distance);
+			setLayoutX(getLayoutX()+finalXdis);
+			setLayoutY(getLayoutY()+finalYdis);
 			delayOffBlink=false;
 			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> delayOffBlink=true));
 			delay.play();
