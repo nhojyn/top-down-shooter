@@ -47,22 +47,16 @@ public class ShotGun extends Gun{
 				double sideA = mouseLocX - boundsInScene.getMinX()-5/2;
 				double sideB = mouseLocY - boundsInScene.getMinY()-5/2;
 				double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-				int counter = 0;
 				//spawns 5 bullets and then stops the loop
-				while(ammo > 0){
+				for(int i=0;i<5;i++){
 					ShotGunBullet b = new ShotGunBullet(sideA/sideC*5,sideB/sideC*5);
 					
 					b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
 				
 					bullets.add(b);
 					TopDownShooter.playground.getChildren().addAll(b);
-					ammo--;
-					counter++;
-					if(counter == 5){
-						break;
-					}
 				}
-			
+				ammo--;
 			}
 		}
 		
