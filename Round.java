@@ -1,7 +1,13 @@
 /* Each round consits of multiple waves and each of those waves will spawn some mobs.
  * fields: numWaves, listOfMobs, mobs
 */ 
-
+import javafx.geometry.*;
+import javafx.scene.paint.*;
+import javafx.scene.shape.*;
+import javafx.scene.layout.*;
+import java.util.*;
+import javafx.util.Duration;
+import javafx.animation.*;
 public class Round{
 	Pane pg;
 	int numWaves;
@@ -13,11 +19,11 @@ public class Round{
 	 * For example, having the int array of {0,4,1} will spawn 4 of the mob with id 0 (ZombieMob) in wave 1 of this round
 	 * WAVES START AT 1, not 0
 	*/
-	ArrayList<int[3]> listOfMobs = new ArrayList<int[3]>();
+	ArrayList<int[]> listOfMobs = new ArrayList<int[]>();
 	
 	Swarm mobs; //mobs is the swarm that is created from listOfMobs
 	
-	public Round(ArrayList<int[3]> list, double time, Pane main){
+	public Round(ArrayList<int[]> list, double time, Pane main){
 		listOfMobs = list;
 		timeBetweenWaves = time;
 		currentWave = 0;
@@ -26,7 +32,7 @@ public class Round{
 		numWaves = 1;
 		for(int[] i : list){
 			if(i[2] > numWaves){
-				numWaves = int[2];
+				numWaves = i[2];
 			}
 		}
 		
