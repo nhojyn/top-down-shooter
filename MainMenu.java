@@ -25,15 +25,19 @@ public class MainMenu{
 	Pane title;
 	Scene main;
 	Button mainBtn;
+	Button audioBtn;
+	AudioInterface AI;
 	
 	Button playGame;
 	
 	MainMenu(Stage s){
+		AI = new AudioInterface();
 		stage=s;
 		stage.setTitle("TopDownShooter");
 		stage.getIcons().add(new Image("pixel-heart.png"));
 		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
 		mainBtn = new Button();
+		audioBtn = new Button();
 		
 		game= new TopDownShooter(stage,mainBtn);
 		playGame = new Button();
@@ -43,6 +47,15 @@ public class MainMenu{
 			@Override
 			public void handle(ActionEvent event){
 				game.play();
+			}
+		});
+		
+		audioBtn.setFont(f1);
+		audioBtn.setText("Play Music");
+		audioBtn.setOnAction(new EventHandler <ActionEvent> (){
+			@Override
+			public void handle(ActionEvent event){
+				AI.playWIL();
 			}
 		});
 		
@@ -63,7 +76,7 @@ public class MainMenu{
 		
 		title = new Pane();
 		title.setStyle("-fx-background-color: black");
-		title.getChildren().addAll(playGame,titleTxt);
+		title.getChildren().addAll(playGame,titleTxt,audioBtn);
 		main = new Scene(title, 1220, 1000);
 		stage.setScene( main );
 		stage.show();
