@@ -78,8 +78,8 @@ public abstract class Mob extends Pane implements TrueBounds{
 	}
 	//methods
 	public void chase(Player p){
-		double px = p.getLocX() - getLayoutX();
-		double py = p.getLocY() - getLayoutY();
+		double px = p.getLocX() - getAbsoluteMiddleX();
+		double py = p.getLocY() - getAbsoluteMiddleY();
 		
 		double distance = Math.pow(((px*px) + (py*py)),0.5);
 		
@@ -116,13 +116,13 @@ public abstract class Mob extends Pane implements TrueBounds{
 	public void animatedKnockback(double x, double y, double m){
 		Timeline delay = new Timeline(new KeyFrame(Duration.millis(5),ae -> knockback(x, y, m/20)));
 		delay.setCycleCount(20);
-		delay.play();	
+		delay.play();
 	}
 	
 	private void rotate(double x, double y){
-		double angle = Math.atan2(getLayoutY()-y,getLayoutX()-x);
+		double angle = Math.atan2(getAbsoluteMiddleY()-y,getAbsoluteMiddleX()-x);
 		getTransforms().clear();
-		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
+		getTransforms().add(new Rotate(Math.toDegrees(angle)+90,middle.getX(),middle.getY()));
 	}
 	
 	public void collideWithBullet(Player p){ //NOTE: now takes a player instead of gun
