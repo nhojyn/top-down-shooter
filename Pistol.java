@@ -22,8 +22,8 @@ import javafx.geometry.Point2D;
 
 public class Pistol extends Gun{
 	//NOTE: THIS IS THE PRIMARY GUN AND SHOULD HAVE INFINITE AMMO
-	Pistol(ArrayList<Bullet> b){
-		super(b);
+	Pistol(ArrayList<Bullet> b,double radius){
+		super(b,radius);
 		ammo=9999;
 		fireRate=.2;
 		tip=new Rectangle(10,10);

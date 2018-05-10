@@ -23,8 +23,8 @@ import javafx.geometry.Point2D;
 public class MachineGun extends Gun{
 
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
-	MachineGun(ArrayList<Bullet> b){
-		super(b);
+	MachineGun(ArrayList<Bullet> b,double radius){
+		super(b,radius);
 		ammo = 250;
 		fireRate=.07;
 		tip=new Rectangle(17,17);
