@@ -20,6 +20,7 @@ public class ZombieBoss extends Boss implements TrueBounds{
 		mobs = s;
 		pg = main;
 		health = 300;
+		ui.addBossHP(health);
 		points = 200;
 		body = new Rectangle(0,0,200,200);
 		body.setFill(Color.BLUE);

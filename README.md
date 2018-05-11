@@ -1,3 +1,12 @@
+# Top Down Shooter (5/9/2018)
+Added:
+- added Splitter mob
+  - Splitter mob has 2 methods to create, the method that has 4 parameters is the one that is called to "split" the mob the other method is used to create an inital mob
+- small bug fixes (UI fixes, player cannot move off screen)
+To do(Will be in next patch):
+- limit flame range
+- fix knockback on mobs
+
 ## Make sure to check the unzip the folder inside
 
 # Top Down Shooter (5/9/2018)
