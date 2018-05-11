@@ -223,16 +223,16 @@ public class Player extends Pane{
 			double finalXdis = sideA/sideC*distance;
 			double finalYdis = sideB/sideC*distance;
 			//Next four if statements are so they dont blink off the screen
-			if(finalXdis+getLayoutX()>Playground.getWidth()){
+			if(finalXdis+getLayoutX()+body.getRadius()>Playground.getWidth()){
 				finalXdis=Playground.getWidth()-getLayoutX()-body.getRadius();
 			}
-			if(finalXdis+getLayoutX()<0){
+			if(finalXdis+getLayoutX()-body.getRadius()<0){
 				finalXdis=-getLayoutX()+body.getRadius();
 			}
-			if(finalYdis+getLayoutY()>Playground.getHeight()){
+			if(finalYdis+getLayoutY()+body.getRadius()>Playground.getHeight()){
 				finalYdis=Playground.getHeight()-getLayoutY()-body.getRadius();
 			}
-			if(finalYdis+getLayoutY()<0){
+			if(finalYdis+getLayoutY()-body.getRadius()<0){
 				finalYdis=-getLayoutY()+body.getRadius();
 			}
 			ArrayList<Circle> afterImages = new ArrayList<Circle>();
