@@ -8,14 +8,14 @@ import javafx.animation.*;
 
 //swarm has all the mobs and stuff
 public class Swarm{
-	
+
 	//fields
 	ArrayList<Mob> swarm = new ArrayList<Mob>();
 	Timeline collisionCheck;
     Pane playground;
-	
+
 	//constructors
-	
+
 	/* There should eventually be a constructor that takes a list of mobs, so that each room can have a unique list
 	 * of mobs to them
 	*/
@@ -24,20 +24,20 @@ public class Swarm{
 		collisionCheck.setCycleCount(Animation.INDEFINITE);
 		collisionCheck.play();
 	}
-	
+
 	//setters and getters
 	public ArrayList<Mob> getSwarm(){return swarm;}
-	public Mob getSwarm(int i){return swarm.get(i);}	
-	
+	public Mob getSwarm(int i){return swarm.get(i);}
+
 	//methods
 	public void spawnZombieSwarm(Pane main, int numMobs){
 		playground = main;
 		for(int i = 0; i < numMobs; i++){
 			double spawnX = 0;
 			double spawnY = 0;
-			
+
 			int spawnPos = (int)(Math.random()*4); //0=north, 1=east, 2=south, 3=west
-			
+
 			switch (spawnPos){
 				case 0: spawnX = Math.random()*main.getPrefWidth();
 						break;
@@ -56,19 +56,19 @@ public class Swarm{
 			main.getChildren().add(temp);
 			temp.setLayoutX(spawnX);
 			temp.setLayoutY(spawnY);
-			
+
 		}
-		
+
 	}
-	
-	public void spawnLaserSwarm(Pane main){
+
+	public void spawnLaserSwarm(Pane main, int numMobs){
 		playground = main;
-		for(int i = 0; i < 1; i++){
+		for(int i = 0; i < numMobs; i++){
 			double spawnX = 200;
 			double spawnY = 200;
-			
+
 			int spawnPos = (int)(Math.random()*4); //0=north, 1=east, 2=south, 3=west
-			
+
 			switch (spawnPos){
 				case 0: spawnX = Math.random()*(main.getPrefWidth()-200)+200;
 						break;
@@ -87,43 +87,43 @@ public class Swarm{
 			main.getChildren().add(temp);
 			temp.setLayoutX(spawnX);
 			temp.setLayoutY(spawnY);
-			
+
 		}
-		
+
 	}
-	
+
 	public void spawnZombieBoss(Pane main, UserInterface ui){
 		playground = main;
 		for(int i = 0; i < 1; i++){
 			double spawnX = 400;
 			double spawnY = 400;
-			
+
 			Mob temp = new ZombieBoss(main,this,ui);
 			swarm.add(temp);
-			
+
 			ui.addBossHP(temp.getHealth());
-			
+
 			main.getChildren().add(temp);
 			temp.setLayoutX(spawnX);
 			temp.setLayoutY(spawnY);
-			
+
 		}
-		
+
 	}
-	
+
 	public void swarmPlayer(Player p){
 		for(int i = 0; i < swarm.size(); i++){
 			swarm.get(i).chase(p);
 		}
 	}
-	
+
 	public void resetSwarm(){
 		for(int i=0;i<swarm.size();i++){
 			TopDownShooter.playground.getChildren().remove(swarm.get(i));
 		}
 		swarm = new ArrayList<Mob>();
 	}
-	
+
 	//TODO
 	/* Knocks back all mobs in the direction opposite of what they are facing with magnitude m
 	 * @input: double n
@@ -135,20 +135,20 @@ public class Swarm{
 			}
 		}
 	}
-	
+
 	public void knockbackMobsAnimated(Player p, double m){
 		Timeline delay = new Timeline(new KeyFrame(Duration.millis(5),ae -> knockbackMobs(p, m/50)));
 		delay.setCycleCount(50);
 		delay.play();
 	}
-	
-	
-	
+
+
+
 	private void checkCollisions(){
 		checkRoomBounds();
 		checkMobCollisions();
 	}
-	
+
 	private void checkRoomBounds(){
 		for(Mob m : swarm){
 			if(!m.isBoss()){
@@ -168,7 +168,7 @@ public class Swarm{
 			}
 		}
 	}
-	
+
 	private void checkMobCollisions(){
 		for(int a = 0; a < swarm.size(); a++){
 			for (int b = a+1; b < swarm.size(); b++){
@@ -201,13 +201,13 @@ public class Swarm{
 			}
 		}
 	}
-	
+
 	public void pause(){
 		collisionCheck.pause();
 	}
-	
+
 	public void play(){
 		collisionCheck.play();
 	}
-	
+
 }
