@@ -26,9 +26,9 @@ public class Pistol extends Gun{
 		super(b,radius);
 		ammo=9999;
 		fireRate=.3;
-		tip=new Rectangle(10,10);
+		tip=new Rectangle(8,8);
 		tip.setFill(Color.RED);
-		body=new Rectangle(10,60);
+		body=new Rectangle(8,25);
 		body.setFill(Color.BLUE);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
@@ -46,7 +46,7 @@ public class Pistol extends Gun{
 
 			PistolBullet b = new PistolBullet(sideA/sideC*5,sideB/sideC*5);
 			//b.setLocation(x-b.getRadius(),y-b.getRadius());
-			b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
+			b.setLocation(boundsInScene.getMinX() - boundsInScene.getWidth()/2-b.getRadius()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2-b.getRadius()/2);
 			bullets.add(b);
 	
 			TopDownShooter.playground.getChildren().add(b);

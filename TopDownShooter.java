@@ -274,6 +274,16 @@ public class TopDownShooter{
 				}
 			}
 		}
+		
+		//checks if bullet should be removed after traveling this much distance(for flamethrower)
+		if(bullets.size() > 0){
+			for(int b = 0; b < bullets.size(); b++){
+				if(bullets.get(b).getDistanceLimit() < 0){
+					player.getGun().removeBullet(bullets.get(b));
+				}
+			}
+		}
+		
 	}
 	
 	public void reset(){
