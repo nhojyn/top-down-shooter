@@ -206,14 +206,42 @@ public class TopDownShooter{
 			}
 		});
 
+		//initiates roundList and starts playing the rounds
 		roundList = new RoundList(playground, mobs, ui);
-
 		Button startRounds = new Button();
 		devTools.getChildren().add(startRounds);
 		startRounds.setText("Start Rounds");
 		startRounds.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				roundList.nextRound();
+				if(startRounds.getText().equals("Start Rounds")){	
+					roundList.nextRound();
+				}
+				startRounds.setText("Rounds Started");
+			}
+		});
+		
+		//kills all the mobs (used for testing rounds)
+		Button killMobs = new Button();
+		devTools.getChildren().add(killMobs);
+		killMobs.setText("Kill Mobs");
+		killMobs.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				int temp = mobs.getSwarm().size();
+				for(int i = 0; i <temp; i++){
+					if(mobs.getSwarm(0) instanceof LaserMachine){
+						pe.CircleExplosion(mobs.getSwarm(0).getAbsoluteMiddleX(),mobs.getSwarm(0).getAbsoluteMiddleY());
+					}
+					if(mobs.getSwarm(0) instanceof ZombieMob){
+						pe.RectExplosion(mobs.getSwarm(0).getAbsoluteMiddleX(),mobs.getSwarm(0).getAbsoluteMiddleY());
+					}
+					if(mobs.getSwarm(0) instanceof ZombieBoss){
+						ui.removeBossHP();
+					}
+					player.addToScore(mobs.getSwarm(0).getPoints());
+					ui.setScore(player.getScore());
+					playground.getChildren().remove(mobs.getSwarm(0));
+					mobs.getSwarm().remove(0);
+				}
 			}
 		});
 	}
