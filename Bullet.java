@@ -32,7 +32,7 @@ public abstract class Bullet extends Pane{
 	public Bullet(double xS, double yS){
 		xSpeed=xS;
 		ySpeed=yS;
-		distanceLimit=-1;
+		distanceLimit=0;
 		//default knockback
 		knockBack = 20;
 	}
@@ -49,7 +49,7 @@ public abstract class Bullet extends Pane{
 	public int getDamage(){return damage;}
 	public Timeline getExplosionTimer(){return explosionTimer;}
 	public double getKnockBack(){return knockBack;}
-	
+	public double getDistanceLimit(){return distanceLimit;}
 	public void setxSpeed(double xS){
 		xSpeed=xS;
 	}

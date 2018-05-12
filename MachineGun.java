@@ -27,9 +27,9 @@ public class MachineGun extends Gun{
 		super(b,radius);
 		ammo = 250;
 		fireRate=.07;
-		tip=new Rectangle(17,17);
+		tip=new Rectangle(12,12);
 		tip.setFill(Color.PINK);
-		body=new Rectangle(17,55);
+		body=new Rectangle(12,55);
 		body.setFill(Color.YELLOW);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());

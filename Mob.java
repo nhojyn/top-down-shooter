@@ -104,7 +104,7 @@ public abstract class Mob extends Pane implements TrueBounds{
 		double px = x - getLayoutX();
 		double py = y - getLayoutY();
 		
-		double distance = Math.pow(((px*px) + (py*py)),0.5);
+		double distance = Math.sqrt(Math.pow(px,2) + Math.pow(py,2));
 		
 		move(-px*m/distance,-py*m/distance);
 		

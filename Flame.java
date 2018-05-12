@@ -11,7 +11,7 @@ public class Flame extends Bullet{
 		setxSpeed(xS+spray*Math.random()-spray/2);
 		setySpeed(yS+spray*Math.random()-spray/2);
 		damage = 1;
-		shell = new Circle(8);
+		shell = new Circle(5);
 		shell.setFill(Color.RED);
 		getChildren().add(shell);
 		setPrefSize(15,15);
@@ -19,8 +19,21 @@ public class Flame extends Bullet{
 		shell.setCenterY(15);
 		knockBack = 0;
 		explosionTimer = null;
+		distanceLimit = 200;
 	}
 
+	public void move(){
+		//uses distance formula to subtract off distance limit
+		double oldX = getLayoutX();
+		double oldY = getLayoutY();
+		
+		setLayoutX(getLayoutX() + xSpeed*speedMultiplier);
+		setLayoutY(getLayoutY() + ySpeed*speedMultiplier);
+		
+		double newX = getLayoutX();
+		double newY = getLayoutY();
+		distanceLimit -= Math.sqrt(Math.pow(newX-oldX,2)+Math.pow(newY-oldY,2));
 	
+	}
 
 }
