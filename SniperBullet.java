@@ -9,7 +9,7 @@ public class SniperBullet extends Bullet{
 		super(xS, yS);
 		speedMultiplier = .6;
 		damage = 25;
-		shell = new Circle(7);
+		shell = new Circle(4);
 		shell.setFill(Color.BROWN);
 		getChildren().add(shell);
 		setPrefSize(10,10);

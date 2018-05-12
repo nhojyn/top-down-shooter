@@ -1,3 +1,15 @@
+
+
+# Top Down Shooter (5/11/2018)
+Added:
+- limit for flame range
+Changes:
+- adjusted gun sizes + bullet sizes
+- bazooka explosion size is bigger
+- changed some of the math for setLocation
+	- the math doesn't work perfectly but it doesn't look bad(the bullets spawn slightly off depending on the angle)
+********************************************************************************
+
 # Top Down Shooter (5/9/2018)
 Added:
 - added Splitter mob
@@ -8,6 +20,7 @@ To do(Will be in next patch):
 - fix knockback on mobs
 
 ## Make sure to check the unzip the folder inside
+********************************************************************************
 
 # Top Down Shooter (5/9/2018)
 Changes:
@@ -17,9 +30,9 @@ Changes:
 - added Boss HP counter
   - All Boss must create a hp bar when spawned (IMPORTANT)
 - added blink ability (needs to be fine tuned)
+********************************************************************************
 
 # Top Down Shooter (5/8/2018)
-
 Changes:
 - made pistol weaker(damage 3 -> 2)
 - balanced weapons more(go ahead and change if u want)

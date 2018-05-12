@@ -26,10 +26,10 @@ public class FlameThrower extends Gun{
 	FlameThrower(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		ammo = 1000;
-		fireRate=.0001;
-		tip=new Rectangle(15,15);
-		tip.setFill(Color.GREY);
-		body=new Rectangle(15,60);
+		fireRate=.001;
+		tip=new Rectangle(10,10);
+		tip.setFill(Color.TRANSPARENT);
+		body=new Rectangle(10,45);
 		body.setFill(Color.GREY);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
@@ -48,9 +48,8 @@ public class FlameThrower extends Gun{
 				double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 				
 				Flame b = new Flame(sideA/sideC*5,sideB/sideC*5);
-				b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
+				b.setLocation(boundsInScene.getMinX() - boundsInScene.getWidth()/2-b.getRadius()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2-b.getRadius()/2);
 				bullets.add(b);
-			
 				TopDownShooter.playground.getChildren().addAll(b);
 				ammo--;
 			}

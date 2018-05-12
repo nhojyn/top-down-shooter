@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 public class ShotGunBullet extends Bullet{
-	double spray=3;
+	double spray=2.75;
 	
 	public ShotGunBullet(double xS, double yS){
 		super();
@@ -12,7 +12,7 @@ public class ShotGunBullet extends Bullet{
 		setySpeed(yS+spray*Math.random()-spray/2);
 		damage = 3;
 		speedMultiplier = .4;
-		shell = new Circle(5);
+		shell = new Circle(6);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);
 		setPrefSize(10,10);
