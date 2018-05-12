@@ -25,9 +25,9 @@ public class Bazooka extends Gun{
 		super(b,radius);
 		ammo = 5;
 		fireRate=1.5;
-		tip=new Rectangle(20,20);
+		tip=new Rectangle(15,15);
 		tip.setFill(Color.RED);
-		body=new Rectangle(20,60);
+		body=new Rectangle(15,40);
 		body.setFill(Color.RED);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
@@ -47,7 +47,7 @@ public class Bazooka extends Gun{
 				BazookaBullet b = new BazookaBullet(sideA/sideC*5,sideB/sideC*5);
 	
 				//b.setLocation(x-b.getRadius(),y-b.getRadius());
-				b.setLocation(boundsInScene.getMinX()-b.getRadius()/2,boundsInScene.getMinY()-b.getRadius()/2);
+				b.setLocation(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 				bullets.add(b);
 		
 				TopDownShooter.playground.getChildren().add(b);

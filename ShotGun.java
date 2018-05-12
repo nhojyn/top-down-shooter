@@ -27,9 +27,9 @@ public class ShotGun extends Gun{
 		super(b,radius);
 		ammo = 30;
 		fireRate=.7;
-		tip=new Rectangle(15,15);
+		tip=new Rectangle(12,12);
 		tip.setFill(Color.TRANSPARENT);
-		body=new Rectangle(15,60);
+		body=new Rectangle(12,40);
 		body.setFill(Color.GREEN);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());

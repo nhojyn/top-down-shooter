@@ -9,7 +9,7 @@ public class PistolBullet extends Bullet{
 		super(xS, yS);
 		speedMultiplier = .4;
 		damage = 3;
-		shell = new Circle(9);
+		shell = new Circle(4);
 		shell.setFill(Color.BLACK);
 		getChildren().add(shell);
 		setPrefSize(10,10);

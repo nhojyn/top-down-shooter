@@ -126,5 +126,6 @@ public class UserInterface{
 		healthBar.setHP(player.getHealth());
 		overlay.getChildren().remove(options);
 		pauseBtn.setText("pause");
+		removeBossHP();
 	}
 }

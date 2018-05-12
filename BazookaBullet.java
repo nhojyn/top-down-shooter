@@ -26,7 +26,7 @@ public class BazookaBullet extends Bullet{
 		
 		//change cyclecount to control how big the explosion is
 		explosionTimer = new Timeline(new KeyFrame(Duration.millis(20),ae -> explode()));
-		explosionTimer.setCycleCount(20);
+		explosionTimer.setCycleCount(25);
 	}
 	
 

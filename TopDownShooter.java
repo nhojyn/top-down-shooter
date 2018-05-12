@@ -161,6 +161,17 @@ public class TopDownShooter{
 			}
 		});
 
+		
+		Button spawnSplitterBtn = new Button();
+		devTools.getChildren().add(spawnSplitterBtn);
+		spawnSplitterBtn.setText("Spawn Splitter");
+		spawnSplitterBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnSplitterSwarm(playground,8);				
+				//mobMovement.play();
+			}
+		});
+		
 		//test knockback
 		Button knockBtn = new Button();
 		devTools.getChildren().add(knockBtn);
@@ -258,6 +269,12 @@ public class TopDownShooter{
 					if(mobs.getSwarm(i) instanceof ZombieMob){
 						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 					}
+					if(mobs.getSwarm(i) instanceof Splitter){
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+						if(((Splitter)mobs.getSwarm(i)).getSize()>1){
+							mobs.spawnSplitterSwarm(playground,((Splitter)mobs.getSwarm(i)).getSize()/2,mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());	
+						}
+					}
 					if(mobs.getSwarm(i) instanceof ZombieBoss){
 						ui.removeBossHP();
 					}
@@ -268,6 +285,16 @@ public class TopDownShooter{
 				}
 			}
 		}
+		
+		//checks if bullet should be removed after traveling this much distance(for flamethrower)
+		if(bullets.size() > 0){
+			for(int b = 0; b < bullets.size(); b++){
+				if(bullets.get(b).getDistanceLimit() < 0){
+					player.getGun().removeBullet(bullets.get(b));
+				}
+			}
+		}
+		
 	}
 
 	public void reset(){

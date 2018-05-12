@@ -27,9 +27,9 @@ public class Sniper extends Gun{
 		super(b,radius);
 		ammo = 10;
 		fireRate=.9;
-		tip=new Rectangle(7,10);
+		tip=new Rectangle(8,10);
 		tip.setFill(Color.BROWN);
-		body=new Rectangle(7,70);
+		body=new Rectangle(8,50);
 		body.setFill(Color.GREY);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
