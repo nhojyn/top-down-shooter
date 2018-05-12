@@ -1,4 +1,17 @@
+# Top Down Shooter (5/12/2018) (Round Generation)
+Added: 
+- new classes
+  - Round, BossRound, RoundsList
+- Automatic round spawning (press the button to start it)
+- backbone for future rounds
+- kill all mobs button (for testing)
 
+Plan to add:
+- upgrade round
+- future round's spawns and stuff
+
+Read the comments if you have questions/troubles
+********************************************************************************
 
 # Top Down Shooter (5/11/2018)
 Added:
