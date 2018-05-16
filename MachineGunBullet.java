@@ -7,7 +7,7 @@ public class MachineGunBullet extends Bullet{
 	
 	public MachineGunBullet(double xS, double yS){
 		super(xS, yS);
-		speedMultiplier = .7;
+		speedMultiplier = .35;
 		damage = 2;
 		shell = new Circle(6);
 		shell.setFill(Color.PINK);
