@@ -19,7 +19,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-
+import javafx.geometry.Point2D;
+import javafx.geometry.*;
 public class TopDownShooter{
 	Player player;
 	BorderPane screen;
@@ -34,6 +35,7 @@ public class TopDownShooter{
 	AnimationTimer mobMovement;
 	AnimationTimer collision;
 	ArrayList<Bullet> bullets;
+	ArrayList<PickUp> pickups;
 	RoundList roundList;
 	//width and height of main screen
 	int width = 1000;
@@ -244,6 +246,10 @@ public class TopDownShooter{
 				}
 			}
 		});
+		
+		//testing: spawn pickup
+		PickUp p = new PickUp();
+		playground.getChildren().add(p);
 	}
 
 	private void knockBackMobs(){
@@ -308,8 +314,10 @@ public class TopDownShooter{
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
+					spawnItem(1,mobs.getSwarm(i));
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
+					
 				}
 			}
 		}
@@ -353,5 +361,15 @@ public class TopDownShooter{
 
 	public double getHeight(){
 		return height;
+	}
+	
+	public void spawnItem(double i, Mob m){
+		Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+			//testing: spawn pickup
+		PickUp p = new PickUp();
+		
+		p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+		playground.getChildren().add(p);
+		
 	}
 }
