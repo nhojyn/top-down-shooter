@@ -317,7 +317,7 @@ public class TopDownShooter{
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
-					spawnItem(1,mobs.getSwarm(i));
+					spawnItem(Math.random(),mobs.getSwarm(i));
 					
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
@@ -378,13 +378,15 @@ public class TopDownShooter{
 	}
 	
 	public void spawnItem(double i, Mob m){
-		Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+		if(i < 0.2){
+			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
-		PickUp p = new PickUp();
+			PickUp p = new PickUp();
 		
-		p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
-		playground.getChildren().add(p);
-		pickups.add(p);
+			p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			playground.getChildren().add(p);
+			pickups.add(p);
+		}
 		
 	}
 }
