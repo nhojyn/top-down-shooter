@@ -249,10 +249,7 @@ public class TopDownShooter{
 				}
 			}
 		});
-		
-		//testing: spawn pickup
-		PickUp p = new PickUp();
-		playground.getChildren().add(p);
+	
 	}
 
 	private void knockBackMobs(){
