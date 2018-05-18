@@ -25,6 +25,7 @@ public class ShotGun extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	ShotGun(ArrayList<Bullet> b,double radius){
 		super(b,radius);
+		name = "ShotGun";
 		ammo = 30;
 		fireRate=.7;
 		tip=new Rectangle(12,12);
