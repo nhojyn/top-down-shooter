@@ -249,7 +249,6 @@ public class TopDownShooter{
 				}
 			}
 		});
-	
 	}
 
 	private void knockBackMobs(){
@@ -338,18 +337,28 @@ public class TopDownShooter{
 				if(pickups.get(p).collideWithPlayer(player)){
 					playground.getChildren().remove(pickups.get(p));
 					pickups.remove(p);
+					ui.getAmmoCounter().setAmmoNum(player.getGun().getAmmo());
+					ui.getHealthBar().setHP(player.getHealth());
 				}
 			}
 		}
 		
 	}
 
+	public void resetPickups(){
+		for(int i = pickups.size() -1; i > pickups.size();i++){
+			playground.getChildren().remove(pickups.get(i));
+			pickups.remove(i);
+		}
+	}
+
 	public void reset(){
 		player.reset();
 		mobs.resetSwarm();
 		ui.reset();
+		resetPickups();
 	}
-
+	
 	public void pause(){
 		mobMovement.stop();
 		collision.stop();
@@ -378,12 +387,18 @@ public class TopDownShooter{
 		if(i < 0.2){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
-			PickUp p = new PickUp();
-		
+			AmmoPickup p = new AmmoPickup();
 			p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);
 			pickups.add(p);
+		}else if(i >= .2 && i < .4){
+			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+			//testing: spawn pickup
+			HealthPickup p = new HealthPickup();
+			p.setLoc(m.getLayoutX(), m.getLayoutY());
+		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			playground.getChildren().add(p);
+			pickups.add(p);
 		}
-		
 	}
 }

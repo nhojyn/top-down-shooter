@@ -21,29 +21,12 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class PickUp extends Pane{
+public abstract class PickUp extends Pane{
 	
 	Image ammo, health;
-	ImageView temp;
+	ImageView imgview;
 	public PickUp(){
 	
-		try{
-			//img = new Image("C:\\Users\\ ... //FullPath ... \\JoPoFX\\src\\jopofx\\myimage.png");
-			ammo = new Image("ammobox.png");
-			temp = new ImageView(ammo);
-			temp.setFitWidth(50);
-			temp.setFitHeight(50);
-			//health = new Image("healthkit.png");
-			setPrefWidth(temp.getFitWidth());
-			setPrefHeight(temp.getFitHeight());
-			
-			getChildren().add(temp);
-			//playground.getChildren().add(getChildren());
-	
-		}catch(Exception e){
-			System.out.println("error while creating image");
-			e.printStackTrace();
-		}
 	}
 	
 	public void setLoc(double x, double y){
@@ -51,23 +34,7 @@ public class PickUp extends Pane{
 		setLayoutY(y);
 	}
 	
-	public boolean collideWithPlayer(Player p){
-		Bounds b1 = p.getBody().localToScene(p.getBody().getBoundsInLocal());
-		Bounds b2 = temp.localToScene(temp.getBoundsInLocal());
-			if(p.getCurrentGun() != 0)
-				if(b1.intersects(b2)){
-
-					p.getGun().addAmmo();
-					return true;
-		
-					
-				}
-				
-				
-		return false;			
-		
-	}
-	
-	
+	public abstract boolean collideWithPlayer(Player p);
 	
 }
+	
