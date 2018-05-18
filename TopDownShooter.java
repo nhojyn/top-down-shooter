@@ -113,6 +113,9 @@ public class TopDownShooter{
 		pe=new ParticleEffects(playground);
 
 		bullets = new ArrayList<Bullet>();
+		
+		pickups = new ArrayList<PickUp>();
+		
 		player = new Player(playground, bullets);
 		playground.getChildren().addAll(player);
 
@@ -315,6 +318,7 @@ public class TopDownShooter{
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
 					spawnItem(1,mobs.getSwarm(i));
+					
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 					
@@ -327,6 +331,16 @@ public class TopDownShooter{
 			for(int b = 0; b < bullets.size(); b++){
 				if(bullets.get(b).getDistanceLimit() < 0){
 					player.getGun().removeBullet(bullets.get(b));
+				}
+			}
+		}
+		
+		//checks pickup collisions with player
+		if(pickups.size() > 0){
+			for(int p = 0; p < pickups.size(); p++){
+				if(pickups.get(p).collideWithPlayer(player)){
+					playground.getChildren().remove(pickups.get(p));
+					pickups.remove(p);
 				}
 			}
 		}
@@ -370,6 +384,7 @@ public class TopDownShooter{
 		
 		p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 		playground.getChildren().add(p);
+		pickups.add(p);
 		
 	}
 }

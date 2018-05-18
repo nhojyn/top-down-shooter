@@ -26,7 +26,7 @@ public abstract class Gun extends Pane{
 	Rectangle body;
 	Rectangle tip;
 	ArrayList<Bullet> bullets;
-	int ammo;
+	int ammo, pickupAmmo;
 	double fireRate;
 	Timeline move;
 	
@@ -36,6 +36,7 @@ public abstract class Gun extends Pane{
 		move.setCycleCount(Animation.INDEFINITE);
 		move.play();
 		setLayoutX(-radius);
+		pickupAmmo = 5;
 	}
 	
 	public void setLocX(double x1){
@@ -107,5 +108,9 @@ public abstract class Gun extends Pane{
 	
 	public void play(){
 		move.play();
+	}
+	
+	public void addAmmo(){
+		ammo += pickupAmmo;
 	}
 }

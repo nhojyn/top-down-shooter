@@ -76,6 +76,9 @@ public class Player extends Pane{
 	public Gun getGun(){
 		return guns.get(currentGun);
 	}
+	public int getCurrentGun(){
+		return currentGun;
+	}
 	public double getLocX(){
 		return getLayoutX();
 	}
@@ -153,7 +156,7 @@ public class Player extends Pane{
 			
 				if(b1.intersects(b2)){
 					
-						
+				
 						//NOTE: now each bullet has their own damage 
 		
 					
