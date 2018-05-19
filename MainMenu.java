@@ -81,6 +81,11 @@ public class MainMenu{
 		stage.setScene( main );
 		stage.show();
 		
+		int spacing=10;
+		
+		audioBtn.setLayoutX(title.getWidth()/2-audioBtn.getLayoutBounds().getWidth()/2);
+		audioBtn.setLayoutY(title.getHeight()/2+audioBtn.getLayoutBounds().getHeight()+spacing);
+		
 		playGame.setLayoutX(title.getWidth()/2-playGame.getLayoutBounds().getWidth()/2);
 		playGame.setLayoutY(title.getHeight()/2);
 		

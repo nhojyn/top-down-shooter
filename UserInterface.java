@@ -30,6 +30,7 @@ public class UserInterface{
 	AmmoCounter ammoCounter;
 	ScoreCounter scoreCounter;
 	BossHealthBar bossHealthBar;
+	GunDisplay gunDisplay;
 	
 	UserInterface(Pane ol, Button main,TopDownShooter TDS ,Player p){
 		player=p;
@@ -71,16 +72,22 @@ public class UserInterface{
 		//stats = new Status(overlay,player);
 		//stats.setLayoutX(150);
 		healthBar = new HealthBar(player.getHealth());
-		healthBar.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-145);
+		healthBar.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-50);
+		healthBar.setLayoutY(-5);
+		
 		
 		ammoCounter = new AmmoCounter(player.getGun().getAmmo());
-		ammoCounter.setLayoutX(game.getWidth()-330);
-		ammoCounter.setLayoutY(-42);
+		ammoCounter.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-50);
+		ammoCounter.setLayoutY(0);
+		
+		gunDisplay = new GunDisplay(player.getGun().getName());
+		gunDisplay.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2+65);
+		gunDisplay.setLayoutY(55);
 		
 		scoreCounter = new ScoreCounter(0);
 		scoreCounter.setLayoutX(game.getWidth()-180);
 		
-		overlay.getChildren().addAll(pauseBtn,healthBar,ammoCounter,scoreCounter);
+		overlay.getChildren().addAll(pauseBtn,healthBar,ammoCounter,scoreCounter,gunDisplay);
 		
 	}
 	/*
@@ -88,6 +95,10 @@ public class UserInterface{
 		return stats;
 	}
 	*/
+	public GunDisplay getGunDisplay(){
+		return gunDisplay;
+	}
+	
 	public HealthBar getHealthBar(){
 		return healthBar;
 	}

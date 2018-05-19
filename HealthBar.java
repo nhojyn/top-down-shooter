@@ -31,28 +31,29 @@ public class HealthBar extends Pane{
 	public HealthBar(int t){
 		total=t;
 		
-		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),30);
+		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),25);
 		HPnum= new Text(Integer.toString(total));
 		HPnum.setFill(Color.BLACK);
 		HPnum.setFont(f1);
-		HPnum.setLayoutX(15);
-		HPnum.setLayoutY(40);
+		HPnum.setLayoutX(10);
+		HPnum.setLayoutY(32);
 		
 		image = new Image("pixel-heart.png");
 		ImageView iv = new ImageView();
 		iv.setImage(image);
-		iv.setFitWidth(65);
-		iv.setFitWidth(65);
+		iv.setFitWidth(50);
+		iv.setFitWidth(50);
 		iv.setPreserveRatio(true);
 		iv.setSmooth(true);
 		iv.setCache(true);
 		
-		Outline=new Rectangle(500,30);
+		Outline=new Rectangle(680,18);
 		Outline.setFill(Color.BLACK);
 		Outline.setArcWidth(20);
 		Outline.setArcHeight(20);
-		HPbar=new Rectangle(Outline.getWidth()-10,Outline.getHeight()-10);
-		Rectangle innerWhite = new Rectangle(Outline.getWidth()-10,Outline.getHeight()-10);
+		int gap=8;
+		HPbar=new Rectangle(Outline.getWidth()-gap,Outline.getHeight()-gap);
+		Rectangle innerWhite = new Rectangle(Outline.getWidth()-gap,Outline.getHeight()-gap);
 		size=(int)HPbar.getWidth();
 		HPbar.setArcWidth(10);
 		HPbar.setArcHeight(10);
@@ -75,10 +76,10 @@ public class HealthBar extends Pane{
 	public void setHP(int i){
 		HPnum.setText(Integer.toString(i));
 		if(i<10){
-			HPnum.setLayoutX(25);
+			HPnum.setLayoutX(18);
 		}
 		if(i>=10){
-			HPnum.setLayoutX(15);
+			HPnum.setLayoutX(10);
 		}
 		HPbar.setWidth((size/total)*i);
 	}
