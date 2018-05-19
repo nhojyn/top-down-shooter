@@ -26,6 +26,8 @@ public class ShotGun extends Gun{
 	ShotGun(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		ammo = 30;
+		ammocap = ammo;
+		pickupAmmo = 5;
 		fireRate=.7;
 		tip=new Rectangle(12,12);
 		tip.setFill(Color.TRANSPARENT);

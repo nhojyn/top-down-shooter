@@ -26,7 +26,7 @@ public class Player extends Pane{
 	double angle;
 	Pane Playground;
 	boolean invincible;
-	int health, score, currentGun;
+	int health, score, currentGun, heal, healthcap;
 	Rectangle hitbox;
 	boolean delayOffBlink;
 	
@@ -34,9 +34,11 @@ public class Player extends Pane{
 		//setPrefSize(100,100);
 		delayOffBlink=true;
 		health = 10;
+		healthcap = 10;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
+		heal = 2;
 		Playground=p;
 		body = new Circle(30);
 		body.setFill(Color.BLACK);
@@ -75,6 +77,9 @@ public class Player extends Pane{
 	}
 	public Gun getGun(){
 		return guns.get(currentGun);
+	}
+	public int getCurrentGun(){
+		return currentGun;
 	}
 	public double getLocX(){
 		return getLayoutX();
@@ -139,6 +144,29 @@ public class Player extends Pane{
 			return true;
 		}
 		return false;
+	}
+	
+	public void collideWithPickup(Player p, PickUp pu){
+		
+	
+		
+			//Change: moved b1 outside of loop to make loop more efficient
+			Bounds b1 = p.getBody().localToScene(p.body.getBoundsInLocal());
+			
+				
+				Bounds b2 = pu.localToScene(pu.getBoundsInLocal());
+			
+				if(b1.intersects(b2)){
+					
+				
+						//NOTE: now each bullet has their own damage 
+		
+					
+				}
+				
+				
+			
+		
 	}
 	
 	//TODO: make this cleaner
@@ -259,5 +287,9 @@ public class Player extends Pane{
 	private void deleteAfterImages(ArrayList<Circle> AfImg){
 		Playground.getChildren().remove(AfImg.get(0));
 		AfImg.remove(0);
+	}
+	
+	public void heal(){
+		health += heal;
 	}
 }

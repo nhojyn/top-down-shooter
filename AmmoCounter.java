@@ -50,4 +50,6 @@ public class AmmoCounter extends Pane{
 	public void setAmmoNum(int i){
 		AmmoNum.setText(Integer.toString(i));
 	}
+	
+	
 }

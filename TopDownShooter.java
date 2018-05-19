@@ -19,7 +19,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
-
+import javafx.geometry.Point2D;
+import javafx.geometry.*;
 public class TopDownShooter{
 	Player player;
 	BorderPane screen;
@@ -34,6 +35,7 @@ public class TopDownShooter{
 	AnimationTimer mobMovement;
 	AnimationTimer collision;
 	ArrayList<Bullet> bullets;
+	ArrayList<PickUp> pickups;
 	RoundList roundList;
 	//width and height of main screen
 	int width = 1000;
@@ -111,6 +113,9 @@ public class TopDownShooter{
 		pe=new ParticleEffects(playground);
 
 		bullets = new ArrayList<Bullet>();
+		
+		pickups = new ArrayList<PickUp>();
+		
 		player = new Player(playground, bullets);
 		playground.getChildren().addAll(player);
 
@@ -308,8 +313,11 @@ public class TopDownShooter{
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
+					spawnItem(Math.random(),mobs.getSwarm(i));
+					
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
+					
 				}
 			}
 		}
@@ -323,14 +331,34 @@ public class TopDownShooter{
 			}
 		}
 		
+		//checks pickup collisions with player
+		if(pickups.size() > 0){
+			for(int p = 0; p < pickups.size(); p++){
+				if(pickups.get(p).collideWithPlayer(player)){
+					playground.getChildren().remove(pickups.get(p));
+					pickups.remove(p);
+					ui.getAmmoCounter().setAmmoNum(player.getGun().getAmmo());
+					ui.getHealthBar().setHP(player.getHealth());
+				}
+			}
+		}
+		
+	}
+
+	public void resetPickups(){
+		for(int i = pickups.size() -1; i > pickups.size();i++){
+			playground.getChildren().remove(pickups.get(i));
+			pickups.remove(i);
+		}
 	}
 
 	public void reset(){
 		player.reset();
 		mobs.resetSwarm();
 		ui.reset();
+		resetPickups();
 	}
-
+	
 	public void pause(){
 		mobMovement.stop();
 		collision.stop();
@@ -353,5 +381,25 @@ public class TopDownShooter{
 
 	public double getHeight(){
 		return height;
+	}
+	
+	public void spawnItem(double i, Mob m){
+		if(i < 0.02){
+			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+			//testing: spawn pickup
+			AmmoPickup p = new AmmoPickup();
+			p.setLoc(m.getLayoutX(), m.getLayoutY());
+		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			playground.getChildren().add(p);
+			pickups.add(p);
+		}else if(i >= .03 && i < .04){
+			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+			//testing: spawn pickup
+			HealthPickup p = new HealthPickup();
+			p.setLoc(m.getLayoutX(), m.getLayoutY());
+		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			playground.getChildren().add(p);
+			pickups.add(p);
+		}
 	}
 }

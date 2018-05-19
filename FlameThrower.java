@@ -26,6 +26,8 @@ public class FlameThrower extends Gun{
 	FlameThrower(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		ammo = 1000;
+		ammocap = ammo;
+		pickupAmmo = 150;
 		fireRate=.001;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.TRANSPARENT);

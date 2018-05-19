@@ -26,6 +26,8 @@ public class MachineGun extends Gun{
 	MachineGun(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		ammo = 250;
+		ammocap = ammo;
+		pickupAmmo = 40;
 		fireRate=.07;
 		tip=new Rectangle(12,12);
 		tip.setFill(Color.PINK);
