@@ -21,6 +21,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.geometry.Point2D;
 import javafx.geometry.*;
+
 public class TopDownShooter{
 	Player player;
 	BorderPane screen;
@@ -173,6 +174,16 @@ public class TopDownShooter{
 		spawnSplitterBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				mobs.spawnSplitterSwarm(playground,8);				
+				//mobMovement.play();
+			}
+		});
+			
+		Button spawnBouncerBtn = new Button();
+		devTools.getChildren().add(spawnBouncerBtn);
+		spawnBouncerBtn.setText("Spawn Bouncer");
+		spawnBouncerBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnBouncerSwarm(playground,100);				
 				//mobMovement.play();
 			}
 		});
@@ -346,7 +357,7 @@ public class TopDownShooter{
 	}
 
 	public void resetPickups(){
-		for(int i = pickups.size() -1; i > pickups.size();i++){
+		for(int i = pickups.size() - 1; i >= 0;i--){
 			playground.getChildren().remove(pickups.get(i));
 			pickups.remove(i);
 		}
