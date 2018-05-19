@@ -27,6 +27,8 @@ public class ShotGun extends Gun{
 		super(b,radius);
 		name = "ShotGun";
 		ammo = 30;
+		ammocap = ammo;
+		pickupAmmo = 5;
 		fireRate=.7;
 		tip=new Rectangle(12,12);
 		tip.setFill(Color.TRANSPARENT);

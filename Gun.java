@@ -26,7 +26,7 @@ public abstract class Gun extends Pane{
 	Rectangle body;
 	Rectangle tip;
 	ArrayList<Bullet> bullets;
-	int ammo, pickupAmmo;
+	int ammo, pickupAmmo, ammocap;
 	double fireRate;
 	Timeline move;
 	String name;
@@ -54,6 +54,9 @@ public abstract class Gun extends Pane{
 	}
 	public int getAmmo(){
 		return ammo;
+	}
+	public int getAmmocap(){
+		return ammocap;
 	}
 	public void setAmmo(int i){
 		ammo=i;
@@ -115,6 +118,10 @@ public abstract class Gun extends Pane{
 	}
 	
 	public void addAmmo(){
-		ammo += pickupAmmo;
+		if(ammocap < ammo + pickupAmmo){
+			ammo = ammocap;
+		}else{
+			ammo += pickupAmmo;
+		}
 	}
 }

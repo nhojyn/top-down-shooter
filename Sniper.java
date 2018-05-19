@@ -26,7 +26,9 @@ public class Sniper extends Gun{
 	Sniper(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		name = "Sniper";
-		ammo = 10;
+		ammo = 15;
+		ammocap = ammo;
+		pickupAmmo = 3;
 		fireRate=.9;
 		tip=new Rectangle(8,10);
 		tip.setFill(Color.BROWN);

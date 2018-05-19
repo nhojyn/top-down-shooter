@@ -1,6 +1,17 @@
 # Top Down Shooter (5/12/2018) (Round Generation)
 Added: 
 - new classes
+  - PickUp, AmmoPickup, HealthPickup
+- rare chance to get ammo and health
+- ammocap,addAmmo
+Bug: 
+- heals over the cap, so the health bar goes off screen
+
+Read the comments if you have questions/troubles
+********************************************************************************
+# Top Down Shooter (5/12/2018) (Round Generation)
+Added: 
+- new classes
   - Round, BossRound, RoundsList
 - Automatic round spawning (press the button to start it)
 - backbone for future rounds

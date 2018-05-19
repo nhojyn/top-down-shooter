@@ -26,7 +26,7 @@ public class Player extends Pane{
 	double angle;
 	Pane Playground;
 	boolean invincible;
-	int health, score, currentGun;
+	int health, score, currentGun, heal, healthcap;
 	Rectangle hitbox;
 	boolean delayOffBlink;
 	
@@ -34,9 +34,11 @@ public class Player extends Pane{
 		//setPrefSize(100,100);
 		delayOffBlink=true;
 		health = 10;
+		healthcap = 10;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
+		heal = 2;
 		Playground=p;
 		body = new Circle(30);
 		body.setFill(Color.BLACK);
@@ -287,5 +289,9 @@ public class Player extends Pane{
 	private void deleteAfterImages(ArrayList<Circle> AfImg){
 		Playground.getChildren().remove(AfImg.get(0));
 		AfImg.remove(0);
+	}
+	
+	public void heal(){
+		health += heal;
 	}
 }
