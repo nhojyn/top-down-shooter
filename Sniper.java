@@ -25,6 +25,7 @@ public class Sniper extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	Sniper(ArrayList<Bullet> b,double radius){
 		super(b,radius);
+		name = "Sniper";
 		ammo = 15;
 		ammocap = ammo;
 		pickupAmmo = 3;

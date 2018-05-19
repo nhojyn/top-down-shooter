@@ -29,6 +29,7 @@ public abstract class Gun extends Pane{
 	int ammo, pickupAmmo, ammocap;
 	double fireRate;
 	Timeline move;
+	String name;
 	
 	Gun(ArrayList<Bullet> b,double radius){
 		bullets = b;
@@ -59,6 +60,9 @@ public abstract class Gun extends Pane{
 	}
 	public void setAmmo(int i){
 		ammo=i;
+	}
+	public String getName(){
+		return name;
 	}
 	public void rotate(double newangle){
 		

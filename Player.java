@@ -200,11 +200,13 @@ public class Player extends Pane{
 	}
 	
 	//removes the current gun and then changes to the new one
-	public void changeGun(int i){
+	public void changeGun(int i,UserInterface ui){
 		if(i < guns.size()){
 			getChildren().remove(guns.get(currentGun));
 			getChildren().add(guns.get(i));
 			currentGun = i;
+			ui.getGunDisplay().setGunText(guns.get(i).getName());
+			ui.getAmmoCounter().setAmmoNum(guns.get(i).getAmmo());
 		}
 	}
 	
