@@ -384,14 +384,15 @@ public class TopDownShooter{
 	}
 	
 	public void spawnItem(double i, Mob m){
-		if(i < 0.2){
+		if(i < 0.02){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			AmmoPickup p = new AmmoPickup();
-			p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			p.setLoc(m.getLayoutX(), m.getLayoutY());
+		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);
 			pickups.add(p);
-		}else if(i >= .2 && i < .4){
+		}else if(i >= .03 && i < .04){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			HealthPickup p = new HealthPickup();

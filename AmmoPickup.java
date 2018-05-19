@@ -53,8 +53,10 @@ public class AmmoPickup extends PickUp{
 		Bounds b2 = imgview.localToScene(imgview.getBoundsInLocal());
 		if(p.getCurrentGun() != 0){
 			if(b1.intersects(b2)){
-				p.getGun().addAmmo();
-				return true;	
+				if(p.getGun().getAmmo() < p.getGun().getAmmocap()){
+					p.getGun().addAmmo();
+					return true;	
+				}
 			}	
 		}
 		return false;			
