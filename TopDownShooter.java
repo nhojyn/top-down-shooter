@@ -50,7 +50,7 @@ public class TopDownShooter{
 
 	TopDownShooter(Stage s,Button main,MainMenu mm){
 		mainMenu=mm;
-		
+
 		stage=s;
 
 		screen=new BorderPane();
@@ -118,9 +118,9 @@ public class TopDownShooter{
 		pe=new ParticleEffects(playground);
 
 		bullets = new ArrayList<Bullet>();
-		
+
 		pickups = new ArrayList<PickUp>();
-		
+
 		player = new Player(playground, bullets);
 		playground.getChildren().addAll(player);
 
@@ -212,7 +212,7 @@ public class TopDownShooter{
 				mobs.spawnZombieBoss(playground,ui);
 			}
 		});
-		
+
 		//create zombie swarm and test it
 		Button spawnBouncerBossBtn = new Button();
 		devTools.getChildren().add(spawnBouncerBossBtn);
@@ -222,7 +222,16 @@ public class TopDownShooter{
 				mobs.spawnBouncerBoss(playground,ui);
 			}
 		});
-		
+
+		Button spawnLaserBossBtn = new Button();
+		devTools.getChildren().add(spawnLaserBossBtn);
+		spawnLaserBossBtn.setText("Spawn LaserBoss");
+		spawnLaserBossBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnLaserBoss(playground,ui);
+			}
+		});
+
 		//give guns more ammo
 		Button addAmmo = new Button();
 		devTools.getChildren().add(addAmmo);
@@ -243,10 +252,7 @@ public class TopDownShooter{
 		startRounds.setText("Start Rounds");
 		startRounds.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				if(startRounds.getText().equals("Start Rounds")){
-					roundList.nextRound();
-				}
-				startRounds.setText("Rounds Started");
+				roundList.nextRound();
 			}
 		});
 
@@ -274,7 +280,7 @@ public class TopDownShooter{
 				}
 			}
 		});
-		
+
 		//sets Player hp to 1
 		Button setHP = new Button();
 		devTools.getChildren().add(setHP);
@@ -285,15 +291,15 @@ public class TopDownShooter{
 				ui.getHealthBar().setHP(player.getHealth());
 			}
 		});
-		
-		Button spawnBouncerBtn = new Button();	
-		devTools.getChildren().add(spawnBouncerBtn);	
-		spawnBouncerBtn.setText("Spawn Bouncer");	
-		spawnBouncerBtn.setOnAction(new EventHandler<ActionEvent>(){	
-			public void handle(ActionEvent event){	
-				mobs.spawnBouncerSwarm(playground,100);					
-				//mobMovement.play();	
-			}	
+
+		Button spawnBouncerBtn = new Button();
+		devTools.getChildren().add(spawnBouncerBtn);
+		spawnBouncerBtn.setText("Spawn Bouncer");
+		spawnBouncerBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnBouncerSwarm(playground,100);
+				//mobMovement.play();
+			}
 		});
 	}
 
@@ -382,13 +388,16 @@ public class TopDownShooter{
 							mobs.getSwarm(i).getProjectiles().remove(0);
 						}
 					}
+					if(mobs.getSwarm(i) instanceof LaserBoss){
+						ui.removeBossHP();
+					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
 					spawnItem(Math.random(),mobs.getSwarm(i));
-					
+
 					playground.getChildren().remove(mobs.getSwarm(i));
 					mobs.getSwarm().remove(mobs.getSwarm(i));
-					
+
 				}
 			}
 		}
@@ -402,7 +411,7 @@ public class TopDownShooter{
 			}
 		}
 
-		
+
 		//checks pickup collisions with player
 		if(pickups.size() > 0){
 			for(int p = 0; p < pickups.size(); p++){
@@ -414,7 +423,7 @@ public class TopDownShooter{
 				}
 			}
 		}
-		
+
 	}
 
 	public void resetPickups(){
@@ -429,9 +438,10 @@ public class TopDownShooter{
 		player.reset();
 		mobs.resetSwarm();
 		ui.reset();
+		roundList.reset();
 		resetPickups();
 	}
-	
+
 	public void pause(){
 		mobMovement.stop();
 		collision.stop();
@@ -455,13 +465,13 @@ public class TopDownShooter{
 	public double getHeight(){
 		return height;
 	}
-	
+
 	public void quit(){
 		System.out.println("quit");
 		reset();
 		mainMenu.fadeIn();
 	}
-	
+
 	public void spawnItem(double i, Mob m){
 		if(i < 0.02){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());

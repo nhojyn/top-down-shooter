@@ -29,9 +29,9 @@ public class Round{
 	*/
 	ArrayList<int[]> listOfMobs = new ArrayList<int[]>();
 
-	
+
 	public Round(){
-		
+
 	}
 	public Round(ArrayList<int[]> list, double time, Pane main, Swarm s, int round, UserInterface ui){
 		listOfMobs = list;
@@ -48,7 +48,7 @@ public class Round{
 				numWaves = i[2];
 			}
 		}
-		
+
 		mobSpawning = new Timeline(new KeyFrame(Duration.millis(timeBetweenWaves), ae -> nextWave()));
 		mobSpawning.setCycleCount(Animation.INDEFINITE);
 		boss = false;
@@ -65,9 +65,12 @@ public class Round{
 	public double getTimeBtwnWaves(){
 		return timeBetweenWaves;
 	}
+	public void setCurrentWave(int c){
+		currentWave = c;
+	}
 
 	//methods
-	
+
 	/* Iterates the currentWave int, then spawns the mobs in that waves, corresponding to int[] listOfMobs.
  	 * If the currentWave is the final waves, it stops the timeline.
 	*/
@@ -81,7 +84,7 @@ public class Round{
 							    break;
 						case 1: mobs.spawnLaserSwarm(pg, i[1]);
 								break;
-						case 2: 
+						case 2:
 								break;
 						case 3:
 
@@ -93,8 +96,8 @@ public class Round{
 			stop();
 		}
 	}
-	
-	/* 
+
+	/*
 	 * Checks to see if all mobs are gone, and if this is the final waves. If so, returns true, and displays
 	 * round clear message. the endRound() method for bosses and upgrade rounds will be different
 	 * @return: boolean
@@ -107,9 +110,9 @@ public class Round{
 		else{
 			return false;
 		}
-		
+
 	}
-	
+
 	//stops the mobSpawning timeline
 	public void stop(){
 		mobSpawning.stop();
@@ -118,11 +121,14 @@ public class Round{
 	public void pause(){
 		mobSpawning.pause();
 	}
-	
+
 	//plays the timeline, starting the round. Also displays round start message.
 	public void play(){
 		System.out.println("Round " + round + " Start");
 		mobSpawning.play();
 	}
 
+	public void reset(){
+		currentWave = 0;
+	}
 }

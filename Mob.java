@@ -8,7 +8,7 @@ import javafx.animation.*;
 import javafx.scene.transform.Rotate;
 
 public abstract class Mob extends Pane implements TrueBounds{
-	
+
 	//fields
 	int health; //actually takes health+1 hits to kills (e.g. a mob with 2 health takes 3 bullets to kill)
 	int points;
@@ -20,14 +20,14 @@ public abstract class Mob extends Pane implements TrueBounds{
 	boolean attacks; //shows whether or not the mob shoots and projectiles
 	boolean shooting; //shows whether or not the mob is CURRENTLY shooting
 	boolean isBoss; //janky but necessary to show whether it is a boss or not
-	
+
 	//NOTE: all projectiles should start well outside the player pane (-10000,-10000) just in case
 	ArrayList<MobProjectile> projectiles = new ArrayList<MobProjectile>();
-	
+
 	public Mob(){
 		isBoss = false;
 	}
-	
+
 	//setters and getters
 	public double getLocX(){
 		return getLayoutX();
@@ -80,36 +80,36 @@ public abstract class Mob extends Pane implements TrueBounds{
 	public void chase(Player p){
 		double px = p.getLocX() - getAbsoluteMiddleX();
 		double py = p.getLocY() - getAbsoluteMiddleY();
-		
+
 		double distance = Math.pow(((px*px) + (py*py)),0.5);
-		
+
 		move(px*speedModifier/distance,py*speedModifier/distance);
-		
+
 		rotate(p.getLocX(),p.getLocY());
 	}
-	
+
 	public void move(double x, double y){
 		setLayoutX(getLayoutX()+x);
 		setLayoutY(getLayoutY()+y);
 	}
-	
+
 	/* Knocks back mob at angle or at vector from (x,y) to mob with magnitude m
 	 *
 	*/
 	public void knockback(double angle, double m){
-		
+
 	}
-	
+
 	public void knockback(double x, double y, double m){
 		double px = x - getLayoutX();
 		double py = y - getLayoutY();
-		
+
 		double distance = Math.sqrt(Math.pow(px,2) + Math.pow(py,2));
-		
+
 		move(-px*m/distance,-py*m/distance);
-		
+
 	}
-	
+
 	/* Knockback method but animated (similar to ones in Swarm class)
 	 *
 	*/
@@ -118,13 +118,13 @@ public abstract class Mob extends Pane implements TrueBounds{
 		delay.setCycleCount(20);
 		delay.play();
 	}
-	
+
 	private void rotate(double x, double y){
 		double angle = Math.atan2(getAbsoluteMiddleY()-y,getAbsoluteMiddleX()-x);
 		getTransforms().clear();
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90,middle.getX(),middle.getY()));
 	}
-	
+
 	public void collideWithBullet(Player p){ //NOTE: now takes a player instead of gun
 		Gun g = p.getGun();
 		ArrayList<Bullet> b = g.getBullets();
@@ -143,7 +143,7 @@ public abstract class Mob extends Pane implements TrueBounds{
 						animatedKnockback(p.getLocX(), p.getLocY(), b.get(i).getKnockBack()); //last number should eventually be p.getGun().getKnockback()
 						speedModifier = temp;
 					}
-					//NOTE: now each bullet has their own damage 
+					//NOTE: now each bullet has their own damage
 					health = health - b.get(i).getDamage();
 					g.removeBullet(b.get(i));
 				}
@@ -154,15 +154,15 @@ public abstract class Mob extends Pane implements TrueBounds{
 	public double getBodyHeight(){
 		return 0;
 	}
-	
+
 	public double getBodyWidth(){
 		return 0;
 	}
-	
+
 	/* For mobs that will shoot stuff, attack is called, but only if the boolean attacks is true
 	 *
 	*/
 	public void attack(){
-		
+
 	}
 }

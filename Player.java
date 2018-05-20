@@ -4,7 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.text.* ; 
+import javafx.scene.text.* ;
 import javafx.scene.input.* ;
 import javafx.scene.layout.*;
 import javafx.event.EventHandler;
@@ -29,7 +29,7 @@ public class Player extends Pane{
 	int health, score, currentGun, heal, healthcap;
 	Rectangle hitbox;
 	boolean delayOffBlink;
-	
+
 	Player(Pane p, ArrayList<Bullet> b){
 		//setPrefSize(100,100);
 		delayOffBlink=true;
@@ -49,12 +49,12 @@ public class Player extends Pane{
 		//System.out.println(getPrefWidth() + " " + getPrefHeight());
 		//body.setCenterY(getPrefHeight()/2);
 		//setStyle("-fx-background-color: blue;");
-		hitbox = new Rectangle(body.getCenterX()-body.getRadius()+6, body.getCenterY()-body.getRadius()+6, 2*body.getRadius()-12, 2*body.getRadius()-12);
+		hitbox = new Rectangle(body.getCenterX()-body.getRadius()/1.414, body.getCenterY()-body.getRadius()/1.414, 1.414*body.getRadius(), 1.414*body.getRadius());
 		getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
-		
+
 		getChildren().addAll(body,eye);
-		
+
 		guns = new ArrayList<Gun>();
 		guns.add(new Pistol(b,body.getRadius()));
 		guns.add(new ShotGun(b,body.getRadius()));
@@ -62,10 +62,10 @@ public class Player extends Pane{
 		guns.add(new Bazooka(b,body.getRadius()));
 		guns.add(new MachineGun(b,body.getRadius()));
 		guns.add(new FlameThrower(b,body.getRadius()));
-		
+
 		getChildren().add(guns.get(currentGun));
 	}
-	
+
 	public int getHealth(){
 		return health;
 	}
@@ -96,7 +96,7 @@ public class Player extends Pane{
 	public ArrayList<Gun> getGuns(){
 		return guns;
 	}
-	
+
 	public void move(int x, int y){
 		setLayoutX(getLayoutX()+x);
 		setLayoutY(getLayoutY()+y);
@@ -105,16 +105,16 @@ public class Player extends Pane{
 	}
 
 	public void rotate(double x, double y){
-			
+
 		angle=Math.atan2(getLayoutY()-y,getLayoutX()-x);
 		double gunAngle=Math.atan2(getLayoutY()-y-Math.sin(angle+Math.PI/2)*50,getLayoutX()-x-Math.cos(angle+Math.PI/2)*50)-angle-Math.PI/2;
-		
+
 		getTransforms().clear();
-		
+
 		getTransforms().add(new Rotate(Math.toDegrees(angle)+90));
 		guns.get(currentGun).rotate(gunAngle);
 	}
-	
+
 	public void reset(){
 		guns.get(currentGun).clearBullets();
 		for(int i=0;i<guns.size();i++){
@@ -123,7 +123,7 @@ public class Player extends Pane{
 		health=10;
 		score=0;
 	}
-	
+
 	public boolean collideWithMob(Mob m){
 		if(m.isBoss() && !invincible){
 			return collideWithBoss((Boss)m);
@@ -140,7 +140,7 @@ public class Player extends Pane{
 		}
 		return false;
 	}
-	
+
 	private boolean collideWithBoss(Boss b){
 		Bounds b1 = b.getFront().localToScene(b.getFront().getBoundsInLocal());
 		Bounds b2 = hitbox.localToScene(hitbox.getBoundsInLocal());
@@ -165,23 +165,23 @@ public class Player extends Pane{
 		}
 		return false;
 	}
-	
+
 	public void grantInvincibility(double sec){
 		invincible=true;
 		body.setFill(Color.RED);
 		Timeline delay = new Timeline(new KeyFrame(Duration.millis(sec*1000),ae -> invincibilityOff()));
 		delay.play();
 	}
-	
+
 	private void invincibilityOff(){
 		invincible=false;
 		body.setFill(Color.BLACK);
 	}
-	
+
 	public void addToScore(int i){
 		score += i;
 	}
-	
+
 	//removes the current gun and then changes to the new one
 	public void changeGun(int i,UserInterface ui){
 		if(i < guns.size()){
@@ -192,40 +192,40 @@ public class Player extends Pane{
 			ui.getAmmoCounter().setAmmoNum(guns.get(i).getAmmo());
 		}
 	}
-	
+
 	public void pause(){
 		for(int i=0;i<guns.size();i++){
 			guns.get(i).pause();
 		}
 	}
-	
+
 	public void play(){
 		for(int i=0;i<guns.size();i++){
 			guns.get(i).play();
 		}
 	}
-	
 
-	
+
+
 	/* Knockback method but animated (same thing as mob but it stops at the edge of the playground)
 	 *
 	*/
 	public void animatedKnockback(double x, double y, double m){
 		Timeline delay = new Timeline(new KeyFrame(Duration.millis(5),ae -> knockback(x, y, m/30)));
 		delay.setCycleCount(30);
-		delay.play();	
+		delay.play();
 	}
-	
+
 	private void knockback(double x, double y, double m){
 		double px = x - getLayoutX();
 		double py = y - getLayoutY();
-		
+
 		double distance = Math.pow(((px*px) + (py*py)),0.5);
-		
+
 		move((int)(-px*m/distance),(int)(-py*m/distance));
-		
+
 	}
-	
+
 	public void blink(double mouseX, double mouseY){
 		if(delayOffBlink){
 			double sideA = mouseX - getLayoutX();
@@ -268,12 +268,12 @@ public class Player extends Pane{
 			delay.play();
 		}
 	}
-	
+
 	private void deleteAfterImages(ArrayList<Circle> AfImg){
 		Playground.getChildren().remove(AfImg.get(0));
 		AfImg.remove(0);
 	}
-	
+
 	public void heal(){
 		health += heal;
 	}
