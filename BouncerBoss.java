@@ -67,13 +67,13 @@ public class BouncerBoss extends Boss implements TrueBounds{
 		setLayoutX(getLayoutX()+xSpeed);
 		setLayoutY(getLayoutY()+ySpeed);
 		if(getLayoutY() > pg.getHeight() - ((Circle)body).getRadius()*2){
-			ySpeed = -(int)(Math.random()*5)-minSpeed-speedUp;
+			ySpeed = -(int)(Math.random()*3)-minSpeed-speedUp;
 		}else if(getLayoutX() > pg.getWidth() - ((Circle)body).getRadius()*2){
-			xSpeed = -(int)(Math.random()*5)-minSpeed-speedUp;
+			xSpeed = -(int)(Math.random()*3)-minSpeed-speedUp;
 		}else if(getLayoutX() < 0){
-			xSpeed = (int)(Math.random()*5)+minSpeed+speedUp;
+			xSpeed = (int)(Math.random()*3)+minSpeed+speedUp;
 		}else if(getLayoutY() < 0){
-			ySpeed = (int)(Math.random()*5)+minSpeed+speedUp;
+			ySpeed = (int)(Math.random()*3)+minSpeed+speedUp;
 		}
 		if(!spawned){
 			spawn(p);
@@ -107,13 +107,17 @@ public class BouncerBoss extends Boss implements TrueBounds{
 	//speed up boss
 	private boolean attack1(){
 		speedUp = 7;
+		blade.setFill(Color.RED);		
+        blade2.setFill(Color.RED);	
 		AnimationTimer speedUpBuff = new AnimationTimer() {
 			int counter=0;
             @Override
             public void handle(long now) {
                 counter++;
-                if(counter == 250){
+                if(counter == 225){
                 	speedUp = 0;
+                	blade.setFill(Color.PINK);		
+                	blade2.setFill(Color.YELLOW);	
                 }
             }
         };

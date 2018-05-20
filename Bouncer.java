@@ -31,7 +31,8 @@ public class Bouncer extends Mob{
 		health = 15;
 		attacks = false;
 		shooting = false;
-		front = new Rectangle(((Rectangle)body).getWidth()/2-2.5,((Rectangle)body).getHeight()-5, 5,5);
+		front = new Rectangle(((Rectangle)body).getWidth(),((Rectangle)body).getHeight());
+		front.setFill(Color.TRANSPARENT);
 		middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 0.01,0.01);
 		middle.setFill(Color.BLUE);
 		getChildren().addAll(body,front,middle);
