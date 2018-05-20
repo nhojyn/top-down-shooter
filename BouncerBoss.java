@@ -6,10 +6,11 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import javafx.animation.*;
 import javafx.scene.transform.Rotate;
-
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 public class BouncerBoss extends Boss implements TrueBounds{
 	
-	private final int MAX_COOLDOWN = 250;
+	private final int MAX_COOLDOWN = 500;
 	int cooldown = 20; //it will attack every 20*MAX_COOLDOWN ms (so for 125, it shoots every 5 seconds)
 	Rectangle west,north,east,south;
 	Swarm mobs;
@@ -107,14 +108,14 @@ public class BouncerBoss extends Boss implements TrueBounds{
 	//speed up boss
 	private boolean attack1(){
 		speedUp = 7;
-		blade.setFill(Color.RED);		
-        blade2.setFill(Color.RED);	
+		blade.setFill(Color.GREEN);		
+        blade2.setFill(Color.GREEN);	
 		AnimationTimer speedUpBuff = new AnimationTimer() {
 			int counter=0;
             @Override
             public void handle(long now) {
                 counter++;
-                if(counter == 225){
+                if(counter == 275){
                 	speedUp = 0;
                 	blade.setFill(Color.PINK);		
                 	blade2.setFill(Color.YELLOW);	
@@ -127,6 +128,32 @@ public class BouncerBoss extends Boss implements TrueBounds{
 	
 	//spawns 1-5 BouncerMobs depending on how many there currently is (will not spawn more than 15 total)
 	private boolean attack2(){
+		double temp = spin.getRate();
+		int temp1 = xSpeed;
+		int temp2 = ySpeed;
+		
+		//make blades spin faster and stop the boss
+		spin.setRate(7);
+		blade.setFill(Color.RED);		
+        blade2.setFill(Color.RED);	
+        xSpeed = 0;
+        ySpeed = 0;
+        
+	 	Timeline shootAttack = new Timeline(new KeyFrame(Duration.millis(500),ae -> shoot()));
+	 	shootAttack.setCycleCount(10);
+		shootAttack.play();
+        
+        shootAttack.setOnFinished(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {	
+				shootAttack.stop();
+				xSpeed = temp1;
+				ySpeed = temp2;
+				spin.setRate(temp);
+				blade.setFill(Color.PINK);		
+            	blade2.setFill(Color.YELLOW);	
+			}
+		});
+	
 		if(mobs.getSwarm().size() >= 15){
 			return false;
 		}	
@@ -154,6 +181,22 @@ public class BouncerBoss extends Boss implements TrueBounds{
 	private boolean attack4(){
 		
 		return false;
+	}
+	public void shoot(){
+	// 	int rand = (int)(Math.random()*4);
+// 		if(rand == 0){
+// 			ySpeed = 20;
+// 			xSpeed = 0;
+// 		}else if(rand == 1){
+// 			ySpeed = -20;
+// 			xSpeed = 0;
+// 		}else if(rand == 2){
+// 			xSpeed = 20;
+// 			ySpeed = 0;
+// 		}else if(rand == 3){
+// 			xSpeed = -20;
+// 			ySpeed = 0;
+// 		}
 	}
 	
 	public void knockbackPlayer(Player p){
