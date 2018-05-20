@@ -69,6 +69,9 @@ public class Player extends Pane{
 	public int getHealth(){
 		return health;
 	}
+	public void setHealth(int i){
+		health = i;
+	}
 	public int getScore(){
 		return score;
 	}
@@ -114,6 +117,9 @@ public class Player extends Pane{
 	
 	public void reset(){
 		guns.get(currentGun).clearBullets();
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).resetAmmoToCap();
+		}
 		health=10;
 		score=0;
 	}

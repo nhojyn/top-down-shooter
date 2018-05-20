@@ -21,12 +21,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.geometry.Point2D;
 import javafx.geometry.*;
-
 public class TopDownShooter{
 	Player player;
 	BorderPane screen;
 	public static Pane playground;
 	Scene mainGame;
+	MainMenu mainMenu;
 	Stage stage;
 	Swarm mobs;
 	UserInterface ui;
@@ -38,6 +38,8 @@ public class TopDownShooter{
 	ArrayList<Bullet> bullets;
 	ArrayList<PickUp> pickups;
 	RoundList roundList;
+	Pane overlay;
+	StackPane centered;
 	//width and height of main screen
 	int width = 1000;
 	int height = 1000;
@@ -46,7 +48,9 @@ public class TopDownShooter{
     private int frameTimeIndex = 0 ;
     private boolean arrayFilled = false ;
 
-	TopDownShooter(Stage s,Button main){
+	TopDownShooter(Stage s,Button main,MainMenu mm){
+		mainMenu=mm;
+		
 		stage=s;
 
 		screen=new BorderPane();
@@ -96,11 +100,11 @@ public class TopDownShooter{
 		devTools.getChildren().add(devTitle);
 
 		//overlay and stackpane are so that the ui is over the stuff in the playground
-		Pane overlay = new Pane();
+		overlay = new Pane();
 		overlay.setPrefWidth(width);
 		overlay.setPrefHeight(height);
 
-		StackPane centered = new StackPane();
+		centered = new StackPane();
 		centered.setPrefWidth(width);
 		centered.setPrefHeight(height);
 
@@ -177,16 +181,6 @@ public class TopDownShooter{
 				//mobMovement.play();
 			}
 		});
-			
-		Button spawnBouncerBtn = new Button();
-		devTools.getChildren().add(spawnBouncerBtn);
-		spawnBouncerBtn.setText("Spawn Bouncer");
-		spawnBouncerBtn.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				mobs.spawnBouncerSwarm(playground,100);				
-				//mobMovement.play();
-			}
-		});
 		
 		//test knockback
 		Button knockBtn = new Button();
@@ -236,6 +230,7 @@ public class TopDownShooter{
 			}
 		});
 		
+		
 		//kills all the mobs (used for testing rounds)
 		Button killMobs = new Button();
 		devTools.getChildren().add(killMobs);
@@ -260,6 +255,17 @@ public class TopDownShooter{
 				}
 			}
 		});
+		
+		//sets Player hp to 1
+		Button setHP = new Button();
+		devTools.getChildren().add(setHP);
+		setHP.setText("Set player HP to 1");
+		setHP.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				player.setHealth(1);
+				ui.getHealthBar().setHP(player.getHealth());
+			}
+		});
 	}
 
 	private void knockBackMobs(){
@@ -281,11 +287,20 @@ public class TopDownShooter{
 		if(mobs.getSwarm().size() > 0){
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
 				if(player.collideWithMob(mobs.getSwarm(i))){
-					player.grantInvincibility(1);
-
-					knockBackMobs();
-					//ui.getStatus().setHealthTxt(player.getHealth());
-					ui.getHealthBar().setHP(player.getHealth());
+					if(player.getHealth()>=1){
+						System.out.println(player.getHealth());
+						player.grantInvincibility(1);
+						knockBackMobs();
+						//ui.getStatus().setHealthTxt(player.getHealth());
+						ui.getHealthBar().setHP(player.getHealth());
+					}else{
+						ui.getHealthBar().setHP(player.getHealth());
+						ui.gameOver();
+						pause();
+						Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
+						System.out.println(ui.getFadeTime());
+						quit.play();
+					}
 				}
 			}
 		}
@@ -298,9 +313,18 @@ public class TopDownShooter{
 				if(mobs.getSwarm().get(i).getAttacks() && mobs.getSwarm().get(i).getShooting()){
 					for(MobProjectile p : mobs.getSwarm().get(i).getProjectiles()){
 						if(player.collideWithProjectile(p)){
-							player.grantInvincibility(1);
-							//ui.getStatus().setHealthTxt(player.getHealth());
-							ui.getHealthBar().setHP(player.getHealth());
+							if(player.getHealth()>=1){
+								player.grantInvincibility(1);
+								//ui.getStatus().setHealthTxt(player.getHealth());
+								ui.getHealthBar().setHP(player.getHealth());
+							}
+							else{
+								ui.getHealthBar().setHP(player.getHealth());
+								ui.gameOver();
+								pause();
+								Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
+								quit.play();
+							}
 						}
 					}
 				}
@@ -357,7 +381,7 @@ public class TopDownShooter{
 	}
 
 	public void resetPickups(){
-		for(int i = pickups.size() - 1; i >= 0;i--){
+		for(int i = pickups.size() -1; i > pickups.size();i++){
 			playground.getChildren().remove(pickups.get(i));
 			pickups.remove(i);
 		}
@@ -394,12 +418,18 @@ public class TopDownShooter{
 		return height;
 	}
 	
+	public void quit(){
+		System.out.println("quit");
+		reset();
+		mainMenu.fadeIn();
+	}
+	
 	public void spawnItem(double i, Mob m){
 		if(i < 0.02){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			AmmoPickup p = new AmmoPickup();
-			p.setLoc(m.getLayoutX(), m.getLayoutY());
+			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);
 			pickups.add(p);
@@ -407,7 +437,7 @@ public class TopDownShooter{
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			HealthPickup p = new HealthPickup();
-			p.setLoc(m.getLayoutX(), m.getLayoutY());
+			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);
 			pickups.add(p);

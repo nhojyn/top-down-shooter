@@ -117,6 +117,10 @@ public abstract class Gun extends Pane{
 		move.play();
 	}
 	
+	public void resetAmmoToCap(){
+		ammo=ammocap;
+	}
+	
 	public void addAmmo(){
 		if(ammocap < ammo + pickupAmmo){
 			ammo = ammocap;
