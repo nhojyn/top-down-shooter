@@ -1,3 +1,23 @@
+# Top Down Shooter (5/19/2018) 
+Added: 
+- new classes
+  - Bouncer
+Bug: 
+- bounces off screen if your laptop resizes the pane
+
+Read the comments if you have questions/troubles
+********************************************************************************
+# Top Down Shooter (5/18/2018) 
+Added: 
+- new classes
+  - PickUp, AmmoPickup, HealthPickup
+- rare chance to get ammo and health
+- ammocap,addAmmo
+Bug: 
+- heals over the cap, so the health bar goes off screen
+
+Read the comments if you have questions/troubles
+********************************************************************************
 # Top Down Shooter (5/12/2018) (Round Generation)
 Added: 
 - new classes

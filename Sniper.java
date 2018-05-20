@@ -25,7 +25,10 @@ public class Sniper extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	Sniper(ArrayList<Bullet> b,double radius){
 		super(b,radius);
-		ammo = 10;
+		name = "Sniper";
+		ammo = 15;
+		ammocap = ammo;
+		pickupAmmo = 3;
 		fireRate=.9;
 		tip=new Rectangle(8,10);
 		tip.setFill(Color.BROWN);

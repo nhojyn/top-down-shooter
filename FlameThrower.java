@@ -25,7 +25,10 @@ public class FlameThrower extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	FlameThrower(ArrayList<Bullet> b,double radius){
 		super(b,radius);
+		name = "FlameThrower";
 		ammo = 1000;
+		ammocap = ammo;
+		pickupAmmo = 150;
 		fireRate=.001;
 		tip=new Rectangle(10,10);
 		tip.setFill(Color.TRANSPARENT);

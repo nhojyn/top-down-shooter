@@ -27,10 +27,18 @@ public class MainMenu{
 	Button mainBtn;
 	Button audioBtn;
 	AudioInterface AI;
+	Rectangle fade;
 	
 	Button playGame;
 	
 	MainMenu(Stage s){
+		title = new Pane();
+		main = new Scene(title, 1000, 1000);
+		
+		fade = new Rectangle(main.getWidth(),main.getHeight());
+		fade.setFill(Color.BLACK);
+		fade.setOpacity(0);
+		
 		AI = new AudioInterface();
 		stage=s;
 		stage.setTitle("TopDownShooter");
@@ -39,7 +47,7 @@ public class MainMenu{
 		mainBtn = new Button();
 		audioBtn = new Button();
 		
-		game= new TopDownShooter(stage,mainBtn);
+		game= new TopDownShooter(stage,mainBtn,this);
 		playGame = new Button();
 		playGame.setFont(f1);
 		playGame.setText("Play Game");
@@ -74,12 +82,15 @@ public class MainMenu{
 		titleTxt.setFont(f2);
 		titleTxt.setFill(Color.WHITE);
 		
-		title = new Pane();
 		title.setStyle("-fx-background-color: black");
 		title.getChildren().addAll(playGame,titleTxt,audioBtn);
-		main = new Scene(title, 1220, 1000);
 		stage.setScene( main );
 		stage.show();
+		
+		int spacing=10;
+		
+		audioBtn.setLayoutX(title.getWidth()/2-audioBtn.getLayoutBounds().getWidth()/2);
+		audioBtn.setLayoutY(title.getHeight()/2+audioBtn.getLayoutBounds().getHeight()+spacing);
 		
 		playGame.setLayoutX(title.getWidth()/2-playGame.getLayoutBounds().getWidth()/2);
 		playGame.setLayoutY(title.getHeight()/2);
@@ -87,5 +98,15 @@ public class MainMenu{
 		//titleTxt.applyCss();
 		titleTxt.setLayoutX(title.getWidth()/2-titleTxt.getLayoutBounds().getWidth()/2);
 		titleTxt.setLayoutY(title.getHeight()/2-titleTxt.getLayoutBounds().getHeight());
+	}
+	
+	public void fadeIn(){
+		title.getChildren().add(fade);
+		stage.setScene( main );
+		fade.setOpacity(1);
+		Timeline fadeAni = new Timeline(new KeyFrame(Duration.millis(50),ae -> fade.setOpacity(fade.getOpacity()-0.02)));
+		fadeAni.setCycleCount(50);
+		fadeAni.play();
+		fadeAni.setOnFinished(e -> title.getChildren().remove(fade));
 	}
 }

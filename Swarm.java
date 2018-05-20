@@ -135,6 +135,34 @@ public class Swarm{
 			temp.setLayoutY(spawnY);
 		}
 	}
+	public void spawnBouncerSwarm(Pane main, int size){
+		playground = main;
+		for(int i = 0; i < 1; i++){
+			double spawnX = 200;
+			double spawnY = 200;
+			int spawnPos = (int)(Math.random()*4); //0=north, 1=east, 2=south, 3=west
+			
+				switch (spawnPos){
+					case 0: spawnX = Math.random()*main.getPrefWidth();
+							break;
+					case 1: spawnY = Math.random()*main.getPrefHeight();
+							break;
+					case 2: spawnX = Math.random()*main.getPrefWidth();
+							spawnY = main.getPrefHeight();
+							break;
+					case 3: spawnY = Math.random()*main.getPrefHeight();
+							spawnX = main.getPrefWidth();
+							break;
+				}
+				
+			Mob temp = new Bouncer(playground);
+			swarm.add(temp);
+			main.getChildren().add(temp);
+			temp.setLayoutX(spawnX);
+			temp.setLayoutY(spawnY);
+		}
+	}	
+	
 
 	public void spawnPistolMobSwarm(Pane main, int numMobs){
 		playground = main;

@@ -25,7 +25,10 @@ public class MachineGun extends Gun{
 	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	MachineGun(ArrayList<Bullet> b,double radius){
 		super(b,radius);
+		name = "Machine Gun";
 		ammo = 250;
+		ammocap = ammo;
+		pickupAmmo = 40;
 		fireRate=.07;
 		tip=new Rectangle(12,12);
 		tip.setFill(Color.PINK);

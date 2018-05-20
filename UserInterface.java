@@ -30,6 +30,10 @@ public class UserInterface{
 	AmmoCounter ammoCounter;
 	ScoreCounter scoreCounter;
 	BossHealthBar bossHealthBar;
+	GunDisplay gunDisplay;
+	Text gameOver;
+	Rectangle fade;
+	int fadeSpeed=50;
 	
 	UserInterface(Pane ol, Button main,TopDownShooter TDS ,Player p){
 		player=p;
@@ -71,16 +75,25 @@ public class UserInterface{
 		//stats = new Status(overlay,player);
 		//stats.setLayoutX(150);
 		healthBar = new HealthBar(player.getHealth());
-		healthBar.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-145);
+		healthBar.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-50);
+		healthBar.setLayoutY(-5);
 		
 		ammoCounter = new AmmoCounter(player.getGun().getAmmo());
-		ammoCounter.setLayoutX(game.getWidth()-330);
-		ammoCounter.setLayoutY(-42);
+		ammoCounter.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2-50);
+		ammoCounter.setLayoutY(0);
+		
+		gunDisplay = new GunDisplay(player.getGun().getName());
+		gunDisplay.setLayoutX(game.getWidth()/2-healthBar.getBarWidth()/2+65);
+		gunDisplay.setLayoutY(55);
 		
 		scoreCounter = new ScoreCounter(0);
 		scoreCounter.setLayoutX(game.getWidth()-180);
 		
-		overlay.getChildren().addAll(pauseBtn,healthBar,ammoCounter,scoreCounter);
+		overlay.getChildren().addAll(healthBar,ammoCounter,scoreCounter,gunDisplay,pauseBtn);
+		
+		fade = new Rectangle(TDS.getWidth(), TDS.getHeight());
+		fade.setFill(Color.BLACK);
+		fade.setOpacity(0);
 		
 	}
 	/*
@@ -88,6 +101,10 @@ public class UserInterface{
 		return stats;
 	}
 	*/
+	public GunDisplay getGunDisplay(){
+		return gunDisplay;
+	}
+	
 	public HealthBar getHealthBar(){
 		return healthBar;
 	}
@@ -120,11 +137,46 @@ public class UserInterface{
 		}
 	}
 	
+	public void gameOver(){
+		Font f =Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"), 200);
+		gameOver = new Text("Game Over");
+		gameOver.setFill(Color.BLACK);
+		gameOver.setFont(f);
+		gameOver.setLayoutX(overlay.getWidth()/2-gameOver.getLayoutBounds().getWidth()/2);
+		gameOver.setLayoutY(overlay.getHeight()/2);
+		overlay.getChildren().add(gameOver);
+		Timeline delay = new Timeline(new KeyFrame(Duration.seconds(2),ae -> fadeOut()));
+		delay.play();
+	}
+	
+	public void fadeOut(){
+		overlay.getChildren().add(fade);
+		Timeline fadeAni = new Timeline(new KeyFrame(Duration.millis(fadeSpeed),ae -> animateFade()));
+		fadeAni.setCycleCount(50);
+		fadeAni.play();
+		fadeAni.setOnFinished(e -> overlay.getChildren().remove(fade));
+	}
+	
+	private void animateFade(){
+		fade.setOpacity(fade.getOpacity()+0.02);
+		System.out.println(fade.getOpacity());
+	}
+	
+	public double getFadeTime(){
+		return fadeSpeed/1000.0*50.0+2;
+	}
+	
 	public void reset(){
 		game.resume();
 		//stats.reset();
 		healthBar.setHP(player.getHealth());
 		overlay.getChildren().remove(options);
+		if(gameOver != null){
+			overlay.getChildren().remove(gameOver);
+		}
+		if(fade != null){
+			fade.setOpacity(0);
+		}
 		pauseBtn.setText("pause");
 		removeBossHP();
 	}

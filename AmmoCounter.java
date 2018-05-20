@@ -28,18 +28,18 @@ public class AmmoCounter extends Pane{
 	AmmoCounter(int num){
 		ammo=num;
 		
-		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),30);
+		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
 		AmmoNum= new Text(Integer.toString(ammo));
 		AmmoNum.setFill(Color.BLACK);
 		AmmoNum.setFont(f1);
-		AmmoNum.setLayoutX(65);
-		AmmoNum.setLayoutY(85);
+		AmmoNum.setLayoutX(37);
+		AmmoNum.setLayoutY(57);
 		
 		image = new Image("bullet.png");
 		ImageView iv = new ImageView();
 		iv.setImage(image);
-		iv.setFitWidth(150);
-		iv.setFitWidth(150);
+		iv.setFitWidth(100);
+		iv.setFitWidth(100);
 		iv.setPreserveRatio(true);
 		iv.setSmooth(true);
 		iv.setCache(true);
@@ -50,4 +50,6 @@ public class AmmoCounter extends Pane{
 	public void setAmmoNum(int i){
 		AmmoNum.setText(Integer.toString(i));
 	}
+	
+	
 }

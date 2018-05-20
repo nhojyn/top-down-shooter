@@ -23,7 +23,10 @@ public class Bazooka extends Gun{
 	Timeline explosionTimer;
 	Bazooka(ArrayList<Bullet> b,double radius){
 		super(b,radius);
+		name = "Bazooka";
 		ammo = 5;
+		ammocap = ammo;
+		pickupAmmo = 1;
 		fireRate=1.5;
 		tip=new Rectangle(15,15);
 		tip.setFill(Color.RED);

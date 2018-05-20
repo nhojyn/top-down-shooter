@@ -26,7 +26,7 @@ public class Player extends Pane{
 	double angle;
 	Pane Playground;
 	boolean invincible;
-	int health, score, currentGun;
+	int health, score, currentGun, heal, healthcap;
 	Rectangle hitbox;
 	boolean delayOffBlink;
 	
@@ -34,9 +34,11 @@ public class Player extends Pane{
 		//setPrefSize(100,100);
 		delayOffBlink=true;
 		health = 10;
+		healthcap = 10;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
+		heal = 2;
 		Playground=p;
 		body = new Circle(30);
 		body.setFill(Color.BLACK);
@@ -67,6 +69,9 @@ public class Player extends Pane{
 	public int getHealth(){
 		return health;
 	}
+	public void setHealth(int i){
+		health = i;
+	}
 	public int getScore(){
 		return score;
 	}
@@ -75,6 +80,9 @@ public class Player extends Pane{
 	}
 	public Gun getGun(){
 		return guns.get(currentGun);
+	}
+	public int getCurrentGun(){
+		return currentGun;
 	}
 	public double getLocX(){
 		return getLayoutX();
@@ -109,6 +117,9 @@ public class Player extends Pane{
 	
 	public void reset(){
 		guns.get(currentGun).clearBullets();
+		for(int i=0;i<guns.size();i++){
+			guns.get(i).resetAmmoToCap();
+		}
 		health=10;
 		score=0;
 	}
@@ -139,6 +150,29 @@ public class Player extends Pane{
 			return true;
 		}
 		return false;
+	}
+	
+	public void collideWithPickup(Player p, PickUp pu){
+		
+	
+		
+			//Change: moved b1 outside of loop to make loop more efficient
+			Bounds b1 = p.getBody().localToScene(p.body.getBoundsInLocal());
+			
+				
+				Bounds b2 = pu.localToScene(pu.getBoundsInLocal());
+			
+				if(b1.intersects(b2)){
+					
+				
+						//NOTE: now each bullet has their own damage 
+		
+					
+				}
+				
+				
+			
+		
 	}
 	
 	//TODO: make this cleaner
@@ -172,11 +206,13 @@ public class Player extends Pane{
 	}
 	
 	//removes the current gun and then changes to the new one
-	public void changeGun(int i){
+	public void changeGun(int i,UserInterface ui){
 		if(i < guns.size()){
 			getChildren().remove(guns.get(currentGun));
 			getChildren().add(guns.get(i));
 			currentGun = i;
+			ui.getGunDisplay().setGunText(guns.get(i).getName());
+			ui.getAmmoCounter().setAmmoNum(guns.get(i).getAmmo());
 		}
 	}
 	
@@ -259,5 +295,9 @@ public class Player extends Pane{
 	private void deleteAfterImages(ArrayList<Circle> AfImg){
 		Playground.getChildren().remove(AfImg.get(0));
 		AfImg.remove(0);
+	}
+	
+	public void heal(){
+		health += heal;
 	}
 }
