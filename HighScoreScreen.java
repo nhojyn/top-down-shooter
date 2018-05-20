@@ -20,7 +20,7 @@ public class HighScoreScreen extends Pane{
 		scoreList.getChildren().add(temp1);
 		
 		for(int i = 0; i < hs.getHighScoresSize(); i++){
-			scoreList.getChildren().add(new Text("#"+ (i+1) + "       " + hs.getHighScore(i)));
+			scoreList.getChildren().add(new Text("#"+ (i+1) + "       " + hs.getHighScoreNum(i)));
 		}
 		getChildren().add(scoreList);
 	}

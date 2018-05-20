@@ -26,6 +26,7 @@ public class Pistol extends Gun{
 		super(b,radius);
 		name = "Pistol";
 		ammo=9999;
+		ammocap=9999;
 		fireRate=.3;
 		tip=new Rectangle(8,8);
 		tip.setFill(Color.RED);

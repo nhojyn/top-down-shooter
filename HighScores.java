@@ -4,74 +4,70 @@ import javafx.scene.text.*;
 import java.util.*;
 import java.io.*;
 public class HighScores{
-	int[] highScores;
+	int[] highScoreNums;
+	String[] highScoreNames;
 	
 	HighScores(){
-		highScores = new int[10];
+		highScoreNums = new int[10];
+		highScoreNames = new String[10];
 		
 	}
-	public int getHighScore(int i){
-		return highScores[i];
+	public int[] getHighScoreNums(){
+		return highScoreNums;
+	}
+	public String[] getHighScoreNames(){
+		return highScoreNames;
+	}
+	public int getHighScoreNum(int i){
+		return highScoreNums[i];
+	}
+	public String getHighScoreName(int i){
+		return highScoreNames[i];
 	}
 	public int getHighScoresSize(){
-		return highScores.length;
+		return highScoreNums.length;
 	}
-	/**	
-		Adds list of top 3 high scores
-		@param: 
-		Precondition: 
-		Postcondition: adds to list of highscores 
-	*/
-	public void addListHighScore(){
+	public void readHighScores(){
 		try{
             FileReader fw = new FileReader("List_highscores.txt");
             BufferedReader bw = new BufferedReader(fw);
 			String line;
-			int temp = 0;
+			int counter = 0;
             while((line = bw.readLine())!= null){
 				if(line.length() > 0){
-					int num= Integer.parseInt(line);
-					highScores[temp] = num;
-					temp++;
+					int num= Integer.parseInt(line.substring(0,line.indexOf("-")));
+					highScoreNums[counter] = num;
+					highScoreNames[counter] = line.substring(line.indexOf("-")+1);
+					counter++;
 				}
             }
+			for(int i=0;i<highScoreNums.length;i++){
+				if(highScoreNames[i]==null){
+					highScoreNames[i]="";
+				}
+			}
             fw.close();
 			bw.close();
 		
 
 		}catch(Exception e){
+			System.out.println("High Score not saved");
 			e.printStackTrace();
 		}
-		
-//		Text temp1 = new Text("Highscores");
-//		temp1.setFill(Color.YELLOW);
-//		temp1.setStyle("-fx-font: 17 arial;");
-//		listHighScore.getChildren().add(temp1);
-//		for(int i = 0; i < 3; i++){
-//			listHighScore.getChildren().add(new Text("#"+ (i+1) + "       " + highscores[i]));
-//		}
 	}
-	/**	
-		Updates the highscores and then remakes the list of highscores. writes the new highscores List_highscores.txt
-		@param: 
-		Precondition: 
-		Postcondition: highscore list will be updated and List_highscores.txt will be renewed
-	*/
-	public void updateHighScore(){
+	public void saveHighScores(){
 		
 		try{
 			BufferedWriter out = new BufferedWriter(new FileWriter("List_highscores.txt",false)); 
 			FileWriter fw = new FileWriter("List_highscores.txt");
-			for(int i = 0; i < 3; i++){
-				fw.write("\n" + highScores[i]);
-				
+			for(int i = 0; i < highScoreNums.length; i++){
+				fw.write(highScoreNums[i]+"-"+highScoreNames[i]+"\n");
 			}
 			fw.close();
 		}catch(Exception e){
 			e.printStackTrace();
 			
 		}
-		addListHighScore();
 	}	
 	
 }

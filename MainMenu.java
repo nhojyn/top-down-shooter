@@ -28,12 +28,16 @@ public class MainMenu{
 	Button audioBtn;
 	AudioInterface AI;
 	Rectangle fade;
+	HighScores highScores;
 	
 	Button playGame;
 	
 	MainMenu(Stage s){
 		title = new Pane();
 		main = new Scene(title, 1000, 1000);
+		
+		highScores = new HighScores();
+		highScores.readHighScores();
 		
 		fade = new Rectangle(main.getWidth(),main.getHeight());
 		fade.setFill(Color.BLACK);
@@ -47,7 +51,7 @@ public class MainMenu{
 		mainBtn = new Button();
 		audioBtn = new Button();
 		
-		game= new TopDownShooter(stage,mainBtn,this);
+		game= new TopDownShooter(stage,mainBtn,this,highScores);
 		playGame = new Button();
 		playGame.setFont(f1);
 		playGame.setText("Play Game");
@@ -102,8 +106,8 @@ public class MainMenu{
 	
 	public void fadeIn(){
 		title.getChildren().add(fade);
-		stage.setScene( main );
 		fade.setOpacity(1);
+		stage.setScene( main );
 		Timeline fadeAni = new Timeline(new KeyFrame(Duration.millis(50),ae -> fade.setOpacity(fade.getOpacity()-0.02)));
 		fadeAni.setCycleCount(50);
 		fadeAni.play();
