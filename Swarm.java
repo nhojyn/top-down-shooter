@@ -12,7 +12,7 @@ public class Swarm{
 	//fields
 	ArrayList<Mob> swarm = new ArrayList<Mob>();
 	Timeline collisionCheck;
-    Pane playground;
+  Pane playground;
 
 	//constructors
 
@@ -30,6 +30,8 @@ public class Swarm{
 	public Mob getSwarm(int i){return swarm.get(i);}
 
 	//methods
+
+	//MOB SPAWNS
 	public void spawnZombieSwarm(Pane main, int numMobs){
 		playground = main;
 		for(int i = 0; i < numMobs; i++){
@@ -92,14 +94,14 @@ public class Swarm{
 
 	}
 
-	
+
 	public void spawnSplitterSwarm(Pane main, int size){
 		playground = main;
 		for(int i = 0; i < 1; i++){
 			double spawnX = 200;
 			double spawnY = 200;
 			int spawnPos = (int)(Math.random()*4); //0=north, 1=east, 2=south, 3=west
-			
+
 				switch (spawnPos){
 					case 0: spawnX = Math.random()*main.getPrefWidth();
 							break;
@@ -112,7 +114,7 @@ public class Swarm{
 							spawnX = main.getPrefWidth();
 							break;
 				}
-				
+
 			Mob temp = new Splitter(size);
 			swarm.add(temp);
 			main.getChildren().add(temp);
@@ -120,7 +122,7 @@ public class Swarm{
 			temp.setLayoutY(spawnY);
 		}
 	}
-	
+
 	public void spawnSplitterSwarm(Pane main, int size, double xPos, double yPos){
 		playground = main;
 		for(int i = 0; i < 2; i++){
@@ -133,7 +135,21 @@ public class Swarm{
 			temp.setLayoutY(spawnY);
 		}
 	}
-	
+
+	public void spawnPistolMobSwarm(Pane main, int numMobs){
+		playground = main;
+		for(int i = 0; i < numMobs; i++){
+			double[] coords = generateRandPos(main);
+
+			Mob temp = new PistolMob(main);
+			swarm.add(temp);
+			main.getChildren().add(temp);
+			temp.setLayoutX(coords[0]);
+			temp.setLayoutY(coords[1]);
+		}
+	}
+
+	//BOSS SPAWNS
 	public void spawnZombieBoss(Pane main, UserInterface ui){
 		playground = main;
 		for(int i = 0; i < 1; i++){
@@ -249,16 +265,15 @@ public class Swarm{
 		collisionCheck.play();
 	}
 
-	
+
 	//Johnny's method to generate a random position on the screen
-	//CURRENTLY NOT USED
 	private double[] generateRandPos(Pane main){
 		double[] coords = new double[2];
 		double spawnX = 200;
 		double spawnY = 200;
-		
+
 		int spawnPos = (int)(Math.random()*4); //0=north, 1=east, 2=south, 3=west
-		
+
 		switch (spawnPos){
 			case 0: spawnX = Math.random()*(main.getPrefWidth()-200)+200;
 					break;
@@ -273,8 +288,7 @@ public class Swarm{
 		}
 		coords[0]=spawnX;
 		coords[1]=spawnY;
-		
+
 		return coords;
 	}
 }
-
