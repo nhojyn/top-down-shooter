@@ -408,7 +408,7 @@ public class TopDownShooter{
 	}
 
 	public void resetPickups(){
-		for(int i = pickups.size() -1; i > pickups.size();i++){
+		for(int i = pickups.size() -1; i >= 0;i++){
 			playground.getChildren().remove(pickups.get(i));
 			pickups.remove(i);
 		}
