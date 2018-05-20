@@ -151,30 +151,7 @@ public class Player extends Pane{
 		}
 		return false;
 	}
-	
-	public void collideWithPickup(Player p, PickUp pu){
-		
-	
-		
-			//Change: moved b1 outside of loop to make loop more efficient
-			Bounds b1 = p.getBody().localToScene(p.body.getBoundsInLocal());
-			
-				
-				Bounds b2 = pu.localToScene(pu.getBoundsInLocal());
-			
-				if(b1.intersects(b2)){
-					
-				
-						//NOTE: now each bullet has their own damage 
-		
-					
-				}
-				
-				
-			
-		
-	}
-	
+
 	//TODO: make this cleaner
 	public boolean collideWithProjectile(MobProjectile p){
 		if(!invincible){
