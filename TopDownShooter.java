@@ -329,7 +329,7 @@ public class TopDownShooter{
 						knockBackMobs();
 						//ui.getStatus().setHealthTxt(player.getHealth());
 						ui.getHealthBar().setHP(player.getHealth());
-					}else{
+					}else if(player.getHealth()==0){
 						ui.getHealthBar().setHP(player.getHealth());
 						ui.gameOver();
 						pause();
@@ -358,7 +358,7 @@ public class TopDownShooter{
 								//ui.getStatus().setHealthTxt(player.getHealth());
 								ui.getHealthBar().setHP(player.getHealth());
 							}
-							else{
+							else if(player.getHealth()==0){
 								ui.getHealthBar().setHP(player.getHealth());
 								ui.gameOver();
 								pause();
