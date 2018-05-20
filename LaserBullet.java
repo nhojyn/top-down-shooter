@@ -4,14 +4,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.layout.*;
 
-public class Laser extends MobProjectile{
+public class LaserBullet extends MobProjectile{
 
-	public Laser(double x, double y, double width, double height, Color color){
-		xSpeed = 0;
-		ySpeed = 0;
+	public LaserBullet(double x, double y, double width, double height, Color color, double xv, double yv){
+		xSpeed = xv;
+		ySpeed = yv;
 		shell = new Rectangle(x,y,width,height);
 		shell.setFill(color);
 		getChildren().add(shell);
 	}
-	
+
 }

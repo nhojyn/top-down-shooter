@@ -141,7 +141,7 @@ public class Swarm{
 			double spawnX = 200;
 			double spawnY = 200;
 			int spawnPos = (int)(Math.random()*4); //0=north, 1=east, 2=south, 3=west
-			
+
 				switch (spawnPos){
 					case 0: spawnX = Math.random()*main.getPrefWidth();
 							break;
@@ -154,15 +154,15 @@ public class Swarm{
 							spawnX = main.getPrefWidth();
 							break;
 				}
-				
+
 			Mob temp = new Bouncer(playground);
 			swarm.add(temp);
 			main.getChildren().add(temp);
 			temp.setLayoutX(spawnX);
 			temp.setLayoutY(spawnY);
 		}
-	}	
-	
+	}
+
 
 	public void spawnPistolMobSwarm(Pane main, int numMobs){
 		playground = main;
@@ -193,7 +193,7 @@ public class Swarm{
 		}
 
 	}
-	
+
 	public void spawnBouncerBoss(Pane main, UserInterface ui){
 		playground = main;
 		for(int i = 0; i < 1; i++){
@@ -201,6 +201,22 @@ public class Swarm{
 			double spawnY = 400;
 
 			Mob temp = new BouncerBoss(main,this,ui);
+			swarm.add(temp);
+			main.getChildren().add(temp);
+			temp.setLayoutX(spawnX);
+			temp.setLayoutY(spawnY);
+
+		}
+
+	}
+
+	public void spawnLaserBoss(Pane main, UserInterface ui){
+		playground = main;
+		for(int i = 0; i < 1; i++){
+			double spawnX = 0;
+			double spawnY = 0;
+
+			Mob temp = new LaserBoss(main,this,ui);
 			swarm.add(temp);
 			main.getChildren().add(temp);
 			temp.setLayoutX(spawnX);

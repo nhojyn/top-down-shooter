@@ -29,6 +29,11 @@ public class MobGun extends Pane{
 	ArrayList<MobProjectile> bullets;
 	Timeline move;
 
+	MobGun(){
+		move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
+		move.setCycleCount(Animation.INDEFINITE);
+	}
+
 	MobGun(ArrayList<MobProjectile> b,double length /* of the mob */){
 		bullets = b;
 		move = new Timeline(new KeyFrame(Duration.millis(5), ae -> move()));
