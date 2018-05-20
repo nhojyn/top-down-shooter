@@ -193,6 +193,22 @@ public class Swarm{
 		}
 
 	}
+	
+	public void spawnBouncerBoss(Pane main, UserInterface ui){
+		playground = main;
+		for(int i = 0; i < 1; i++){
+			double spawnX = 400;
+			double spawnY = 400;
+
+			Mob temp = new BouncerBoss(main,this,ui);
+			swarm.add(temp);
+			main.getChildren().add(temp);
+			temp.setLayoutX(spawnX);
+			temp.setLayoutY(spawnY);
+
+		}
+
+	}
 
 	public void swarmPlayer(Player p){
 		for(int i = 0; i < swarm.size(); i++){
