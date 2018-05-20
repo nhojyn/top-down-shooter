@@ -171,17 +171,27 @@ public class TopDownShooter{
 			}
 		});
 
-		
+
 		Button spawnSplitterBtn = new Button();
 		devTools.getChildren().add(spawnSplitterBtn);
 		spawnSplitterBtn.setText("Spawn Splitter");
 		spawnSplitterBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				mobs.spawnSplitterSwarm(playground,8);				
+				mobs.spawnSplitterSwarm(playground,8);
 				//mobMovement.play();
 			}
 		});
-		
+
+		//spawns pistol mobs
+		Button spawnPistolMobBtn = new Button();
+		devTools.getChildren().add(spawnPistolMobBtn);
+		spawnPistolMobBtn.setText("Spawn PistolMobs");
+		spawnPistolMobBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnPistolMobSwarm(playground,4);
+			}
+		});
+
 		//test knockback
 		Button knockBtn = new Button();
 		devTools.getChildren().add(knockBtn);
@@ -223,14 +233,13 @@ public class TopDownShooter{
 		startRounds.setText("Start Rounds");
 		startRounds.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				if(startRounds.getText().equals("Start Rounds")){	
+				if(startRounds.getText().equals("Start Rounds")){
 					roundList.nextRound();
 				}
 				startRounds.setText("Rounds Started");
 			}
 		});
-		
-		
+
 		//kills all the mobs (used for testing rounds)
 		Button killMobs = new Button();
 		devTools.getChildren().add(killMobs);
@@ -350,11 +359,18 @@ public class TopDownShooter{
 					if(mobs.getSwarm(i) instanceof Splitter){
 						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 						if(((Splitter)mobs.getSwarm(i)).getSize()>1){
-							mobs.spawnSplitterSwarm(playground,((Splitter)mobs.getSwarm(i)).getSize()/2,mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());	
+							mobs.spawnSplitterSwarm(playground,((Splitter)mobs.getSwarm(i)).getSize()/2,mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 						}
 					}
 					if(mobs.getSwarm(i) instanceof ZombieBoss){
 						ui.removeBossHP();
+					}
+					if(mobs.getSwarm(i) instanceof PistolMob){
+						int temp = mobs.getSwarm(i).getProjectiles().size();
+						for(int b = 0; b < temp; b++){
+							playground.getChildren().remove(mobs.getSwarm(i).getProjectiles().get(0));
+							mobs.getSwarm(i).getProjectiles().remove(0);
+						}
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
@@ -366,7 +382,7 @@ public class TopDownShooter{
 				}
 			}
 		}
-		
+
 		//checks if bullet should be removed after traveling this much distance(for flamethrower)
 		if(bullets.size() > 0){
 			for(int b = 0; b < bullets.size(); b++){
@@ -375,6 +391,7 @@ public class TopDownShooter{
 				}
 			}
 		}
+
 		
 		//checks pickup collisions with player
 		if(pickups.size() > 0){
@@ -395,6 +412,7 @@ public class TopDownShooter{
 			playground.getChildren().remove(pickups.get(i));
 			pickups.remove(i);
 		}
+
 	}
 
 	public void reset(){

@@ -4,7 +4,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.scene.text.* ; 
+import javafx.scene.text.* ;
 import javafx.scene.input.* ;
 import javafx.scene.layout.*;
 import javafx.event.EventHandler;
@@ -40,7 +40,7 @@ public class Pistol extends Gun{
 		//	double radius = 10;
 		//	double sideA = mouseLocX - boundsInScene.getMinX()/2;
 		//	double sideB = mouseLocY - boundsInScene.getMinY()-radius/2;
-		
+
 			double sideA = mouseLocX - boundsInScene.getMinX()-9/2;
 			double sideB = mouseLocY - boundsInScene.getMinY()-9/2;
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
@@ -49,11 +49,11 @@ public class Pistol extends Gun{
 			//b.setLocation(x-b.getRadius(),y-b.getRadius());
 			b.setLocation(boundsInScene.getMinX() - boundsInScene.getWidth()/2-b.getRadius()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2-b.getRadius()/2);
 			bullets.add(b);
-	
+
 			TopDownShooter.playground.getChildren().add(b);
 
 		}
-		
+
 	}
-	
+
 }
