@@ -234,6 +234,13 @@ public class Swarm{
 
 	public void resetSwarm(){
 		for(int i=0;i<swarm.size();i++){
+			if(swarm.get(i).getProjectiles().size() > 0){
+				int temp = swarm.get(i).getProjectiles().size();
+				for(int a = 0; a < temp; a++){
+					TopDownShooter.playground.getChildren().remove(swarm.get(i).getProjectiles().get(0));
+					swarm.get(i).getProjectiles().remove(0);
+				}
+			}
 			TopDownShooter.playground.getChildren().remove(swarm.get(i));
 		}
 		swarm = new ArrayList<Mob>();
