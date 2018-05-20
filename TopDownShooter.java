@@ -212,7 +212,17 @@ public class TopDownShooter{
 				mobs.spawnZombieBoss(playground,ui);
 			}
 		});
-
+		
+		//create zombie swarm and test it
+		Button spawnBouncerBossBtn = new Button();
+		devTools.getChildren().add(spawnBouncerBossBtn);
+		spawnBouncerBossBtn.setText("Spawn BouncerBoss");
+		spawnBouncerBossBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnBouncerBoss(playground,ui);
+			}
+		});
+		
 		//give guns more ammo
 		Button addAmmo = new Button();
 		devTools.getChildren().add(addAmmo);
