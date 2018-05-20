@@ -40,6 +40,8 @@ public class TopDownShooter{
 	RoundList roundList;
 	Pane overlay;
 	StackPane centered;
+	HighScores highScores;
+	SetHighScores setHighScores;
 	//width and height of main screen
 	int width = 1000;
 	int height = 1000;
@@ -48,10 +50,12 @@ public class TopDownShooter{
     private int frameTimeIndex = 0 ;
     private boolean arrayFilled = false ;
 
-	TopDownShooter(Stage s,Button main,MainMenu mm){
+	TopDownShooter(Stage s,Button main,MainMenu mm,HighScores hs){
+		stage=s;
+		highScores=hs;
 		mainMenu=mm;
 		
-		stage=s;
+		setHighScores = new SetHighScores(stage, highScores, mainMenu);
 
 		screen=new BorderPane();
 
@@ -305,6 +309,10 @@ public class TopDownShooter{
 
 	public void play(){
 		stage.setScene( mainGame );
+		//high score error checking;
+		/*for(int i=0;i<highScores.getHighScoresSize();i++){
+			System.out.println(highScores.getHighScoreNums()[i]);
+		}*/
 		player.setLayoutX(playground.getWidth()/2);
 		player.setLayoutY(playground.getHeight()/2);
 	}
@@ -317,7 +325,6 @@ public class TopDownShooter{
 			for(int i = 0; i < mobs.getSwarm().size(); i++){
 				if(player.collideWithMob(mobs.getSwarm(i))){
 					if(player.getHealth()>=1){
-						System.out.println(player.getHealth());
 						player.grantInvincibility(1);
 						knockBackMobs();
 						//ui.getStatus().setHealthTxt(player.getHealth());
@@ -326,9 +333,13 @@ public class TopDownShooter{
 						ui.getHealthBar().setHP(player.getHealth());
 						ui.gameOver();
 						pause();
-						Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
-						System.out.println(ui.getFadeTime());
-						quit.play();
+						if(player.getScore()>highScores.getHighScoreNums()[highScores.getHighScoresSize()-1]){
+							Timeline HS = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> newHighScore()));
+							HS.play();
+						}else{
+							Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
+							quit.play();
+						}
 					}
 				}
 			}
@@ -418,11 +429,10 @@ public class TopDownShooter{
 	}
 
 	public void resetPickups(){
-		for(int i = pickups.size() -1; i >= 0;i++){
+		for(int i = pickups.size() -1; i >= 0;i--){
 			playground.getChildren().remove(pickups.get(i));
 			pickups.remove(i);
 		}
-
 	}
 
 	public void reset(){
@@ -457,13 +467,17 @@ public class TopDownShooter{
 	}
 	
 	public void quit(){
-		System.out.println("quit");
 		reset();
 		mainMenu.fadeIn();
 	}
 	
+	private void newHighScore(){
+		setHighScores.displaySetHighScores(player.getScore());
+		reset();
+	}
+	
 	public void spawnItem(double i, Mob m){
-		if(i < 0.02){
+		if(i < .02){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			AmmoPickup p = new AmmoPickup();

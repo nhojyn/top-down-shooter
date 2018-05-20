@@ -23,7 +23,7 @@ import javafx.scene.image.ImageView;
 public class HealthBar extends Pane{
 	Rectangle Outline;
 	Rectangle HPbar;
-	int size;
+	double size;
 	int total;
 	Image image;
 	Text HPnum;
@@ -54,7 +54,7 @@ public class HealthBar extends Pane{
 		int gap=8;
 		HPbar=new Rectangle(Outline.getWidth()-gap,Outline.getHeight()-gap);
 		Rectangle innerWhite = new Rectangle(Outline.getWidth()-gap,Outline.getHeight()-gap);
-		size=(int)HPbar.getWidth();
+		size=HPbar.getWidth();
 		HPbar.setArcWidth(10);
 		HPbar.setArcHeight(10);
 		HPbar.setFill(Color.RED);
@@ -81,10 +81,10 @@ public class HealthBar extends Pane{
 		if(i>=10){
 			HPnum.setLayoutX(10);
 		}
-		HPbar.setWidth((size/total)*i);
+		HPbar.setWidth((size/(double)total)*i);
 	}
 	
-	public int getBarWidth(){
+	public double getBarWidth(){
 		return size;
 	}
 }

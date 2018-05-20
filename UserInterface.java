@@ -159,7 +159,6 @@ public class UserInterface{
 	
 	private void animateFade(){
 		fade.setOpacity(fade.getOpacity()+0.02);
-		System.out.println(fade.getOpacity());
 	}
 	
 	public double getFadeTime(){
@@ -170,6 +169,7 @@ public class UserInterface{
 		game.resume();
 		//stats.reset();
 		healthBar.setHP(player.getHealth());
+		scoreCounter.setScoreNum(player.getScore());
 		overlay.getChildren().remove(options);
 		if(gameOver != null){
 			overlay.getChildren().remove(gameOver);
