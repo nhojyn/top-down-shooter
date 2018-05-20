@@ -268,14 +268,14 @@ public class TopDownShooter{
 		});
 		
 		Button spawnBouncerBtn = new Button();	
--		devTools.getChildren().add(spawnBouncerBtn);	
--		spawnBouncerBtn.setText("Spawn Bouncer");	
--		spawnBouncerBtn.setOnAction(new EventHandler<ActionEvent>(){	
--			public void handle(ActionEvent event){	
--				mobs.spawnBouncerSwarm(playground,100);					
--				//mobMovement.play();	
--			}	
--		});
+		devTools.getChildren().add(spawnBouncerBtn);	
+		spawnBouncerBtn.setText("Spawn Bouncer");	
+		spawnBouncerBtn.setOnAction(new EventHandler<ActionEvent>(){	
+			public void handle(ActionEvent event){	
+				mobs.spawnBouncerSwarm(playground,100);					
+				//mobMovement.play();	
+			}	
+		});
 	}
 
 	private void knockBackMobs(){
