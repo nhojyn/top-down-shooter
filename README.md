@@ -1,3 +1,14 @@
+# Top Down Shooter (5/20/2018) (LaserBoss)
+Added: 
+- new boss:
+  - LaserBoss (class is uncommented so hmu if any questions)
+    - Contains LaserBullet, MobLaserGun
+  - Made Player hitbos smaller (sqaure is now inscribed within circle)
+Bug: 
+- sniper bullet skips over lasermachines
+
+Read the comments if you have questions/troubles
+********************************************************************************
 # Top Down Shooter (5/19/2018) 
 Added: 
 - new classes
