@@ -53,6 +53,7 @@ public class HealthPickup extends PickUp{
 		Bounds b2 = imgview.localToScene(imgview.getBoundsInLocal());
 			
 		if(b1.intersects(b2)){
+			
 			p.heal();
 			return true;						
 		}

@@ -91,10 +91,10 @@ public class Controls{
 					if(player.getLayoutY()-player.getBody().getRadius()>0){
 						if (goNorth) dy -= 2;
 					}
-					if(player.getLayoutY()+player.getBody().getRadius()<playground.getWidth()){
+					if(player.getLayoutY()+player.getBody().getRadius()<playground.getHeight()){
 						if (goSouth) dy += 2;
 					}
-					if(player.getLayoutX()+player.getBody().getRadius()<playground.getHeight()){
+					if(player.getLayoutX()+player.getBody().getRadius()<playground.getWidth()){
 						if (goEast)  dx += 2;
 					}
 					if(player.getLayoutX()-player.getBody().getRadius()>0){

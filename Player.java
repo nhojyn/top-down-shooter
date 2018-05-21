@@ -33,8 +33,8 @@ public class Player extends Pane{
 	Player(Pane p, ArrayList<Bullet> b){
 		//setPrefSize(100,100);
 		delayOffBlink=true;
-		health = 10;
 		healthcap = 10;
+		health = healthcap;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
@@ -275,6 +275,10 @@ public class Player extends Pane{
 	}
 
 	public void heal(){
-		health += heal;
+		if(health <= healthcap - heal){
+			health = healthcap;
+		}else{
+			health += heal;
+		}
 	}
 }
