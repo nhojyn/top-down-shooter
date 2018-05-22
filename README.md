@@ -1,4 +1,4 @@
-# Top Down Shooter (5/20/2018) (LaserBoss)
+# Top Down Shooter (5/20/2018) (BouncerBoss)
 Added: 
 - bouncer bossAttack 2
 Changes:
