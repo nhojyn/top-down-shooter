@@ -1,3 +1,12 @@
+# Top Down Shooter (5/22/2018) (BouncerBoss)
+Added: 
+- bouncer bossAttack 2
+Changes:
+- size of the bouncer mob
+Bug: 
+- bouncer mob collision checks on a point so something when the edge hits the player it doesnt colide
+Read the comments if you have questions/troubles
+********************************************************************************
 # Top Down Shooter (5/20/2018) (LaserBoss)
 Added: 
 - new boss:
