@@ -18,7 +18,7 @@ public class Bouncer extends Mob{
 	Pane playground;
 	public Bouncer(Pane pg){
 		super();
-		size=50;
+		size=25;
 		playground = pg;
 		xSpeed = 0;
 		ySpeed = 0;
@@ -30,7 +30,7 @@ public class Bouncer extends Mob{
 		health = 15;
 		attacks = false;
 		shooting = false;
-		front = new Rectangle(((Rectangle)body).getWidth(),((Rectangle)body).getHeight());
+		front = new Rectangle(((Rectangle)body).getWidth()/2,((Rectangle)body).getHeight()/2,10,10);
 		front.setFill(Color.YELLOW);
 		middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 0.01,0.01);
 		middle.setFill(Color.BLUE);
