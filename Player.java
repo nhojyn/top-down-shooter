@@ -29,19 +29,34 @@ public class Player extends Pane{
 	int health, score, currentGun, heal, healthcap;
 	Rectangle hitbox;
 	boolean delayOffBlink;
+	Rectangle r1, r2, r3;
+	double blinkDelay = 1.5;
 
 	Player(Pane p, ArrayList<Bullet> b){
 		//setPrefSize(100,100);
+		body = new Circle(30);
+		body.setFill(Color.BLACK);
+		r1 = new Rectangle(8,8);
+		r1.setFill(Color.BLUE);
+		r2 =  new Rectangle(8,8);
+		r2.setFill(Color.BLUE);
+		r3 =  new Rectangle(8,8);
+		r3.setFill(Color.BLUE);
+		int spacing =10;
+		r1.setLayoutY(getLayoutY()+body.getRadius()-r1.getHeight()-spacing*2);
+		r1.setLayoutX(getLayoutX()-r1.getWidth()/2);
+		r2.setLayoutY(getLayoutY()+body.getRadius()-r2.getHeight()-spacing*3);
+		r2.setLayoutX(getLayoutX()-r2.getWidth()/2);
+		r3.setLayoutY(getLayoutY()+body.getRadius()-r2.getHeight()-spacing*4);
+		r3.setLayoutX(getLayoutX()-r3.getWidth()/2);
 		delayOffBlink=true;
+		health = 10;
 		healthcap = 10;
-		health = healthcap;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
 		heal = 2;
 		Playground=p;
-		body = new Circle(30);
-		body.setFill(Color.BLACK);
 		eye = new Circle(5);
 		eye.setFill(Color.BLUE);
 		eye.setLayoutY(getLayoutY()+body.getRadius()-eye.getRadius());
@@ -53,7 +68,7 @@ public class Player extends Pane{
 		getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 
-		getChildren().addAll(body,eye);
+		getChildren().addAll(body,eye,r1,r2,r3);
 
 		guns = new ArrayList<Gun>();
 		guns.add(new Pistol(b,body.getRadius()));
@@ -229,7 +244,7 @@ public class Player extends Pane{
 	public void blink(double mouseX, double mouseY){
 		if(delayOffBlink){
 			double sideA = mouseX - getLayoutX();
-			double sideB = mouseY - getLayoutY();
+			double sideB = mouseY - getLayoutY(); 
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 			int numImg=5;
 			int distance=150;
@@ -264,8 +279,30 @@ public class Player extends Pane{
 			setLayoutX(getLayoutX()+finalXdis);
 			setLayoutY(getLayoutY()+finalYdis);
 			delayOffBlink=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> delayOffBlink=true));
+			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(blinkDelay),ae -> delayOffBlink=true));
+			r1.setOpacity(0);
+			r2.setOpacity(0);
+			r3.setOpacity(0);
+			Timeline blinkCounter = new Timeline(new KeyFrame(Duration.seconds(blinkDelay/3.0),ae -> blinkAni()));
+			blinkCounter.setCycleCount(3);
+			blinkCounter.play();
 			delay.play();
+		}
+	}
+	
+	private void blinkAni(){
+		if(r1.getOpacity()==0){
+			r1.setFill(Color.RED);
+			r1.setOpacity(1);
+		}
+		else if(r2.getOpacity()==0){
+			r2.setFill(Color.RED);
+			r2.setOpacity(1);
+		}else if(r3.getOpacity()==0){
+			r3.setFill(Color.BLUE);
+			r2.setFill(Color.BLUE);
+			r1.setFill(Color.BLUE);
+			r3.setOpacity(1);
 		}
 	}
 
@@ -275,10 +312,6 @@ public class Player extends Pane{
 	}
 
 	public void heal(){
-		if(health <= healthcap - heal){
-			health = healthcap;
-		}else{
-			health += heal;
-		}
+		health += heal;
 	}
 }

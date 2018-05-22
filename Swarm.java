@@ -241,9 +241,6 @@ public class Swarm{
 					swarm.get(i).getProjectiles().remove(0);
 				}
 			}
-			if(swarm.get(i) instanceof LaserBoss){
-				((LaserBoss)(swarm.get(i))).getGun().clearBullets();
-			}
 			TopDownShooter.playground.getChildren().remove(swarm.get(i));
 		}
 		swarm = new ArrayList<Mob>();
