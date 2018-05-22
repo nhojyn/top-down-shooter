@@ -7,7 +7,7 @@ public class SniperBullet extends Bullet{
 	
 	public SniperBullet(double xS, double yS){
 		super(xS, yS);
-		speedMultiplier = .6;
+		speedMultiplier = .45;
 		damage = 25;
 		shell = new Circle(4);
 		shell.setFill(Color.BROWN);
