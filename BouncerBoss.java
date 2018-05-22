@@ -10,7 +10,7 @@ import javafx.event.EventHandler;
 import javafx.event.ActionEvent;
 public class BouncerBoss extends Boss implements TrueBounds{
 	
-	private final int MAX_COOLDOWN = 500;
+	private final int MAX_COOLDOWN = 400;
 	int cooldown = 20; //it will attack every 20*MAX_COOLDOWN ms (so for 125, it shoots every 5 seconds)
 	Rectangle west,north,east,south;
 	Swarm mobs;
@@ -27,7 +27,7 @@ public class BouncerBoss extends Boss implements TrueBounds{
 		super(ui);
 		mobs = s;
 		pg = main;
-		health = 300;
+		health = 400;
 		ui.addBossHP(health);
 		points = 200;
 		xSpeed = 4;
@@ -85,34 +85,35 @@ public class BouncerBoss extends Boss implements TrueBounds{
 			//makes the boss go corner to corner at least 4 times
 			setLayoutX(getLayoutX()+xSpeed);
 			setLayoutY(getLayoutY()+ySpeed);
-			if(xSpeed == 10){
+			int speed = 15;
+			if(xSpeed == speed){
 				if(getLayoutX() > pg.getWidth() - ((Circle)body).getRadius()*2){			
-					ySpeed = -10;
+					ySpeed = -speed;
 					xSpeed = 0;
 					turnsCounter++;
 				}
-			}else if(ySpeed == -10){
+			}else if(ySpeed == -speed){
 				if(getLayoutY() < 0){
 					ySpeed = 0;
-					xSpeed = -10;
+					xSpeed = -speed;
 					turnsCounter++;
 				}
-			}else if(xSpeed == -10){
+			}else if(xSpeed == -speed){
 				if(getLayoutX() < 0){
-					ySpeed = 10;
+					ySpeed = speed;
 					xSpeed = 0;
 					turnsCounter++;
 				}
-			}else if(ySpeed == 10){
+			}else if(ySpeed == speed){
 				if(getLayoutY() > pg.getHeight() - ((Circle)body).getRadius()*2){
 					ySpeed = 0;
-					xSpeed = 10;
+					xSpeed = speed;
 					turnsCounter++;
 				}
 			}else{
 				setLayoutX(0);
 				setLayoutY(0);
-				ySpeed = 10;
+				ySpeed = speed;
 			}
 			if(turnsCounter == 5){
 				revert();
@@ -156,7 +157,7 @@ public class BouncerBoss extends Boss implements TrueBounds{
             @Override
             public void handle(long now) {
                 counter++;
-                if(counter == 275){
+                if(counter == 300){
                 	speedUp = 0;
                 	blade.setFill(Color.PINK);		
                 	blade2.setFill(Color.YELLOW);	
