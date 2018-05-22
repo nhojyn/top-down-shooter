@@ -18,12 +18,11 @@ public class Bouncer extends Mob{
 	Pane playground;
 	public Bouncer(Pane pg){
 		super();
-		size=75;
+		size=50;
 		playground = pg;
-		xSpeed = 5;
-		ySpeed = 5;
+		xSpeed = 0;
+		ySpeed = 0;
 		minSpeed =2;
-		//The total amount of points by a splitter is currently size*(log2(size)+1)
 		points=size;
 		body= new Rectangle(size,size);
 		body.setFill(Color.PURPLE);
@@ -32,7 +31,7 @@ public class Bouncer extends Mob{
 		attacks = false;
 		shooting = false;
 		front = new Rectangle(((Rectangle)body).getWidth(),((Rectangle)body).getHeight());
-		front.setFill(Color.TRANSPARENT);
+		front.setFill(Color.YELLOW);
 		middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 0.01,0.01);
 		middle.setFill(Color.BLUE);
 		getChildren().addAll(body,front,middle);
