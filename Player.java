@@ -270,7 +270,6 @@ public class Player extends Pane{
 			double sideB = mouseY - getLayoutY(); 
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 			int numImg=6;
-			int distance=150;
 			double finalXdis = sideA/sideC*distance;
 			double finalYdis = sideB/sideC*distance;
 			//Next four if statements are so they dont blink off the screen
