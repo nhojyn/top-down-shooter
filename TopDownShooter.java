@@ -54,7 +54,7 @@ public class TopDownShooter{
 		stage=s;
 		highScores=hs;
 		mainMenu=mm;
-		
+
 		setHighScores = new SetHighScores(stage, highScores, mainMenu);
 
 
@@ -234,6 +234,15 @@ public class TopDownShooter{
 		spawnLaserBossBtn.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				mobs.spawnLaserBoss(playground,ui);
+			}
+		});
+
+		Button spawnBulletBossBtn = new Button();
+		devTools.getChildren().add(spawnBulletBossBtn);
+		spawnBulletBossBtn.setText("Spawn BulletBoss");
+		spawnBulletBossBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				mobs.spawnBulletBoss(playground,ui);
 			}
 		});
 
@@ -486,7 +495,7 @@ public class TopDownShooter{
 		setHighScores.displaySetHighScores(player.getScore());
 		reset();
 	}
-	
+
 
 	public void spawnItem(double i, Mob m){
 		if(i < .02){
