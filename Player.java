@@ -30,18 +30,19 @@ public class Player extends Pane{
 	Rectangle hitbox;
 	boolean delayOffBlink;
 	Rectangle r1, r2, r3;
-	double blinkDelay = 1.5;
+	double blinkDelay;
 
 	Player(Pane p, ArrayList<Bullet> b){
+		blinkDelay = 1.5;
 		//setPrefSize(100,100);
 		body = new Circle(30);
 		body.setFill(Color.BLACK);
 		r1 = new Rectangle(8,8);
-		r1.setFill(Color.BLUE);
+		r1.setFill(Color.GREEN);
 		r2 =  new Rectangle(8,8);
-		r2.setFill(Color.BLUE);
+		r2.setFill(Color.GREEN);
 		r3 =  new Rectangle(8,8);
-		r3.setFill(Color.BLUE);
+		r3.setFill(Color.GREEN);
 		int spacing =10;
 		r1.setLayoutY(getLayoutY()+body.getRadius()-r1.getHeight()-spacing*2);
 		r1.setLayoutX(getLayoutX()-r1.getWidth()/2);
@@ -55,7 +56,6 @@ public class Player extends Pane{
 		invincible=false;
 		score = 0;
 		currentGun = 0;
-		heal = 2;
 		Playground=p;
 		eye = new Circle(5);
 		eye.setFill(Color.BLUE);
@@ -82,6 +82,9 @@ public class Player extends Pane{
 
 	public int getHealth(){
 		return health;
+	}
+	public int getHealthCap(){
+		return healthcap;
 	}
 	public void setHealth(int i){
 		health = i;
@@ -145,7 +148,7 @@ public class Player extends Pane{
 		}
 		if(!invincible){
 			Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
-			Bounds b2 = body.localToScene(body.getBoundsInLocal());
+			//Bounds b2 = body.localToScene(body.getBoundsInLocal());
 			double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
 			//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
 			if(distance<body.getRadius()){
@@ -170,12 +173,20 @@ public class Player extends Pane{
 	//TODO: make this cleaner
 	public boolean collideWithProjectile(MobProjectile p){
 		if(!invincible){
-			Bounds b1 = p.localToScene(p.getBoundsInLocal());
-			Bounds b2 = body.localToScene(body.getBoundsInLocal());
-			Bounds b3 = hitbox.localToScene(hitbox.getBoundsInLocal());
-			if(b1.intersects(b3)){
-				health--;
-				return true;
+			if(p instanceof MobBullet){
+				double distance = Math.sqrt(Math.pow(p.getLayoutX()-getLayoutX(),2)+Math.pow(p.getLayoutY()-getLayoutY(),2));
+				if(distance<((MobBullet)p).getRadius()+body.getRadius()){
+					health--;
+					return true;
+				}
+			}else{
+				Bounds b1 = p.localToScene(p.getBoundsInLocal());
+				Bounds b2 = body.localToScene(body.getBoundsInLocal());
+				Bounds b3 = hitbox.localToScene(hitbox.getBoundsInLocal());
+				if(b1.intersects(b3)){
+					health--;
+					return true;
+				}
 			}
 		}
 		return false;
@@ -295,16 +306,16 @@ public class Player extends Pane{
 	
 	private void blinkAni(){
 		if(r1.getOpacity()==0){
-			r1.setFill(Color.RED);
+			r1.setFill(Color.BLUE);
 			r1.setOpacity(1);
 		}
 		else if(r2.getOpacity()==0){
-			r2.setFill(Color.RED);
+			r2.setFill(Color.BLUE);
 			r2.setOpacity(1);
 		}else if(r3.getOpacity()==0){
-			r3.setFill(Color.BLUE);
-			r2.setFill(Color.BLUE);
-			r1.setFill(Color.BLUE);
+			r3.setFill(Color.GREEN);
+			r2.setFill(Color.GREEN);
+			r1.setFill(Color.GREEN);
 			r3.setOpacity(1);
 		}
 	}
@@ -314,8 +325,8 @@ public class Player extends Pane{
 		AfImg.remove(0);
 	}
 
-	public void heal(){
-		health += heal;
+	public void heal(int i){
+		health += i;
 	}
 	
 	//loops through the guns and checks for the next locked gun and unlocks it 

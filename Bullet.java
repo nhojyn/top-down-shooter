@@ -33,7 +33,7 @@ public abstract class Bullet extends Pane{
 		xSpeed=xS;
 		ySpeed=yS;
 		distanceLimit=0;
-		bonusDamage;
+		bonusDamage=0;
 		//default knockback
 		knockBack = 20;
 		Timeline buffDuration = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> bonusDamage = 0));

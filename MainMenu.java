@@ -24,11 +24,12 @@ public class MainMenu{
 	TopDownShooter game;
 	Pane title;
 	Scene main;
-	Button mainBtn;
-	Button audioBtn;
+	Button mainBtn,audioBtn,highScore1,helpBtn;
 	AudioInterface AI;
 	Rectangle fade;
 	HighScores highScores;
+	HighScoreScreen highScoreScreen1;
+	HelpScreen helpScreen;
 	
 	Button playGame;
 	
@@ -50,6 +51,11 @@ public class MainMenu{
 		Font f1 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),20);
 		mainBtn = new Button();
 		audioBtn = new Button();
+		highScore1 = new Button();
+		helpBtn = new Button();
+		
+		highScoreScreen1= new HighScoreScreen(highScores, s,main);
+		helpScreen = new HelpScreen(s, main);
 		
 		game= new TopDownShooter(stage,mainBtn,this,highScores);
 		playGame = new Button();
@@ -71,6 +77,25 @@ public class MainMenu{
 			}
 		});
 		
+		highScore1.setFont(f1);
+		highScore1.setText("High Scores");
+		highScore1.setOnAction(new EventHandler <ActionEvent> (){
+			@Override
+			public void handle(ActionEvent event){
+				highScoreScreen1.updateHighScores();
+				highScoreScreen1.setToScene();
+			}
+		});
+		
+		helpBtn.setFont(f1);
+		helpBtn.setText("Help");
+		helpBtn.setOnAction(new EventHandler <ActionEvent> (){
+			@Override
+			public void handle(ActionEvent event){
+				helpScreen.setToScene();
+			}
+		});
+		
 		mainBtn.setFont(f1);
 		mainBtn.setText("Main Menu");
 		mainBtn.setOnAction(new EventHandler <ActionEvent> (){
@@ -87,7 +112,7 @@ public class MainMenu{
 		titleTxt.setFill(Color.WHITE);
 		
 		title.setStyle("-fx-background-color: black");
-		title.getChildren().addAll(playGame,titleTxt,audioBtn);
+		title.getChildren().addAll(playGame,titleTxt,audioBtn,highScore1,helpBtn);
 		stage.setScene( main );
 		stage.show();
 		
@@ -95,6 +120,12 @@ public class MainMenu{
 		
 		audioBtn.setLayoutX(title.getWidth()/2-audioBtn.getLayoutBounds().getWidth()/2);
 		audioBtn.setLayoutY(title.getHeight()/2+audioBtn.getLayoutBounds().getHeight()+spacing);
+		
+		highScore1.setLayoutX(title.getWidth()/2-highScore1.getLayoutBounds().getWidth()/2);
+		highScore1.setLayoutY(title.getHeight()/2+highScore1.getLayoutBounds().getHeight()+audioBtn.getLayoutBounds().getHeight()+spacing*2);
+		
+		helpBtn.setLayoutX(title.getWidth()/2-helpBtn.getLayoutBounds().getWidth()/2);
+		helpBtn.setLayoutY(title.getHeight()/2+helpBtn.getLayoutBounds().getHeight()+audioBtn.getLayoutBounds().getHeight()+highScore1.getLayoutBounds().getHeight()+spacing*3);
 		
 		playGame.setLayoutX(title.getWidth()/2-playGame.getLayoutBounds().getWidth()/2);
 		playGame.setLayoutY(title.getHeight()/2);
