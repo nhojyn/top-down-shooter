@@ -31,9 +31,11 @@ public class Player extends Pane{
 	boolean delayOffBlink;
 	Rectangle r1, r2, r3;
 	double blinkDelay;
+	int distance;
 
 	Player(Pane p, ArrayList<Bullet> b){
 		blinkDelay = 1.5;
+		distance=150;
 		//setPrefSize(100,100);
 		body = new Circle(30);
 		body.setFill(Color.BLACK);
@@ -76,8 +78,6 @@ public class Player extends Pane{
 		guns.add(new FlameThrower(b,body.getRadius()));
 
 		getChildren().add(guns.get(currentGun));
-		unlockNextGun();
-		unlockNextGun();
 	}
 
 	public int getHealth(){
@@ -147,13 +147,22 @@ public class Player extends Pane{
 			return collideWithBoss((Boss)m);
 		}
 		if(!invincible){
-			Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
-			//Bounds b2 = body.localToScene(body.getBoundsInLocal());
-			double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
-			//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
-			if(distance<body.getRadius()){
-				health--;
-				return true;
+			if(m instanceof Bouncer){
+				Bounds b1 = m.getFront().localToScene(m.getBody().getBoundsInLocal());
+				Bounds b2 = hitbox.localToScene(hitbox.getBoundsInLocal());
+				if(b1.intersects(b2)){
+					health--;
+					return true;
+				}
+			}else{
+				Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
+				//Bounds b2 = body.localToScene(body.getBoundsInLocal());
+				double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
+				//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
+				if(distance<body.getRadius()){
+					health--;
+					return true;
+				}
 			}
 		}
 		return false;
@@ -260,7 +269,7 @@ public class Player extends Pane{
 			double sideA = mouseX - getLayoutX();
 			double sideB = mouseY - getLayoutY(); 
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
-			int numImg=5;
+			int numImg=6;
 			int distance=150;
 			double finalXdis = sideA/sideC*distance;
 			double finalYdis = sideB/sideC*distance;
@@ -287,7 +296,7 @@ public class Player extends Pane{
 				afterImage.setOpacity(.6-.4/i);
 				Playground.getChildren().add(afterImage);
 			}
-			Timeline delete = new Timeline(new KeyFrame(Duration.millis(70),ae -> deleteAfterImages(afterImages)));
+			Timeline delete = new Timeline(new KeyFrame(Duration.millis(40),ae -> deleteAfterImages(afterImages)));
 			delete.setCycleCount(numImg);
 			delete.play();
 			setLayoutX(getLayoutX()+finalXdis);
