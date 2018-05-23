@@ -105,7 +105,7 @@ public class MobGun extends Pane{
 			b.setLocation(boundsInScene.getMinX() - boundsInScene.getWidth()/2-b.getRadius()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2-b.getRadius()/2);
 			bullets.add(b);
 			TopDownShooter.playground.getChildren().add(b);
-		}
+	}
 
 	public void pause(){
 		move.pause();

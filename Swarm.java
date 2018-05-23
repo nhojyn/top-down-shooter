@@ -226,6 +226,22 @@ public class Swarm{
 
 	}
 
+		public void spawnBulletBoss(Pane main, UserInterface ui){
+			playground = main;
+			for(int i = 0; i < 1; i++){
+				double spawnX = 0;
+				double spawnY = 0;
+
+				Mob temp = new BulletBoss(main,this,ui);
+				swarm.add(temp);
+				main.getChildren().add(temp);
+				temp.setLayoutX(spawnX);
+				temp.setLayoutY(spawnY);
+	
+			}
+
+		}
+
 	public void swarmPlayer(Player p){
 		for(int i = 0; i < swarm.size(); i++){
 			swarm.get(i).chase(p);
