@@ -21,8 +21,6 @@ import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 
 public class Sniper extends Gun{
-
-	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	Sniper(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		name = "Sniper";

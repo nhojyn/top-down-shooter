@@ -34,6 +34,7 @@ public class Pistol extends Gun{
 		body.setFill(Color.BLUE);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
+		unlocked = true;
 	}
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
 		Bounds boundsInScene = tip.localToScene(tip.getBoundsInLocal());
@@ -56,5 +57,8 @@ public class Pistol extends Gun{
 		}
 
 	}
-
+	
+	//overides the method since this should always be unlocked and cant be locked
+	public void lock(){
+	}
 }

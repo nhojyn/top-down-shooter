@@ -18,12 +18,11 @@ public class Bouncer extends Mob{
 	Pane playground;
 	public Bouncer(Pane pg){
 		super();
-		size=75;
+		size=25;
 		playground = pg;
-		xSpeed = 5;
-		ySpeed = 5;
-		minSpeed =2;
-		//The total amount of points by a splitter is currently size*(log2(size)+1)
+		xSpeed = 3;
+		ySpeed = 3;
+		minSpeed = 1;
 		points=size;
 		body= new Rectangle(size,size);
 		body.setFill(Color.PURPLE);
@@ -31,8 +30,8 @@ public class Bouncer extends Mob{
 		health = 15;
 		attacks = false;
 		shooting = false;
-		front = new Rectangle(((Rectangle)body).getWidth(),((Rectangle)body).getHeight());
-		front.setFill(Color.TRANSPARENT);
+		front = new Rectangle(((Rectangle)body).getWidth()/2,((Rectangle)body).getHeight()/2,10,10);
+		front.setFill(Color.YELLOW);
 		middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 0.01,0.01);
 		middle.setFill(Color.BLUE);
 		getChildren().addAll(body,front,middle);
@@ -54,13 +53,13 @@ public class Bouncer extends Mob{
 		setLayoutX(getLayoutX()+xSpeed);
 		setLayoutY(getLayoutY()+ySpeed);
 		if(getLayoutY() > playground.getHeight() - size){
-			ySpeed = -(int)(Math.random()*5)-minSpeed;
+			ySpeed = -(int)(Math.random()*4)-minSpeed;
 		}else if(getLayoutX() > playground.getWidth() - size){
-			xSpeed = -(int)(Math.random()*5)-minSpeed;
+			xSpeed = -(int)(Math.random()*4)-minSpeed;
 		}else if(getLayoutX() < 0){
-			xSpeed = (int)(Math.random()*5)+minSpeed;
+			xSpeed = (int)(Math.random()*4)+minSpeed;
 		}else if(getLayoutY() < 0){
-			ySpeed = (int)(Math.random()*5)+minSpeed;
+			ySpeed = (int)(Math.random()*4)+minSpeed;
 		}
 		
 	}

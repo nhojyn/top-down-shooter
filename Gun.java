@@ -30,6 +30,7 @@ public abstract class Gun extends Pane{
 	double fireRate;
 	Timeline move;
 	String name;
+	boolean unlocked;
 	
 	Gun(ArrayList<Bullet> b,double radius){
 		bullets = b;
@@ -38,6 +39,8 @@ public abstract class Gun extends Pane{
 		move.play();
 		setLayoutX(-radius);
 		pickupAmmo = 5;
+		//defaults all guns to not unlocked
+		unlocked = false;
 	}
 	
 	public void setLocX(double x1){
@@ -58,6 +61,10 @@ public abstract class Gun extends Pane{
 	public int getAmmocap(){
 		return ammocap;
 	}
+	public boolean getUnlocked(){
+		return unlocked;
+	}
+	
 	public void setAmmo(int i){
 		ammo=i;
 	}
@@ -127,5 +134,13 @@ public abstract class Gun extends Pane{
 		}else{
 			ammo += pickupAmmo;
 		}
+	}
+	
+	public void unlock(){
+		unlocked = true;
+	}
+	
+	public void lock(){
+		unlocked = false;
 	}
 }
