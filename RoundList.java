@@ -54,11 +54,20 @@ public class RoundList{
 		
 		//round 3
 		ArrayList<int[]> r3 = new ArrayList<int[]>();
+		r3.add(new int[]{0,8,1});
+		r3.add(new int[]{1,2,1});
+		r3.add(new int[]{3,4,2});
+		r3.add(new int[]{2,1,2});
 		Round round3 = new Round(r3,5000,main,s,3,ui);
 		
 		//round 4
 		ArrayList<int[]> r4 = new ArrayList<int[]>();
-		Round round4 = new Round(r4,5000,main,s,4,ui);
+		r4.add(new int[]{3,2,1});
+		r4.add(new int[]{0,4,1});
+		r4.add(new int[]{3,2,2});
+		r4.add(new int[]{1,4,2});
+		r4.add(new int[]{2,4,2});
+		Round round4 = new Round(r4,7000,main,s,4,ui);
 		 
 		//round 5
 		Round round5 = new BossRound(1, main, s, 5, ui);
