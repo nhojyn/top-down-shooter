@@ -305,6 +305,16 @@ public class TopDownShooter{
 				ui.getHealthBar().setHP(player.getHealth());
 			}
 		});
+		
+		Button setHP100 = new Button();
+		devTools.getChildren().add(setHP100);
+		setHP100.setText("Set player HP to 10");
+		setHP100.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				player.setHealth(10);
+				ui.getHealthBar().setHP(player.getHealth());
+			}
+		});
 
 		Button spawnBouncerBtn = new Button();
 		devTools.getChildren().add(spawnBouncerBtn);
@@ -378,8 +388,13 @@ public class TopDownShooter{
 								ui.getHealthBar().setHP(player.getHealth());
 								ui.gameOver();
 								pause();
-								Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
-								quit.play();
+								if(player.getScore()>highScores.getHighScoreNums()[highScores.getHighScoresSize()-1]){
+									Timeline HS = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> newHighScore()));
+									HS.play();
+								}else{
+									Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
+									quit.play();
+								}
 							}
 						}
 					}
@@ -399,7 +414,7 @@ public class TopDownShooter{
 							mobs.spawnSplitterSwarm(playground,((Splitter)mobs.getSwarm(i)).getSize()/2,mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 						}
 					}
-					if(mobs.getSwarm(i) instanceof ZombieBoss){
+					if(mobs.getSwarm(i).isBoss()){
 						ui.removeBossHP();
 					}
 					if(mobs.getSwarm(i) instanceof PistolMob){
@@ -408,9 +423,6 @@ public class TopDownShooter{
 							playground.getChildren().remove(mobs.getSwarm(i).getProjectiles().get(0));
 							mobs.getSwarm(i).getProjectiles().remove(0);
 						}
-					}
-					if(mobs.getSwarm(i) instanceof LaserBoss){
-						ui.removeBossHP();
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
@@ -498,7 +510,8 @@ public class TopDownShooter{
 
 
 	public void spawnItem(double i, Mob m){
-		if(i < .02){
+		double rarity = 0.03;
+		if(i < rarity){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			AmmoPickup p = new AmmoPickup();
@@ -506,10 +519,18 @@ public class TopDownShooter{
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);
 			pickups.add(p);
-		}else if(i >= .03 && i < .04){
+		}else if(i >= rarity && i < rarity + 0.1){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			HealthPickup p = new HealthPickup();
+			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
+		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			playground.getChildren().add(p);
+			pickups.add(p);
+		}else if(i >= rarity + 0.1 && i < rarity + 0.3){
+			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+			//testing: spawn pickup
+			ImmunityBuff p = new ImmunityBuff();
 			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);

@@ -25,16 +25,24 @@ public abstract class Bullet extends Pane{
 	double ySpeed;
 	Circle shell;
 	double speedMultiplier;
-	int damage;
-	Timeline explosionTimer;
+	int damage, bonusDamage;
+	Timeline explosionTimer, buffDuration;
 	double distanceLimit, knockBack;
 	
 	public Bullet(double xS, double yS){
 		xSpeed=xS;
 		ySpeed=yS;
 		distanceLimit=0;
+		bonusDamage=0;
 		//default knockback
 		knockBack = 20;
+		Timeline buffDuration = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> bonusDamage = 0));
+		buffDuration.setCycleCount(1);
+		buffDuration.setOnFinished(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				buffDuration.stop();
+			}	
+		});
 	}
 	
 	public Bullet(){
@@ -46,7 +54,7 @@ public abstract class Bullet extends Pane{
 	public double getRadius(){return shell.getRadius();}
 	public double getCenterX(){return shell.getCenterX();}
 	public double getCenterY(){return shell.getCenterY();}
-	public int getDamage(){return damage;}
+	public int getDamage(){return damage+bonusDamage;}
 	public Timeline getExplosionTimer(){return explosionTimer;}
 	public double getKnockBack(){return knockBack;}
 	public double getDistanceLimit(){return distanceLimit;}
@@ -67,6 +75,10 @@ public abstract class Bullet extends Pane{
 	public void move(){
 		setLayoutX(getLayoutX() + xSpeed*speedMultiplier);
 		setLayoutY(getLayoutY() + ySpeed*speedMultiplier);
+	}
+	public void buffDamage(){
+		bonusDamage = 10;
+		buffDuration.play();
 	}
 
 }

@@ -29,32 +29,44 @@ public class Player extends Pane{
 	int health, score, currentGun, heal, healthcap;
 	Rectangle hitbox;
 	boolean delayOffBlink;
+	Rectangle r1, r2, r3;
+	double blinkDelay;
 
 	Player(Pane p, ArrayList<Bullet> b){
+		blinkDelay = 1.5;
 		//setPrefSize(100,100);
+		body = new Circle(30);
+		body.setFill(Color.BLACK);
+		r1 = new Rectangle(8,8);
+		r1.setFill(Color.GREEN);
+		r2 =  new Rectangle(8,8);
+		r2.setFill(Color.GREEN);
+		r3 =  new Rectangle(8,8);
+		r3.setFill(Color.GREEN);
+		int spacing =10;
+		r1.setLayoutY(getLayoutY()+body.getRadius()-r1.getHeight()-spacing*2);
+		r1.setLayoutX(getLayoutX()-r1.getWidth()/2);
+		r2.setLayoutY(getLayoutY()+body.getRadius()-r2.getHeight()-spacing*3);
+		r2.setLayoutX(getLayoutX()-r2.getWidth()/2);
+		r3.setLayoutY(getLayoutY()+body.getRadius()-r2.getHeight()-spacing*4);
+		r3.setLayoutX(getLayoutX()-r3.getWidth()/2);
 		delayOffBlink=true;
 		health = 10;
 		healthcap = 10;
 		invincible=false;
 		score = 0;
 		currentGun = 0;
-		heal = 2;
 		Playground=p;
-		body = new Circle(30);
-		body.setFill(Color.BLACK);
 		eye = new Circle(5);
 		eye.setFill(Color.BLUE);
 		eye.setLayoutY(getLayoutY()+body.getRadius()-eye.getRadius());
-		//body.setCenterX(getPrefWidth()/2);
-		//System.out.println(getPrefWidth() + " " + getPrefHeight());
-		//body.setCenterY(getPrefHeight()/2);
-		//setStyle("-fx-background-color: blue;");
 		hitbox = new Rectangle(body.getCenterX()-body.getRadius()/1.414, body.getCenterY()-body.getRadius()/1.414, 1.414*body.getRadius(), 1.414*body.getRadius());
 		getChildren().add(hitbox);
 		hitbox.setFill(Color.TRANSPARENT);
 
-		getChildren().addAll(body,eye);
+		getChildren().addAll(body,eye,r1,r2,r3);
 
+		//order matters, which ever gun is next is unlocked(pistol and shotgun are always unlocked)
 		guns = new ArrayList<Gun>();
 		guns.add(new Pistol(b,body.getRadius()));
 		guns.add(new ShotGun(b,body.getRadius()));
@@ -64,10 +76,15 @@ public class Player extends Pane{
 		guns.add(new FlameThrower(b,body.getRadius()));
 
 		getChildren().add(guns.get(currentGun));
+		unlockNextGun();
+		unlockNextGun();
 	}
 
 	public int getHealth(){
 		return health;
+	}
+	public int getHealthCap(){
+		return healthcap;
 	}
 	public void setHealth(int i){
 		health = i;
@@ -122,6 +139,7 @@ public class Player extends Pane{
 		}
 		health=10;
 		score=0;
+		lockAllGuns();
 	}
 
 	public boolean collideWithMob(Mob m){
@@ -130,7 +148,7 @@ public class Player extends Pane{
 		}
 		if(!invincible){
 			Bounds b1 = m.getFront().localToScene(m.getFront().getBoundsInLocal());
-			Bounds b2 = body.localToScene(body.getBoundsInLocal());
+			//Bounds b2 = body.localToScene(body.getBoundsInLocal());
 			double distance = Math.sqrt(Math.pow(b1.getMinX()-getLayoutX(),2)+Math.pow(b1.getMinY()-getLayoutY(),2));
 			//Bug: HITS THE PLAYER BEFORE ACTUALLY TOUCHING
 			if(distance<body.getRadius()){
@@ -155,12 +173,20 @@ public class Player extends Pane{
 	//TODO: make this cleaner
 	public boolean collideWithProjectile(MobProjectile p){
 		if(!invincible){
-			Bounds b1 = p.localToScene(p.getBoundsInLocal());
-			Bounds b2 = body.localToScene(body.getBoundsInLocal());
-			Bounds b3 = hitbox.localToScene(hitbox.getBoundsInLocal());
-			if(b1.intersects(b3)){
-				health--;
-				return true;
+			if(p instanceof MobBullet){
+				double distance = Math.sqrt(Math.pow(p.getLayoutX()-getLayoutX(),2)+Math.pow(p.getLayoutY()-getLayoutY(),2));
+				if(distance<((MobBullet)p).getRadius()+body.getRadius()){
+					health--;
+					return true;
+				}
+			}else{
+				Bounds b1 = p.localToScene(p.getBoundsInLocal());
+				Bounds b2 = body.localToScene(body.getBoundsInLocal());
+				Bounds b3 = hitbox.localToScene(hitbox.getBoundsInLocal());
+				if(b1.intersects(b3)){
+					health--;
+					return true;
+				}
 			}
 		}
 		return false;
@@ -168,7 +194,10 @@ public class Player extends Pane{
 
 	public void grantInvincibility(double sec){
 		invincible=true;
-		body.setFill(Color.RED);
+		//the immunity buff sets it to red only if its black
+		if(body.getFill() == Color.BLACK){
+			body.setFill(Color.RED);
+		}
 		Timeline delay = new Timeline(new KeyFrame(Duration.millis(sec*1000),ae -> invincibilityOff()));
 		delay.play();
 	}
@@ -184,7 +213,7 @@ public class Player extends Pane{
 
 	//removes the current gun and then changes to the new one
 	public void changeGun(int i,UserInterface ui){
-		if(i < guns.size()){
+		if(guns.get(i).getUnlocked()){
 			getChildren().remove(guns.get(currentGun));
 			getChildren().add(guns.get(i));
 			currentGun = i;
@@ -229,7 +258,7 @@ public class Player extends Pane{
 	public void blink(double mouseX, double mouseY){
 		if(delayOffBlink){
 			double sideA = mouseX - getLayoutX();
-			double sideB = mouseY - getLayoutY();
+			double sideB = mouseY - getLayoutY(); 
 			double sideC = Math.sqrt(Math.pow(sideA,2) + Math.pow(sideB,2));
 			int numImg=5;
 			int distance=150;
@@ -264,8 +293,30 @@ public class Player extends Pane{
 			setLayoutX(getLayoutX()+finalXdis);
 			setLayoutY(getLayoutY()+finalYdis);
 			delayOffBlink=false;
-			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(1.5),ae -> delayOffBlink=true));
+			Timeline delay = new Timeline(new KeyFrame(Duration.seconds(blinkDelay),ae -> delayOffBlink=true));
+			r1.setOpacity(0);
+			r2.setOpacity(0);
+			r3.setOpacity(0);
+			Timeline blinkCounter = new Timeline(new KeyFrame(Duration.seconds(blinkDelay/3.0),ae -> blinkAni()));
+			blinkCounter.setCycleCount(3);
+			blinkCounter.play();
 			delay.play();
+		}
+	}
+	
+	private void blinkAni(){
+		if(r1.getOpacity()==0){
+			r1.setFill(Color.BLUE);
+			r1.setOpacity(1);
+		}
+		else if(r2.getOpacity()==0){
+			r2.setFill(Color.BLUE);
+			r2.setOpacity(1);
+		}else if(r3.getOpacity()==0){
+			r3.setFill(Color.GREEN);
+			r2.setFill(Color.GREEN);
+			r1.setFill(Color.GREEN);
+			r3.setOpacity(1);
 		}
 	}
 
@@ -274,7 +325,35 @@ public class Player extends Pane{
 		AfImg.remove(0);
 	}
 
-	public void heal(){
-		health += heal;
+	public void heal(int i){
+		health += i;
 	}
+	
+	//loops through the guns and checks for the next locked gun and unlocks it 
+	public void unlockNextGun(){
+		boolean unlockedAGun = false;
+		int i = 2;
+		while(!unlockedAGun){
+			if(guns.get(i).getUnlocked() == false){
+				guns.get(i).unlock();
+				unlockedAGun = true;	
+				//stops the loop if there is no more guns to unlock 
+			}else if(i > guns.size()){
+				break;
+			}
+			i++;
+		}
+	}
+	
+ 	private void lockAllGuns(){
+ 		for(int i = 0; i < guns.size(); i++){
+ 			guns.get(i).lock();
+ 		}
+ 	}
+ 	
+ 	public void buffAllDamage(){
+ 		for(int i = 0; i < guns.size(); i++){
+ 			
+ 		}
+ 	}
 }
