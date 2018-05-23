@@ -305,6 +305,16 @@ public class TopDownShooter{
 				ui.getHealthBar().setHP(player.getHealth());
 			}
 		});
+		
+		Button setHP100 = new Button();
+		devTools.getChildren().add(setHP100);
+		setHP100.setText("Set player HP to 10");
+		setHP100.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				player.setHealth(10);
+				ui.getHealthBar().setHP(player.getHealth());
+			}
+		});
 
 		Button spawnBouncerBtn = new Button();
 		devTools.getChildren().add(spawnBouncerBtn);

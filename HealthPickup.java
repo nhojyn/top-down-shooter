@@ -22,8 +22,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class HealthPickup extends PickUp{
+	int healAmt;
 	public HealthPickup(){
-	
 		try{
 			//img = new Image("C:\\Users\\ ... //FullPath ... \\JoPoFX\\src\\jopofx\\myimage.png");
 			health = new Image("healthkit.png");
@@ -41,6 +41,7 @@ public class HealthPickup extends PickUp{
 			System.out.println("error while creating image");
 			e.printStackTrace();
 		}
+		healAmt=2;
 	}
 	
 	public void setLoc(double x, double y){
@@ -53,8 +54,16 @@ public class HealthPickup extends PickUp{
 		Bounds b2 = imgview.localToScene(imgview.getBoundsInLocal());
 			
 		if(b1.intersects(b2)){
-			p.heal();
-			return true;						
+			if(p.getHealth()==p.getHealthCap()){
+				return false;
+			}
+			else if(p.getHealth()+healAmt<=p.getHealthCap()){
+				p.heal(healAmt);
+				return true;
+			}else{
+				p.heal(p.getHealth()+healAmt-p.getHealthCap());
+				return true;
+			}			
 		}
 		return false;
 	}

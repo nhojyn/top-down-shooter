@@ -28,8 +28,7 @@ public class SetHighScores{
 	HighScores highScores;
 	MainMenu mainMenu;
 	Pane screen;
-	Text t;
-	Text t2;
+	Text t,t2,warning;
 	Rectangle fade;
 	
 	public SetHighScores(Stage s, HighScores hs,MainMenu mm){
@@ -46,6 +45,10 @@ public class SetHighScores{
 		t2 = new Text("Type     in     3     character     initials");
 		t2.setFont(f);
 		t2.setFill(Color.WHITE);
+		warning  = new Text("INITIALS		MUST		BE			3		LETTERS");
+		warning.setFont(f);
+		warning.setFill(Color.RED);
+		warning.setOpacity(0);
 		tf=new TextFlow();
 		fade = new Rectangle(screen.getPrefWidth(), screen.getPrefHeight());
 		fade.setFill(Color.BLACK);
@@ -56,13 +59,16 @@ public class SetHighScores{
 	public void displaySetHighScores(int score){
 		reset();
 		stage.setScene(scene);
-		screen.getChildren().addAll(t,t2,tf);
+		warning.setOpacity(0);
+		screen.getChildren().addAll(t,t2,tf,warning);
 		t2.setLayoutX(screen.getWidth()/2-t2.getLayoutBounds().getWidth()/2);
 		t2.setLayoutY(screen.getHeight()/2-t2.getLayoutBounds().getHeight()/2+t2.getLayoutBounds().getHeight());
 		t.setLayoutX(screen.getWidth()/2-t.getLayoutBounds().getWidth()/2);
 		t.setLayoutY(screen.getHeight()/2-t.getLayoutBounds().getHeight()/2);
 		tf.setLayoutX(screen.getWidth()/2-tf.getLayoutBounds().getWidth()/2);
 		tf.setLayoutY(screen.getHeight()/2-tf.getLayoutBounds().getHeight()/2+t2.getLayoutBounds().getHeight()+t.getLayoutBounds().getHeight());
+		warning.setLayoutX(screen.getWidth()/2-warning.getLayoutBounds().getWidth()/2);
+		warning.setLayoutY(screen.getHeight()/2-warning.getLayoutBounds().getHeight()/2+200);
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -87,6 +93,8 @@ public class SetHighScores{
 						fadeAni.play();
 						fadeAni.setOnFinished(e -> goToMain());
 					}
+				}else if(event.getCode().equals(KeyCode.ENTER)&&initials.size()<3){
+					warning.setOpacity(1);
 				}
             }
         });
