@@ -1,3 +1,8 @@
+# Top Down Shooter (5/22/2018) (BulletBoss)
+- bullet boss added
+- read comments for descriptions of attacks
+********************************************************************************
+
 # Top Down Shooter (5/22/2018) (BouncerBoss)
 Added: 
 - bouncer bossAttack 2
