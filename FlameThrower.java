@@ -21,8 +21,6 @@ import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 
 public class FlameThrower extends Gun{
-
-	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	FlameThrower(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		name = "FlameThrower";

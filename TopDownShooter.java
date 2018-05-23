@@ -498,7 +498,8 @@ public class TopDownShooter{
 
 
 	public void spawnItem(double i, Mob m){
-		if(i < .02){
+		double rarity = 0.03;
+		if(i < rarity){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			AmmoPickup p = new AmmoPickup();
@@ -506,10 +507,18 @@ public class TopDownShooter{
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);
 			pickups.add(p);
-		}else if(i >= .03 && i < .04){
+		}else if(i >= rarity && i < rarity + 0.1){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
 			HealthPickup p = new HealthPickup();
+			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
+		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
+			playground.getChildren().add(p);
+			pickups.add(p);
+		}else if(i >= rarity + 0.1 && i < rarity + 0.3){
+			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
+			//testing: spawn pickup
+			ImmunityBuff p = new ImmunityBuff();
 			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
 			playground.getChildren().add(p);

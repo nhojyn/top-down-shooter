@@ -21,8 +21,6 @@ import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 
 public class ShotGun extends Gun{
-
-	//TODO: NEEDS TO CHECK FOR AMMO LEFT 
 	ShotGun(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		name = "ShotGun";
@@ -36,6 +34,7 @@ public class ShotGun extends Gun{
 		body.setFill(Color.GREEN);
 		getChildren().addAll(body,tip);
 		tip.setLayoutY(body.getHeight());
+		unlocked = true;
 	}
 	
 	public void shoot(Player p, double mouseLocX, double mouseLocY){
@@ -62,7 +61,9 @@ public class ShotGun extends Gun{
 				ammo--;
 			}
 		}
-		
+	}
+	
+	public void lock(){
 	}
 	
 }
