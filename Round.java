@@ -84,9 +84,16 @@ public class Round{
 							    break;
 						case 1: mobs.spawnLaserSwarm(pg, i[1]);
 								break;
-						case 2:
+						case 2: for(int a = 0; a<i[1]; a++){
+									mobs.spawnSplitterSwarm(pg, 8);
+								}
 								break;
-						case 3:
+						case 3: for(int a = 0; a<i[1]; a++){
+									mobs.spawnBouncerSwarm(pg, 100);
+								}
+								break;
+						case 4: mobs.spawnPistolMobSwarm(pg,i[1]);
+								break;
 
 					}
 				}
