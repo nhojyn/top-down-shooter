@@ -378,8 +378,13 @@ public class TopDownShooter{
 								ui.getHealthBar().setHP(player.getHealth());
 								ui.gameOver();
 								pause();
-								Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
-								quit.play();
+								if(player.getScore()>highScores.getHighScoreNums()[highScores.getHighScoresSize()-1]){
+									Timeline HS = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> newHighScore()));
+									HS.play();
+								}else{
+									Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
+									quit.play();
+								}
 							}
 						}
 					}
@@ -399,7 +404,7 @@ public class TopDownShooter{
 							mobs.spawnSplitterSwarm(playground,((Splitter)mobs.getSwarm(i)).getSize()/2,mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 						}
 					}
-					if(mobs.getSwarm(i) instanceof ZombieBoss){
+					if(mobs.getSwarm(i).isBoss()){
 						ui.removeBossHP();
 					}
 					if(mobs.getSwarm(i) instanceof PistolMob){
@@ -408,9 +413,6 @@ public class TopDownShooter{
 							playground.getChildren().remove(mobs.getSwarm(i).getProjectiles().get(0));
 							mobs.getSwarm(i).getProjectiles().remove(0);
 						}
-					}
-					if(mobs.getSwarm(i) instanceof LaserBoss){
-						ui.removeBossHP();
 					}
 					player.addToScore(mobs.getSwarm(i).getPoints());
 					ui.setScore(player.getScore());
