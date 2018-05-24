@@ -56,17 +56,17 @@ public class RoundList{
 		ArrayList<int[]> r3 = new ArrayList<int[]>();
 		r3.add(new int[]{0,8,1});
 		r3.add(new int[]{1,2,1});
-		r3.add(new int[]{3,4,2});
+		r3.add(new int[]{3,2,2});
 		r3.add(new int[]{2,1,2});
 		Round round3 = new Round(r3,5000,main,s,3,ui);
 		
 		//round 4
 		ArrayList<int[]> r4 = new ArrayList<int[]>();
-		r4.add(new int[]{3,2,1});
+		r4.add(new int[]{3,4,1});
 		r4.add(new int[]{0,4,1});
-		r4.add(new int[]{3,2,2});
+		r4.add(new int[]{3,4,2});
 		r4.add(new int[]{1,4,2});
-		r4.add(new int[]{2,4,2});
+		r4.add(new int[]{2,1,2});
 		Round round4 = new Round(r4,7000,main,s,4,ui);
 		 
 		//round 5
@@ -74,14 +74,21 @@ public class RoundList{
 		
 		//round 6
 		ArrayList<int[]> r6 = new ArrayList<int[]>();
+		r6.add(new int[]{3,8,1});
+		r6.add(new int[]{1,2,1});
 		Round round6 = new Round(r6,5000,main,s,6,ui);
 		
 		//round 7
 		ArrayList<int[]> r7 = new ArrayList<int[]>();
+		r7.add(new int[]{1,8,1});
 		Round round7 = new Round(r7,5000,main,s,7,ui);
 		
 		//round 8
 		ArrayList<int[]> r8 = new ArrayList<int[]>();
+		r8.add(new int[]{0,16,1});
+		r8.add(new int[]{2,1,1});
+		r8.add(new int[]{4,6,2});
+		r8.add(new int[]{1,2,2});
 		Round round8 = new Round(r8,5000,main,s,8,ui);
 		
 		//round 9
@@ -89,22 +96,31 @@ public class RoundList{
 		
 		//round 10
 		ArrayList<int[]> r10 = new ArrayList<int[]>();
+		r10.add(new int[]{3,8,1});
+		r10.add(new int[]{4,2,1});
+		r10.add(new int[]{1,2,2});
+		r10.add(new int[]{4,2,2});
 		Round round10 = new Round(r10,5000,main,s,10,ui);
 		
 		//round 11
 		ArrayList<int[]> r11 = new ArrayList<int[]>();
+		r11.add(new int[]{4,8,1});
+		r11.add(new int[]{4,8,2});
 		Round round11 = new Round(r11,5000,main,s,11,ui);
 		
 		//round 12
-		ArrayList<int[]> r12 = new ArrayList<int[]>();
-		Round round12 = new Round(r12,5000,main,s,12,ui);
+		Round round12 = new BossRound(3, main, s, 14, ui);
 		
+		/* Decided to cut two rounds because they're getting a little repetitive (most ppl won't make it past laser boss anyway)
+		 * 
 		//round 13
 		ArrayList<int[]> r13 = new ArrayList<int[]>();
-		Round round13 = new Round(r13,5000,main,s,13,ui);
+		
+		Round round13 = 
 		
 		//round 14
-		Round round14 = new BossRound(3, main, s, 14, ui);
+		Round round14 = 
+		*/
 		
 		//adds all rounds
 		rounds.add(round1);
@@ -119,8 +135,11 @@ public class RoundList{
 		rounds.add(round10);
 		rounds.add(round11);
 		rounds.add(round12);
+		
+		/*
 		rounds.add(round13);
 		rounds.add(round14);
+		*/
 	}
 
 	//this constructor is probably not getting used
