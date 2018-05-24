@@ -25,7 +25,7 @@ public class SpeedUpgradeDrop extends PickUp{
 	public SpeedUpgradeDrop(Pane pg){
 		super(pg);
 		try{
-			img = new Image("speed.png");
+			img = new Image("running.png");
 			imgview = new ImageView(img);
 			imgview.setFitWidth(50);
 			imgview.setFitHeight(50);
