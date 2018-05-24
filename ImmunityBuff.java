@@ -22,12 +22,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class ImmunityBuff extends PickUp{
-	public ImmunityBuff(){
-	
+	public ImmunityBuff(Pane pg){
+		super(pg);
 		try{
-			//img = new Image("C:\\Users\\ ... //FullPath ... \\JoPoFX\\src\\jopofx\\myimage.png");
-			ammo = new Image("ammobox.png");
-			imgview = new ImageView(ammo);
+			img = new Image("immunity.png");
+			imgview = new ImageView(img);
 			imgview.setFitWidth(50);
 			imgview.setFitHeight(50);
 			
@@ -35,7 +34,7 @@ public class ImmunityBuff extends PickUp{
 			setPrefHeight(imgview.getFitHeight());
 			
 			getChildren().add(imgview);
-			//playground.getChildren().add(getChildren());
+			playground.getChildren().add(this);
 	
 		}catch(Exception e){
 			System.out.println("error while creating image");
