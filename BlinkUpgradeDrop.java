@@ -25,10 +25,10 @@ public class BlinkUpgradeDrop extends PickUp{
 	public BlinkUpgradeDrop(Pane pg){
 		super(pg);
 		try{
-			img = new Image("flash.png");
+			img = new Image("blink.png");
 			imgview = new ImageView(img);
-			imgview.setFitWidth(50);
-			imgview.setFitHeight(50);
+			imgview.setFitWidth(40);
+			imgview.setFitHeight(60);
 			
 			setPrefWidth(imgview.getFitWidth());
 			setPrefHeight(imgview.getFitHeight());
