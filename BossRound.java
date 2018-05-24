@@ -27,7 +27,11 @@ public class BossRound extends Round{
 		switch (bossId){
 			case 0: mobs.spawnZombieBoss(pg, ui);
 					break;
-			case 1: 
+			case 1: mobs.spawnBouncerBoss(pg,ui);
+					break;
+			case 2: mobs.spawnLaserBoss(pg,ui);
+					break;
+			case 3: mobs.spawnBulletBoss(pg,ui);
 					break;
 		}
 		currentWave = 1;
