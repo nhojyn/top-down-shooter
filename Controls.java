@@ -59,7 +59,7 @@ public class Controls{
 				//keys 1, 2, 3, 4, 5 changes weapons
 				//TODO: FINISH MORE GUNS TO ASSIGN FOR DIGIT CLICKED
 				if(!isPaused){
-					if(event.getCode()==KeyCode.DIGIT1||event.getCode()==KeyCode.DIGIT2||event.getCode()==KeyCode.DIGIT3||event.getCode()==KeyCode.DIGIT4||event.getCode()==KeyCode.DIGIT5||event.getCode()==KeyCode.DIGIT6||event.getCode()==KeyCode.DIGIT7||event.getCode()==KeyCode.DIGIT8){
+					if(event.getCode()==KeyCode.DIGIT1||event.getCode()==KeyCode.DIGIT2||event.getCode()==KeyCode.DIGIT3||event.getCode()==KeyCode.DIGIT4||event.getCode()==KeyCode.DIGIT5||event.getCode()==KeyCode.DIGIT6){
 						player.changeGun(Integer.parseInt(event.getText())-1,ui);
 					}
 				}
@@ -89,16 +89,16 @@ public class Controls{
 					int dx = 0, dy = 0;
 					
 					if(player.getLayoutY()-player.getBody().getRadius()>0){
-						if (goNorth) dy -= 2;
+						if (goNorth) dy -= player.getSpeed();
 					}
 					if(player.getLayoutY()+player.getBody().getRadius()<playground.getWidth()){
-						if (goSouth) dy += 2;
+						if (goSouth) dy += player.getSpeed();
 					}
 					if(player.getLayoutX()+player.getBody().getRadius()<playground.getHeight()){
-						if (goEast)  dx += 2;
+						if (goEast)  dx += player.getSpeed();
 					}
 					if(player.getLayoutX()-player.getBody().getRadius()>0){
-						if (goWest)  dx -= 2;
+						if (goWest)  dx -= player.getSpeed();
 					}
 
 					player.move(dx, dy);

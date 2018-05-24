@@ -1,3 +1,8 @@
+# Top Down Shooter (5/22/2018) (Upgrade drops)
+- added in speed + blinkupgrade
+- if u want to change how much it upgrades, its in the BlinkUpgradeDrop and SpeedUpgradeDrop
+********************************************************************************
+
 # Top Down Shooter (5/22/2018) (BulletBoss)
 - bullet boss added
 - read comments for descriptions of attacks
