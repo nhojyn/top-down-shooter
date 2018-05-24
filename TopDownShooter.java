@@ -469,6 +469,8 @@ public class TopDownShooter{
 					mobs.getSwarm().remove(mobs.getSwarm(i));
 
 				}
+				//checks if player is out of bounds
+				player.checkRoomBounds();
 			}
 		}
 

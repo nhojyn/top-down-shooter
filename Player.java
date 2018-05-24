@@ -205,6 +205,21 @@ public class Player extends Pane{
 		return false;
 	}
 
+	public void checkRoomBounds(){
+		if(getLayoutX() + body.getRadius() >= Playground.getPrefWidth()){
+			move(-1,0);
+		}
+		else if(getLayoutX() <= 0){
+			move(1,0);
+		}
+		else if(getLayoutY() + body.getRadius() >= Playground.getPrefHeight()){
+			move(0,-1);
+		}
+		else if(getLayoutY() <= 0){
+			move(0,1);
+		}
+	}
+	
 	public void grantInvincibility(double sec){
 		invincible=true;
 		//the immunity buff sets it to red only if its black
