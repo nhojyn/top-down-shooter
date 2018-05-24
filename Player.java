@@ -31,11 +31,12 @@ public class Player extends Pane{
 	boolean delayOffBlink;
 	Rectangle r1, r2, r3;
 	double blinkDelay;
-	int distance;
+	int distance, speed;
 
 	Player(Pane p, ArrayList<Bullet> b){
 		blinkDelay = 1.5;
 		distance=150;
+		speed = 2;
 		//setPrefSize(100,100);
 		body = new Circle(30);
 		body.setFill(Color.BLACK);
@@ -112,6 +113,9 @@ public class Player extends Pane{
 	}
 	public ArrayList<Gun> getGuns(){
 		return guns;
+	}
+	public int getSpeed(){
+		return speed;
 	}
 
 	public void move(int x, int y){
@@ -222,7 +226,7 @@ public class Player extends Pane{
 
 	//removes the current gun and then changes to the new one
 	public void changeGun(int i,UserInterface ui){
-		if(guns.get(i).getUnlocked()){
+		if(guns.get(i).getUnlocked() && i < guns.size()){
 			getChildren().remove(guns.get(currentGun));
 			getChildren().add(guns.get(i));
 			currentGun = i;
@@ -340,14 +344,14 @@ public class Player extends Pane{
 	//loops through the guns and checks for the next locked gun and unlocks it 
 	public void unlockNextGun(){
 		boolean unlockedAGun = false;
-		int i = 2;
+		int i = 1;
 		while(!unlockedAGun){
-			if(guns.get(i).getUnlocked() == false){
+			//stops the loop if there is no more guns to unlock 
+			if(i >= guns.size()){
+				break;
+			}else if(guns.get(i).getUnlocked() == false){
 				guns.get(i).unlock();
 				unlockedAGun = true;	
-				//stops the loop if there is no more guns to unlock 
-			}else if(i > guns.size()){
-				break;
 			}
 			i++;
 		}
@@ -359,6 +363,16 @@ public class Player extends Pane{
  		}
  	}
  	
+ 	public void upgradeBlink(double cd, int dis){
+ 		if(blinkDelay - cd > 0){
+ 			blinkDelay = blinkDelay - cd;
+ 			distance = distance + dis;
+ 		}
+ 	}
+ 	public void upgradeSpeed(int sp){
+		speed = speed + sp; 	
+ 	}
+ 	//doesnt do anything, may delete if not wanted (it should use the variable in bullets- bonusDamage)
  	public void buffAllDamage(){
  		for(int i = 0; i < guns.size(); i++){
  			

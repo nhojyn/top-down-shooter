@@ -22,11 +22,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class PickUp extends Pane{
-	
-	Image ammo, health;
+	Pane playground;
+	Image img;
 	ImageView imgview;
-	public PickUp(){
-	
+	public PickUp(Pane pg){
+		playground = pg;
 	}
 	
 	public void setLoc(double x, double y){

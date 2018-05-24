@@ -207,6 +207,43 @@ public class TopDownShooter{
 				knockBackMobs();
 			}
 		});
+		
+		//test unlock weapon
+		Button unlockGunBtn = new Button();
+		devTools.getChildren().add(unlockGunBtn);
+		unlockGunBtn.setLayoutX(100);
+		unlockGunBtn.setText("Unlock next gun");
+		unlockGunBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				player.unlockNextGun();
+			}
+		});
+
+		//test upgradeBlink drop
+		Button upgradeBlinkBtn = new Button();
+		devTools.getChildren().add(upgradeBlinkBtn);
+		upgradeBlinkBtn.setLayoutX(100);
+		upgradeBlinkBtn.setText("Drop upgrade blink item");
+		upgradeBlinkBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				BlinkUpgradeDrop temp = new BlinkUpgradeDrop(playground);
+				pickups.add(temp);
+				temp.setLoc(500,500);
+			}
+		});
+			
+		//test upgradeBlink drop
+		Button upgradeSpeedBtn = new Button();
+		devTools.getChildren().add(upgradeSpeedBtn);
+		upgradeSpeedBtn.setLayoutX(100);
+		upgradeSpeedBtn.setText("Drop upgrade speed item");
+		upgradeSpeedBtn.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				SpeedUpgradeDrop temp = new SpeedUpgradeDrop(playground);
+				pickups.add(temp);
+				temp.setLoc(500,250);
+			}
+		});
 
 		//create zombie swarm and test it
 		Button spawnZombieBossBtn = new Button();
@@ -472,6 +509,8 @@ public class TopDownShooter{
 		ui.reset();
 		roundList.reset();
 		resetPickups();
+		//defaults it back to pistol
+		player.changeGun(0,ui);
 	}
 
 	public void pause(){
@@ -514,26 +553,26 @@ public class TopDownShooter{
 		if(i < rarity){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
-			AmmoPickup p = new AmmoPickup();
+			AmmoPickup p = new AmmoPickup(playground);
 			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
-			playground.getChildren().add(p);
+		//	playground.getChildren().add(p);
 			pickups.add(p);
 		}else if(i >= rarity && i < rarity + 0.01){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
-			HealthPickup p = new HealthPickup();
+			HealthPickup p = new HealthPickup(playground);
 			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
-			playground.getChildren().add(p);
+		//	playground.getChildren().add(p);
 			pickups.add(p);
 		}else if(i >= rarity + 0.01 && i < rarity + 0.03){
 			Bounds boundsInScene = m.getBody().localToScene(m.getBody().getBoundsInLocal());
 			//testing: spawn pickup
-			ImmunityBuff p = new ImmunityBuff();
+			ImmunityBuff p = new ImmunityBuff(playground);
 			p.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
 		//	p.setLoc(boundsInScene.getMinX() - boundsInScene.getWidth()/2,boundsInScene.getMinY() - boundsInScene.getHeight()/2);
-			playground.getChildren().add(p);
+	//		playground.getChildren().add(p);
 			pickups.add(p);
 		}
 	}

@@ -22,12 +22,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class AmmoPickup extends PickUp{
-	public AmmoPickup(){
-	
+	public AmmoPickup(Pane pg){
+		super(pg);
 		try{
-			//img = new Image("C:\\Users\\ ... //FullPath ... \\JoPoFX\\src\\jopofx\\myimage.png");
-			ammo = new Image("ammobox.png");
-			imgview = new ImageView(ammo);
+			img = new Image("ammobox.png");
+			imgview = new ImageView(img);
 			imgview.setFitWidth(50);
 			imgview.setFitHeight(50);
 			//health = new Image("healthkit.png");
@@ -35,7 +34,7 @@ public class AmmoPickup extends PickUp{
 			setPrefHeight(imgview.getFitHeight());
 			
 			getChildren().add(imgview);
-			//playground.getChildren().add(getChildren());
+			playground.getChildren().add(this);
 	
 		}catch(Exception e){
 			System.out.println("error while creating image");
