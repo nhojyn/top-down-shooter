@@ -108,8 +108,8 @@ public class MainMenu{
 			}
 		});
 		
-		Font f2 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),200);
-		Text titleTxt = new Text("Game");
+		Font f2 = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),100);
+		Text titleTxt = new Text("Top	Down	Shooter");
 		titleTxt.setFont(f2);
 		titleTxt.setFill(Color.WHITE);
 		
