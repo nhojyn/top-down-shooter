@@ -48,6 +48,9 @@ public class HelpScreen extends VBox{
 		help = new Text("Blink	-	Right Click");
 		help.setFont(f);
 		helpList.add(help);
+		help = new Text("Number Keys	-	Switch Weapons");
+		help.setFont(f);
+		helpList.add(help);
 		help = new Text("Goal");
 		help.setFont(f1);
 		helpList.add(help);
