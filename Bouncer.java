@@ -20,14 +20,14 @@ public class Bouncer extends Mob{
 		super();
 		size=35;
 		playground = pg;
-		xSpeed = 7;
-		ySpeed = 7;
+		xSpeed = 5;
+		ySpeed = 5;
 		minSpeed = 2;
 		points= 10;
 		body= new Rectangle(size,size);
 		body.setFill(Color.PURPLE);
 		knockback = false;
-		health = 15;
+		health = 12;
 		attacks = false;
 		shooting = false;
 		front = new Rectangle(size,size);

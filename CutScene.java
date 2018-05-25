@@ -21,7 +21,6 @@ import javafx.scene.transform.Rotate;
 import javafx.geometry.Point2D;
 
 public class CutScene{
-	Text text;
 	Pane screen;
 	StackPane centered;
 	
@@ -35,7 +34,7 @@ public class CutScene{
 	
 	public void newScene(String s, double duration){
 		Font f = Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"),80);
-		text = new Text(s);
+		Text text = new Text(s);
 		text.setFont(f);
 		text.setFill(Color.BLACK);
 		centered.getChildren().add(text);
