@@ -51,15 +51,14 @@ public class BouncerBoss extends Boss implements TrueBounds{
 	 	spin = new Timeline(new KeyFrame(Duration.millis(15),ae -> rotateBlade()));
 	 	spin.setCycleCount(Animation.INDEFINITE);
 		spin.play();
-		getChildren().addAll(blade,blade2,body,front);
-		System.out.println(spin.getRate());
+		middle = new Rectangle(((Circle)body).getCenterX()-2.5,((Circle)body).getCenterY()-2.5, 5,5);
+		getChildren().addAll(blade,blade2,body,front, middle);
 	//	front = new Rectangle(0,0,200,200);
 	//	front.setFill(Color.BLUE);
 	//	west = new Rectangle(0,((Rectangle)body).getHeight()/2 -10, 20,20);
 	//	north = new Rectangle(((Rectangle)body).getWidth()/2-10, 0, 20,20);
 	//	east = new Rectangle(((Rectangle)body).getWidth()-20,((Rectangle)body).getHeight()/2 -10, 20,20);
 	//	south = new Rectangle(((Rectangle)body).getWidth()/2 - 10,((Rectangle)body).getHeight()-20, 20,20);
-	//	middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 5,5);
 	//	getChildren().addAll(front,middle,west,north,east,south);
 	}
 	
@@ -218,4 +217,5 @@ public class BouncerBoss extends Boss implements TrueBounds{
 	public double getBodyWidth(){
 		return ((Circle)body).getRadius();
 	}
+	
 }
