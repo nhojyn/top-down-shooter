@@ -51,7 +51,7 @@ public class RoundList{
 		ArrayList<int[]> r1 = new ArrayList<int[]>();
 		r1.add(new int[]{0,8,1});
 		r1.add(new int[]{0,16,2});
-		Round round1 = new Round(r1,1000,main,s,1,ui);
+		Round round1 = new Round(r1,5000,main,s,1,ui);
 		//the time btwn waves is really low right now, but just for testing, it should be like at least 5-10 seconds
 
 		//round 2
