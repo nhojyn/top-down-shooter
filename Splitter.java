@@ -14,7 +14,7 @@ public class Splitter extends Mob implements TrueBounds{
 	public Splitter(int s){
 		super();
 		size=s;
-		speedModifier=3.0/size;
+		speedModifier=3.5/size;
 		//The total amount of points by a splitter is currently size*(log2(size)+1)
 		points=size;
 		body= new Rectangle(20*s,20*s);

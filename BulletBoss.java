@@ -43,8 +43,13 @@ public class BulletBoss extends Boss implements TrueBounds{
 		front = (Rectangle)body; //may cause issues
 		middle = new Rectangle(getBodyWidth(),getBodyHeight(),1,1);
 		getChildren().addAll(middle,gun);
+		
+		/*
 		gun.setLayoutX(getBodyWidth());
 		gun.setLayoutY(getBodyHeight());
+		*/
+		gun.setLayoutX(50*0.414);
+		gun.setLayoutY(50*0.414);
 		try{
 			Image img = new Image("bulletboss.png");
 			imgview = new ImageView(img);
@@ -76,15 +81,15 @@ public class BulletBoss extends Boss implements TrueBounds{
 	public int attack(Player p){
 		boolean attacked = false;
 		while(!attacked){
-			int attackNum = (int)(Math.random()*4) + 1;
+			int attackNum = (int)(Math.random()*9) + 1;
 			switch (attackNum){
-				case 1:  attacked = attack1(MAX_COOLDOWN, p);
+				case 1: case 5: case 8: attacked = attack1(MAX_COOLDOWN, p);
 						if(attacked){return MAX_COOLDOWN/2;}
 						else{break;}
-				case 2: attacked = attack2(10);
+				case 2: case 6: case 9: attacked = attack2(10);
 						if(attacked){return MAX_COOLDOWN/4;}
 						else{break;}
-				case 3: attacked = attack3();
+				case 3: case 7: attacked = attack3();
 						if(attacked){return MAX_COOLDOWN/2;}
 						else{break;}
 				case 4: attacked = attack4();
@@ -120,7 +125,7 @@ public class BulletBoss extends Boss implements TrueBounds{
 
 	//alternates between circles of bullets that are dodgeable
 	private boolean attack3(){
-		Timeline spray = new Timeline(new KeyFrame(Duration.millis(20*MAX_COOLDOWN/10),ae -> alternateAttack2(150)));
+		Timeline spray = new Timeline(new KeyFrame(Duration.millis(20*MAX_COOLDOWN/10),ae -> alternateAttack2(100)));
 		spray.setCycleCount(8);
 		spray.play();
 		return true;

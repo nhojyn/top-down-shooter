@@ -20,8 +20,8 @@ public class Bouncer extends Mob{
 		super();
 		size=35;
 		playground = pg;
-		xSpeed = 3;
-		ySpeed = 3;
+		xSpeed = 7;
+		ySpeed = 7;
 		minSpeed = 2;
 		points= 10;
 		body= new Rectangle(size,size);
@@ -53,13 +53,13 @@ public class Bouncer extends Mob{
 		setLayoutX(getLayoutX()+xSpeed);
 		setLayoutY(getLayoutY()+ySpeed);
 		if(getLayoutY() > playground.getHeight() - size){
-			ySpeed = -(int)(Math.random()*3)-minSpeed;
+			ySpeed = -(int)(Math.random()*7)-minSpeed;
 		}else if(getLayoutX() > playground.getWidth() - size){
-			xSpeed = -(int)(Math.random()*3)-minSpeed;
+			xSpeed = -(int)(Math.random()*7)-minSpeed;
 		}else if(getLayoutX() < 0){
-			xSpeed = (int)(Math.random()*3)+minSpeed;
+			xSpeed = (int)(Math.random()*7)+minSpeed;
 		}else if(getLayoutY() < 0){
-			ySpeed = (int)(Math.random()*3)+minSpeed;
+			ySpeed = (int)(Math.random()*7)+minSpeed;
 		}
 		
 	}
