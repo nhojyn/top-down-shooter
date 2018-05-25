@@ -36,7 +36,7 @@ public class BulletBoss extends Boss implements TrueBounds{
 		this.main = main;
 		health = 500;
 		ui.addBossHP(health);
-		points = 1000;
+		points = 800;
 		body = new Rectangle(0,0,100,100);
 		body.setFill(Color.TRANSPARENT);
 		getChildren().add(body);

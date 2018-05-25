@@ -23,7 +23,7 @@ public class Bouncer extends Mob{
 		xSpeed = 3;
 		ySpeed = 3;
 		minSpeed = 2;
-		points=size;
+		points= 10;
 		body= new Rectangle(size,size);
 		body.setFill(Color.PURPLE);
 		knockback = false;

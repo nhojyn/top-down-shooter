@@ -29,7 +29,7 @@ public class BouncerBoss extends Boss implements TrueBounds{
 		pg = main;
 		health = 400;
 		ui.addBossHP(health);
-		points = 200;
+		points = 400;
 		xSpeed = 4;
 		ySpeed = 4;
 		minSpeed = 3;
