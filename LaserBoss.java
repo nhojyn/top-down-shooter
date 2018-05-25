@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import javafx.animation.*;
 import javafx.scene.transform.Rotate;
+import javafx.scene.image.*;
 
 public class LaserBoss extends Boss implements TrueBounds{
 	private final int MAX_COOLDOWN = 250;
@@ -19,6 +20,9 @@ public class LaserBoss extends Boss implements TrueBounds{
 	UserInterface ui;
 	double thickness = 30;
 	MobLaserGun gun;
+	ImageView imgview;
+	ImageView enragedimg;
+	boolean enraged;
 
 	public LaserBoss(Pane main, Swarm s, UserInterface ui){
 		super(ui);
@@ -32,8 +36,29 @@ public class LaserBoss extends Boss implements TrueBounds{
 		ui.addBossHP(health);
 		points = 200;
 		body = new Circle(main.getPrefWidth()/2,main.getPrefHeight()/2,70);
-		body.setFill(Color.ORANGE);
+		body.setFill(Color.TRANSPARENT);
 		getChildren().add(body);
+		enraged = false;
+		
+		try{
+			Image img = new Image("laser_0.png");
+			imgview = new ImageView(img);
+			imgview.setFitWidth(getBodyWidth());
+			imgview.setFitHeight(getBodyHeight());
+			imgview.setLayoutX(main.getPrefWidth()/2 - getBodyWidth()/2);
+			imgview.setLayoutY(main.getPrefHeight()/2- getBodyHeight()/2);
+			getChildren().add(imgview);
+			Image en = new Image("laser_1.png");
+			enragedimg = new ImageView(en);
+			enragedimg.setFitWidth(getBodyWidth());
+			enragedimg.setFitHeight(getBodyHeight());
+		}
+		catch(Exception e){
+			System.out.println("error while creating image");
+			e.printStackTrace();
+		}	
+		enraged = false;
+		
 		hitbox = new Rectangle(main.getPrefWidth()/2-60, main.getPrefHeight()/2-60, 120,120);
 		front = new Rectangle(main.getPrefWidth()/2-100,main.getPrefHeight()/2-100,200,200);
 		front.setFill(Color.TRANSPARENT);
@@ -90,8 +115,12 @@ public class LaserBoss extends Boss implements TrueBounds{
 
 	//reverses directions of lasers
 	private boolean attack1(){
-		hLaserSpeed = -hLaserSpeed;
-		vLaserSpeed = -vLaserSpeed;
+		getChildren().add(enragedimg);
+		enragedimg.setLayoutX(main.getPrefWidth()/2 - getBodyWidth()/2);
+		enragedimg.setLayoutY(main.getPrefHeight()/2- getBodyHeight()/2);
+		Timeline toggle = new Timeline(new KeyFrame(Duration.millis(1000),ae -> switchLasers()));
+		toggle.setCycleCount(1);
+		toggle.play();
 		return true;
 	}
 
@@ -214,4 +243,10 @@ public class LaserBoss extends Boss implements TrueBounds{
 	public double getBodyWidth(){
 		return ((Circle)body).getRadius()*2;
 	}
+	
+	private void switchLasers(){
+		hLaserSpeed = -hLaserSpeed;
+		vLaserSpeed = -vLaserSpeed;
+		getChildren().remove(enragedimg);
+	}	
 }
