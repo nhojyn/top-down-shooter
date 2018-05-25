@@ -6,6 +6,8 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import javafx.animation.*;
 import javafx.scene.transform.Rotate;
+import javafx.scene.image.*;
+
 /**
  * So this boss is reaaaaaallly hard right now but its meant to be a final boss
  * and they should be using the highest dps guns against it. The difficulty mainly
@@ -22,6 +24,7 @@ public class BulletBoss extends Boss implements TrueBounds{
 	double thickness = 30;
 	BulletBossGun gun;
 	int attack2StartingWidth = 0;
+	ImageView imgview;;
 
 	public BulletBoss(Pane main, Swarm s, UserInterface ui){
 		super(ui);
@@ -35,16 +38,30 @@ public class BulletBoss extends Boss implements TrueBounds{
 		ui.addBossHP(health);
 		points = 1000;
 		body = new Rectangle(0,0,100,100);
-		body.setFill(Color.BLACK);
+		body.setFill(Color.TRANSPARENT);
 		getChildren().add(body);
 		front = (Rectangle)body; //may cause issues
 		middle = new Rectangle(getBodyWidth(),getBodyHeight(),1,1);
 		getChildren().addAll(middle,gun);
 		gun.setLayoutX(getBodyWidth());
 		gun.setLayoutY(getBodyHeight());
+		try{
+			Image img = new Image("bulletboss.png");
+			imgview = new ImageView(img);
+			imgview.setFitWidth(getBodyWidth());
+			imgview.setFitHeight(getBodyHeight());
+			getChildren().add(imgview);
+		}
+		catch(Exception e){
+			System.out.println("error while creating image");
+			e.printStackTrace();
+		}
 
 	}
 
+	public void setCooldown(int a){
+		cooldown = a;
+	}
 	public void chase(Player p){
 		if(!spawned){
 			spawn(p);

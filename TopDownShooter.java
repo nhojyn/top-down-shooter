@@ -42,6 +42,7 @@ public class TopDownShooter{
 	StackPane centered;
 	HighScores highScores;
 	SetHighScores setHighScores;
+	CutScene cutScene;
 	//width and height of main screen
 	int width = 1000;
 	int height = 1000;
@@ -116,6 +117,8 @@ public class TopDownShooter{
 		playground = new Pane();
 		playground.setPrefWidth(width);
 		playground.setPrefHeight(height);
+		
+		cutScene = new CutScene(overlay);
 
 		centered.getChildren().addAll(playground,overlay);
 		screen.setCenter(centered);
@@ -362,6 +365,9 @@ public class TopDownShooter{
 				//mobMovement.play();
 			}
 		});
+		
+		
+		
 	}
 
 	private void knockBackMobs(){
@@ -378,6 +384,9 @@ public class TopDownShooter{
 		}*/
 		player.setLayoutX(playground.getWidth()/2);
 		player.setLayoutY(playground.getHeight()/2);
+		
+		//autostarts rounds
+		roundList.nextRound();
 	}
 
 	//BUG:THIS METHOD WILL SOMETIMES TRIGGER TWICE, MOST LIKELY DUE TO THE ANIMATION TIMER CALLING
@@ -407,6 +416,18 @@ public class TopDownShooter{
 				}
 			}
 		}
+		else if(roundList.getCurrentRound() == roundList.getRounds().size()){
+			ui.gameWin();
+			pause();
+			if(player.getScore()>highScores.getHighScoreNums()[highScores.getHighScoresSize()-1]){
+				Timeline HS = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> newHighScore()));
+				HS.play();
+			}else{
+				Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
+				quit.play();
+			}
+		}
+		
 	}
 
 	public void projectileCollisionChecker(){
@@ -498,10 +519,20 @@ public class TopDownShooter{
 		if(pickups.size() > 0){
 			for(int p = 0; p < pickups.size(); p++){
 				if(pickups.get(p).collideWithPlayer(player)){
+					if(pickups.get(p) instanceof BlinkUpgradeDrop){
+						cutScene.newScene("blink  upgraded", 2);
+					}
+					else if(pickups.get(p) instanceof SpeedUpgradeDrop){
+						cutScene.newScene("increased  speed", 2);
+					}
+					else if(pickups.get(p) instanceof ImmunityBuff){
+						cutScene.newScene("invicibility", 1);
+					}
 					playground.getChildren().remove(pickups.get(p));
 					pickups.remove(p);
 					ui.getAmmoCounter().setAmmoNum(player.getGun().getAmmo());
 					ui.getHealthBar().setHP(player.getHealth());
+					
 				}
 			}
 		}
@@ -531,6 +562,7 @@ public class TopDownShooter{
 		player.pause();
 		control.pause();
 		mobs.pause();
+		roundList.pause();
 	}
 
 	public void resume(){
@@ -539,6 +571,7 @@ public class TopDownShooter{
 		player.play();
 		control.play();
 		mobs.play();
+		roundList.play();
 	}
 
 	public double getWidth(){

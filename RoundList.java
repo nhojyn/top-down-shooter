@@ -24,6 +24,9 @@ public class RoundList{
 	public int getCurrentRound(){
 		return currentRound;
 	}
+	public ArrayList<Round> getRounds(){
+		return rounds;
+	}
 
 	//this constructor contains the list of rounds and their spawns that are listed on the wiki page
 	public RoundList(Pane main, Swarm s, UserInterface ui,Pane ol){
@@ -158,8 +161,20 @@ public class RoundList{
 		currentRound++;
 		if(currentRound <= rounds.size()){
 			rounds.get(currentRound-1).play();
-			cutScene.newScene("Round "+currentRound,1);
+			if(currentRound == 3 || currentRound == 6 ){
+				cutScene.newScene("                      " + "Round " + currentRound + "\n2 new guns unlocked", 2);
+			}
+			else if(currentRound == 2 || currentRound == 5 || currentRound == 9){
+				cutScene.newScene("Round " + currentRound + "   " + " Boss Round",1);
+			}
+			else if(currentRound == rounds.size()){
+				cutScene.newScene("Round " + currentRound + "   " + " Final Boss",1);
+			}
+			else{
+				cutScene.newScene("Round "+currentRound,1);
+			}
 		}
+		
 	}
 
 	public void reset(){
@@ -167,5 +182,17 @@ public class RoundList{
 		for(Round r:rounds){
 			r.reset();
 		}
+	}
+	
+	public void play(){
+		endCheck.play();
+	}
+	
+	public void pause(){
+		endCheck.pause();
+	}
+	
+	public void stop(){
+		endCheck.stop();
 	}
 }
