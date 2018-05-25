@@ -24,7 +24,7 @@ public class FlameThrower extends Gun{
 	FlameThrower(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		name = "FlameThrower";
-		ammo = 1000;
+		ammo = 750;
 		ammocap = ammo;
 		pickupAmmo = 150;
 		fireRate=.001;
