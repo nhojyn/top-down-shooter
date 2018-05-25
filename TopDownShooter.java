@@ -57,8 +57,8 @@ public class TopDownShooter{
 
 		setHighScores = new SetHighScores(stage, highScores, mainMenu);
 
-
 		screen=new BorderPane();
+		
 
 		//devTools holds all of the developer tools
 		devTools = new VBox();
@@ -72,7 +72,7 @@ public class TopDownShooter{
 
 		devTools.setStyle(cssLayout);
 		devTools.setSpacing(15);
-		screen.setRight(devTools);
+		//screen.setRight(devTools);
 
 		//label is a frameRate meter
         Label label = new Label();
@@ -462,6 +462,9 @@ public class TopDownShooter{
 					if(mobs.getSwarm(i) instanceof PistolMob){
 						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.RED);
 					}
+					if(mobs.getSwarm(i) instanceof PistolMob){
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.RED);
+					}
 					int temp = mobs.getSwarm(i).getProjectiles().size();
 					for(int b = 0; b < temp; b++){
 						playground.getChildren().remove(mobs.getSwarm(i).getProjectiles().get(0));
@@ -553,6 +556,10 @@ public class TopDownShooter{
 	private void newHighScore(){
 		setHighScores.displaySetHighScores(player.getScore());
 		reset();
+	}
+	
+	public void unlockDevTools(){
+		screen.setRight(devTools);
 	}
 
 

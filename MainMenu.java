@@ -30,6 +30,8 @@ public class MainMenu{
 	HighScores highScores;
 	HighScoreScreen highScoreScreen1;
 	HelpScreen helpScreen;
+	int counter;
+	String s1;
 	
 	Button playGame;
 	
@@ -133,6 +135,33 @@ public class MainMenu{
 		//titleTxt.applyCss();
 		titleTxt.setLayoutX(title.getWidth()/2-titleTxt.getLayoutBounds().getWidth()/2);
 		titleTxt.setLayoutY(title.getHeight()/2-titleTxt.getLayoutBounds().getHeight());
+		
+		ArrayList<String> code = new ArrayList<String>();
+		String correctCode= "nickng589";
+		counter=0;
+		s1="";
+		main.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+				if(correctCode.substring(counter,counter+1).equals(event.getText())){
+					code.add(event.getText());
+					counter++;
+				}else{
+					code.clear();
+					counter=0;
+				}
+				s1="";
+				for(int i=0;i<code.size();i++){
+					s1+=code.get(i);
+				}
+				if(s1.equals(correctCode)){
+					System.out.println("DEV TOOLS UNLOCKED");
+					code.clear();
+					counter=0;
+					game.unlockDevTools();
+				}
+            }
+        });
 	}
 	
 	public void fadeIn(){
