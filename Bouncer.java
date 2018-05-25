@@ -27,7 +27,7 @@ public class Bouncer extends Mob{
 		body= new Rectangle(size,size);
 		body.setFill(Color.PURPLE);
 		knockback = false;
-		health = 12;
+		health = 5;
 		attacks = false;
 		shooting = false;
 		front = new Rectangle(size,size);
