@@ -149,6 +149,18 @@ public class UserInterface{
 		delay.play();
 	}
 	
+	public void gameWin(){
+		Font f =Font.loadFont(getClass().getResourceAsStream("ARCADECLASSIC.ttf"), 200);
+		gameOver = new Text("You  Win");
+		gameOver.setFill(Color.BLACK);
+		gameOver.setFont(f);
+		gameOver.setLayoutX(overlay.getWidth()/2-gameOver.getLayoutBounds().getWidth()/2);
+		gameOver.setLayoutY(overlay.getHeight()/2);
+		overlay.getChildren().add(gameOver);
+		Timeline delay = new Timeline(new KeyFrame(Duration.seconds(2),ae -> fadeOut()));
+		delay.play();
+	}
+	
 	public void fadeOut(){
 		overlay.getChildren().add(fade);
 		Timeline fadeAni = new Timeline(new KeyFrame(Duration.millis(fadeSpeed),ae -> animateFade()));
