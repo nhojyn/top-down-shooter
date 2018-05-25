@@ -55,10 +55,7 @@ public class RoundList{
 		//the time btwn waves is really low right now, but just for testing, it should be like at least 5-10 seconds
 
 		//round 2
-		ArrayList<int[]> r2 = new ArrayList<int[]>();
-		r2.add(new int[]{0,8,1});
-		r2.add(new int[]{0,16,2});
-		Round round2 = new Round(r2,1000,main,s,2,ui);
+		Round round2 = newBossRound(0,main,s,2,ui);
 
 		//round 3
 		ArrayList<int[]> r3 = new ArrayList<int[]>();
