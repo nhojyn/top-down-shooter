@@ -31,7 +31,7 @@ public class LaserMachine extends Mob implements TrueBounds{
 		body.setFill(Color.GREEN);
 		getChildren().add(body);
 		knockback = false;
-		health = 4;
+		health = 10;
 		attacks = true;
 		speedModifier = 1;
 		points= 10;

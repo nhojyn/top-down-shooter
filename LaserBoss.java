@@ -34,7 +34,7 @@ public class LaserBoss extends Boss implements TrueBounds{
 		this.main = main;
 		health = 300;
 		ui.addBossHP(health);
-		points = 200;
+		points = 600;
 		body = new Circle(main.getPrefWidth()/2,main.getPrefHeight()/2,70);
 		body.setFill(Color.TRANSPARENT);
 		getChildren().add(body);
