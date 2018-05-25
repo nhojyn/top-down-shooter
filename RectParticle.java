@@ -23,7 +23,7 @@ public class RectParticle extends Rectangle implements Animated{
 	double yVel;
 	double fade;
 	
-	RectParticle(){
+	RectParticle(Color c){
 		xVel=Math.random()*2;
 		if((int)(Math.random()*2)==0){
 			xVel=-xVel;
@@ -33,7 +33,7 @@ public class RectParticle extends Rectangle implements Animated{
 			yVel=-yVel;
 		}
 		fade=Math.random()/20+.015;
-		setFill(Color.BLUE);
+		setFill(c);
 		setWidth(20);
 		setHeight(20);
 		
