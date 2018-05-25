@@ -27,10 +27,10 @@ public class ParticleEffects{
 		Playground=p;
 	}
 	
-	public void RectExplosion(double x, double y){
+	public void RectExplosion(double x, double y,Color c){
 		ArrayList<RectParticle> rectParticles = new ArrayList<RectParticle>();
 		for(int i=0;i<(int)Math.random()*50+50;i++){
-			RectParticle r = new RectParticle();
+			RectParticle r = new RectParticle(c);
 			r.setLayoutX(x);
 			r.setLayoutY(y);
 			rectParticles.add(r);
@@ -56,10 +56,10 @@ public class ParticleEffects{
 		timer.start();
 	}
 	
-	public void CircleExplosion(double x, double y){
+	public void CircleExplosion(double x, double y,Color c){
 		ArrayList<CircleParticle> circleParticles = new ArrayList<CircleParticle>();
 		for(int i=0;i<(int)Math.random()*50+50;i++){
-			CircleParticle r = new CircleParticle();
+			CircleParticle r = new CircleParticle(c);
 			r.setLayoutX(x);
 			r.setLayoutY(y);
 			circleParticles.add(r);
