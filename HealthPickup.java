@@ -34,7 +34,7 @@ public class HealthPickup extends PickUp{
 			setPrefHeight(imgview.getFitHeight());
 			
 			getChildren().add(imgview);
-			playground.getChildren().addAll(getChildren());
+			playground.getChildren().addAll(this);
 	
 		}catch(Exception e){
 			System.out.println("error while creating image");

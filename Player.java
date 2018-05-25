@@ -73,10 +73,10 @@ public class Player extends Pane{
 		guns = new ArrayList<Gun>();
 		guns.add(new Pistol(b,body.getRadius()));
 		guns.add(new ShotGun(b,body.getRadius()));
-		guns.add(new Sniper(b,body.getRadius()));
-		guns.add(new Bazooka(b,body.getRadius()));
 		guns.add(new MachineGun(b,body.getRadius()));
+		guns.add(new Sniper(b,body.getRadius()));
 		guns.add(new FlameThrower(b,body.getRadius()));
+		guns.add(new Bazooka(b,body.getRadius()));
 
 		getChildren().add(guns.get(currentGun));
 	}
@@ -144,6 +144,8 @@ public class Player extends Pane{
 		health=10;
 		score=0;
 		lockAllGuns();
+		blinkDelay = 1.5;
+		speed = 2;
 	}
 
 	public boolean collideWithMob(Mob m){

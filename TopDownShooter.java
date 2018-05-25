@@ -452,7 +452,15 @@ public class TopDownShooter{
 						}
 					}
 					if(mobs.getSwarm(i).isBoss()){
-						
+						//this is where the upgrades drop 
+						if(mobs.getSwarm(i)instanceof ZombieBoss){
+							spawnSpeedUpgrade(mobs.getSwarm(i));
+						}
+						if(mobs.getSwarm(i)instanceof BouncerBoss || mobs.getSwarm(i)instanceof LaserBoss){
+							spawnBlinkUpgrade(mobs.getSwarm(i));
+						}
+						player.unlockNextGun();
+						player.unlockNextGun();
 						ui.removeBossHP();
 					}
 					if(mobs.getSwarm(i) instanceof PistolMob){
@@ -579,5 +587,19 @@ public class TopDownShooter{
 	//		playground.getChildren().add(p);
 			pickups.add(p);
 		}
+	}
+	
+	public void spawnSpeedUpgrade(Mob m){
+		SpeedUpgradeDrop temp = new SpeedUpgradeDrop(playground);
+		pickups.add(temp);
+		temp.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
+		
+	}
+	
+	public void spawnBlinkUpgrade(Mob m){
+		BlinkUpgradeDrop temp = new BlinkUpgradeDrop(playground);
+		pickups.add(temp);
+		temp.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
+		
 	}
 }
