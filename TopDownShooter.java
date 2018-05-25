@@ -297,7 +297,7 @@ public class TopDownShooter{
 		});
 
 		//initiates roundList and starts playing the rounds
-		roundList = new RoundList(playground, mobs, ui);
+		roundList = new RoundList(playground, mobs, ui,overlay);
 		Button startRounds = new Button();
 		devTools.getChildren().add(startRounds);
 		startRounds.setText("Start Rounds");

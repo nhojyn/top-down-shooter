@@ -17,15 +17,20 @@ public class RoundList{
 	ArrayList<Round> rounds = new ArrayList<Round>();
 	int currentRound;
 	Timeline endCheck; //checks for the end of round
-
+	Pane overlay;
+	CutScene cutScene;
+	
 	//setters and getters
 	public int getCurrentRound(){
 		return currentRound;
 	}
 
 	//this constructor contains the list of rounds and their spawns that are listed on the wiki page
-	public RoundList(Pane main, Swarm s, UserInterface ui){
+	public RoundList(Pane main, Swarm s, UserInterface ui,Pane ol){
+		overlay=ol;
 		currentRound = 0;
+		
+		cutScene = new CutScene(overlay);
 
 		EventHandler<ActionEvent> checkEnd = new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
@@ -50,8 +55,8 @@ public class RoundList{
 		//the time btwn waves is really low right now, but just for testing, it should be like at least 5-10 seconds
 
 		//round 2
-		Round round2 = new BossRound(0, main, s, 2, ui);
-		
+		Round round2 = newBossRound(0,main,s,2,ui);
+
 		//round 3
 		ArrayList<int[]> r3 = new ArrayList<int[]>();
 		r3.add(new int[]{0,8,1});
@@ -153,6 +158,7 @@ public class RoundList{
 		currentRound++;
 		if(currentRound <= rounds.size()){
 			rounds.get(currentRound-1).play();
+			cutScene.newScene("Round "+currentRound,1);
 		}
 	}
 
