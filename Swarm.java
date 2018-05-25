@@ -5,6 +5,7 @@ import javafx.scene.layout.*;
 import java.util.*;
 import javafx.util.Duration;
 import javafx.animation.*;
+import javafx.scene.image.*;
 
 //swarm has all the mobs and stuff
 public class Swarm{
@@ -12,8 +13,9 @@ public class Swarm{
 	//fields
 	ArrayList<Mob> swarm = new ArrayList<Mob>();
 	Timeline collisionCheck;
-  Pane playground;
+	Pane playground;
 
+	
 	//constructors
 
 	/* There should eventually be a constructor that takes a list of mobs, so that each room can have a unique list
@@ -23,6 +25,7 @@ public class Swarm{
 		collisionCheck = new Timeline(new KeyFrame(Duration.millis(10),ae -> checkCollisions()));
 		collisionCheck.setCycleCount(Animation.INDEFINITE);
 		collisionCheck.play();
+	
 	}
 
 	//setters and getters

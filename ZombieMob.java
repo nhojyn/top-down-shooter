@@ -6,6 +6,7 @@ import javafx.scene.layout.*;
 import javafx.util.Duration;
 import javafx.animation.*;
 import javafx.scene.transform.Rotate;
+import javafx.scene.image.*;
 
 public class ZombieMob extends Mob implements TrueBounds{
 	
@@ -24,6 +25,19 @@ public class ZombieMob extends Mob implements TrueBounds{
 		middle = new Rectangle(((Rectangle)body).getWidth()/2, ((Rectangle)body).getHeight()/2, 0.01,0.01);
 		middle.setFill(Color.RED);
 		getChildren().addAll(front,middle);
+		try{
+			Image img = new Image("zombie.png");
+			ImageView imgview = new ImageView(img);
+			imgview.setFitWidth(50);
+			imgview.setFitHeight(50);
+			setPrefWidth(imgview.getFitWidth());
+			setPrefHeight(imgview.getFitHeight());
+			getChildren().add(imgview);
+		}
+		catch(Exception e){
+			System.out.println("error while creating image");
+			e.printStackTrace();
+		}	
 	}
 	
 	public double getBodyHeight(){
