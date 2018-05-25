@@ -184,8 +184,8 @@ public class Swarm{
 	public void spawnZombieBoss(Pane main, UserInterface ui){
 		playground = main;
 		for(int i = 0; i < 1; i++){
-			double spawnX = 400;
-			double spawnY = 400;
+			double spawnX = 500;
+			double spawnY = 500;
 
 			Mob temp = new ZombieBoss(main,this,ui);
 			swarm.add(temp);
