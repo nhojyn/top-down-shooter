@@ -456,11 +456,7 @@ public class TopDownShooter{
 						ui.removeBossHP();
 					}
 					if(mobs.getSwarm(i) instanceof PistolMob){
-						int temp = mobs.getSwarm(i).getProjectiles().size();
-						for(int b = 0; b < temp; b++){
-							playground.getChildren().remove(mobs.getSwarm(i).getProjectiles().get(0));
-							mobs.getSwarm(i).getProjectiles().remove(0);
-						}
+						
 					}
 					int temp = mobs.getSwarm(i).getProjectiles().size();
 					for(int b = 0; b < temp; b++){
