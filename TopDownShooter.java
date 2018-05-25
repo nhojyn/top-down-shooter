@@ -38,7 +38,7 @@ public class TopDownShooter{
 	ArrayList<Bullet> bullets;
 	ArrayList<PickUp> pickups;
 	RoundList roundList;
-	Pane overlay;
+	Pane overlay,overlay2;
 	StackPane centered;
 	HighScores highScores;
 	SetHighScores setHighScores;
@@ -109,7 +109,11 @@ public class TopDownShooter{
 		overlay = new Pane();
 		overlay.setPrefWidth(width);
 		overlay.setPrefHeight(height);
-
+		
+		overlay2 = new Pane();
+		overlay2.setPrefWidth(width);
+		overlay2.setPrefHeight(height);
+		
 		centered = new StackPane();
 		centered.setPrefWidth(width);
 		centered.setPrefHeight(height);
@@ -120,7 +124,7 @@ public class TopDownShooter{
 		
 		cutScene = new CutScene(overlay);
 
-		centered.getChildren().addAll(playground,overlay);
+		centered.getChildren().addAll(playground,overlay2,overlay);
 		screen.setCenter(centered);
 
 		pe=new ParticleEffects(playground);
@@ -300,7 +304,7 @@ public class TopDownShooter{
 		});
 
 		//initiates roundList and starts playing the rounds
-		roundList = new RoundList(playground, mobs, ui,overlay);
+		roundList = new RoundList(playground, mobs, ui,overlay2);
 		Button startRounds = new Button();
 		devTools.getChildren().add(startRounds);
 		startRounds.setText("Start Rounds");
