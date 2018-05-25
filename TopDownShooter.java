@@ -43,6 +43,7 @@ public class TopDownShooter{
 	HighScores highScores;
 	SetHighScores setHighScores;
 	CutScene cutScene;
+	boolean devToolsMode;
 	//width and height of main screen
 	int width = 1000;
 	int height = 1000;
@@ -55,6 +56,8 @@ public class TopDownShooter{
 		stage=s;
 		highScores=hs;
 		mainMenu=mm;
+		
+		devToolsMode=false;
 
 		setHighScores = new SetHighScores(stage, highScores, mainMenu);
 
@@ -390,7 +393,9 @@ public class TopDownShooter{
 		player.setLayoutY(playground.getHeight()/2);
 		
 		//autostarts rounds
-		roundList.nextRound();
+		if(!devToolsMode){
+			roundList.nextRound();
+		}
 	}
 
 	//BUG:THIS METHOD WILL SOMETIMES TRIGGER TWICE, MOST LIKELY DUE TO THE ANIMATION TIMER CALLING
@@ -640,6 +645,7 @@ public class TopDownShooter{
 	}
 	public void unlockDevTools(){
 		screen.setRight(devTools);
+		devToolsMode=true;
 	}
 	
 	public void spawnBlinkUpgrade(Mob m){
