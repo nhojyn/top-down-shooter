@@ -24,7 +24,7 @@ public class Bazooka extends Gun{
 	Bazooka(ArrayList<Bullet> b,double radius){
 		super(b,radius);
 		name = "Bazooka";
-		ammo = 5;
+		ammo = 3;
 		ammocap = ammo;
 		pickupAmmo = 1;
 		fireRate=1.5;

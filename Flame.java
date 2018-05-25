@@ -19,7 +19,7 @@ public class Flame extends Bullet{
 		shell.setCenterY(15);
 		knockBack = 0;
 		explosionTimer = null;
-		distanceLimit = 200;
+		distanceLimit = 325;
 	}
 
 	public void move(){
