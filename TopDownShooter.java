@@ -38,11 +38,10 @@ public class TopDownShooter{
 	ArrayList<Bullet> bullets;
 	ArrayList<PickUp> pickups;
 	RoundList roundList;
-	Pane overlay;
+	Pane overlay,overlay2;
 	StackPane centered;
 	HighScores highScores;
 	SetHighScores setHighScores;
-	CutScene cutScene;
 	//width and height of main screen
 	int width = 1000;
 	int height = 1000;
@@ -109,6 +108,10 @@ public class TopDownShooter{
 		overlay = new Pane();
 		overlay.setPrefWidth(width);
 		overlay.setPrefHeight(height);
+		
+		overlay2 = new Pane();
+		overlay2.setPrefWidth(width);
+		overlay2.setPrefHeight(height);
 
 		centered = new StackPane();
 		centered.setPrefWidth(width);
@@ -117,10 +120,8 @@ public class TopDownShooter{
 		playground = new Pane();
 		playground.setPrefWidth(width);
 		playground.setPrefHeight(height);
-		
-		cutScene = new CutScene(overlay);
 
-		centered.getChildren().addAll(playground,overlay);
+		centered.getChildren().addAll(playground,overlay2,overlay);
 		screen.setCenter(centered);
 
 		pe=new ParticleEffects(playground);
@@ -300,7 +301,7 @@ public class TopDownShooter{
 		});
 
 		//initiates roundList and starts playing the rounds
-		roundList = new RoundList(playground, mobs, ui,overlay);
+		roundList = new RoundList(playground, mobs, ui,overlay2);
 		Button startRounds = new Button();
 		devTools.getChildren().add(startRounds);
 		startRounds.setText("Start Rounds");
@@ -319,10 +320,10 @@ public class TopDownShooter{
 				int temp = mobs.getSwarm().size();
 				for(int i = 0; i <temp; i++){
 					if(mobs.getSwarm(0) instanceof LaserMachine){
-						pe.CircleExplosion(mobs.getSwarm(0).getAbsoluteMiddleX(),mobs.getSwarm(0).getAbsoluteMiddleY());
+						pe.CircleExplosion(mobs.getSwarm(0).getAbsoluteMiddleX(),mobs.getSwarm(0).getAbsoluteMiddleY(),Color.GREEN);
 					}
 					if(mobs.getSwarm(0) instanceof ZombieMob){
-						pe.RectExplosion(mobs.getSwarm(0).getAbsoluteMiddleX(),mobs.getSwarm(0).getAbsoluteMiddleY());
+						pe.RectExplosion(mobs.getSwarm(0).getAbsoluteMiddleX(),mobs.getSwarm(0).getAbsoluteMiddleY(),Color.GREEN);
 					}
 					if(mobs.getSwarm(0) instanceof ZombieBoss){
 						ui.removeBossHP();
@@ -365,9 +366,6 @@ public class TopDownShooter{
 				//mobMovement.play();
 			}
 		});
-		
-		
-		
 	}
 
 	private void knockBackMobs(){
@@ -384,9 +382,6 @@ public class TopDownShooter{
 		}*/
 		player.setLayoutX(playground.getWidth()/2);
 		player.setLayoutY(playground.getHeight()/2);
-		
-		//autostarts rounds
-		roundList.nextRound();
 	}
 
 	//BUG:THIS METHOD WILL SOMETIMES TRIGGER TWICE, MOST LIKELY DUE TO THE ANIMATION TIMER CALLING
@@ -416,18 +411,6 @@ public class TopDownShooter{
 				}
 			}
 		}
-		else if(roundList.getCurrentRound() == roundList.getRounds().size()){
-			ui.gameWin();
-			pause();
-			if(player.getScore()>highScores.getHighScoreNums()[highScores.getHighScoresSize()-1]){
-				Timeline HS = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> newHighScore()));
-				HS.play();
-			}else{
-				Timeline quit = new Timeline(new KeyFrame(Duration.seconds(ui.getFadeTime()),ae -> quit()));
-				quit.play();
-			}
-		}
-		
 	}
 
 	public void projectileCollisionChecker(){
@@ -461,31 +444,23 @@ public class TopDownShooter{
 				mobs.getSwarm(i).collideWithBullet(player);
 				if(mobs.getSwarm(i).getHealth() < 0){
 					if(mobs.getSwarm(i) instanceof LaserMachine){
-						pe.CircleExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+						pe.CircleExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.GREEN);
 					}
 					if(mobs.getSwarm(i) instanceof ZombieMob){
-						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.GREEN);
 					}
 					if(mobs.getSwarm(i) instanceof Splitter){
-						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.RED);
 						if(((Splitter)mobs.getSwarm(i)).getSize()>1){
 							mobs.spawnSplitterSwarm(playground,((Splitter)mobs.getSwarm(i)).getSize()/2,mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY());
 						}
 					}
 					if(mobs.getSwarm(i).isBoss()){
-						//this is where the upgrades drop 
-						if(mobs.getSwarm(i)instanceof ZombieBoss){
-							spawnSpeedUpgrade(mobs.getSwarm(i));
-						}
-						if(mobs.getSwarm(i)instanceof BouncerBoss || mobs.getSwarm(i)instanceof LaserBoss){
-							spawnBlinkUpgrade(mobs.getSwarm(i));
-						}
-						player.unlockNextGun();
-						player.unlockNextGun();
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.RED);
 						ui.removeBossHP();
 					}
 					if(mobs.getSwarm(i) instanceof PistolMob){
-						
+						pe.RectExplosion(mobs.getSwarm(i).getAbsoluteMiddleX(),mobs.getSwarm(i).getAbsoluteMiddleY(),Color.RED);
 					}
 					int temp = mobs.getSwarm(i).getProjectiles().size();
 					for(int b = 0; b < temp; b++){
@@ -519,20 +494,10 @@ public class TopDownShooter{
 		if(pickups.size() > 0){
 			for(int p = 0; p < pickups.size(); p++){
 				if(pickups.get(p).collideWithPlayer(player)){
-					if(pickups.get(p) instanceof BlinkUpgradeDrop){
-						cutScene.newScene("blink  upgraded", 2);
-					}
-					else if(pickups.get(p) instanceof SpeedUpgradeDrop){
-						cutScene.newScene("increased  speed", 2);
-					}
-					else if(pickups.get(p) instanceof ImmunityBuff){
-						cutScene.newScene("invicibility", 1);
-					}
 					playground.getChildren().remove(pickups.get(p));
 					pickups.remove(p);
 					ui.getAmmoCounter().setAmmoNum(player.getGun().getAmmo());
 					ui.getHealthBar().setHP(player.getHealth());
-					
 				}
 			}
 		}
@@ -562,7 +527,6 @@ public class TopDownShooter{
 		player.pause();
 		control.pause();
 		mobs.pause();
-		roundList.pause();
 	}
 
 	public void resume(){
@@ -571,7 +535,6 @@ public class TopDownShooter{
 		player.play();
 		control.play();
 		mobs.play();
-		roundList.play();
 	}
 
 	public double getWidth(){
@@ -620,19 +583,5 @@ public class TopDownShooter{
 	//		playground.getChildren().add(p);
 			pickups.add(p);
 		}
-	}
-	
-	public void spawnSpeedUpgrade(Mob m){
-		SpeedUpgradeDrop temp = new SpeedUpgradeDrop(playground);
-		pickups.add(temp);
-		temp.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
-		
-	}
-	
-	public void spawnBlinkUpgrade(Mob m){
-		BlinkUpgradeDrop temp = new BlinkUpgradeDrop(playground);
-		pickups.add(temp);
-		temp.setLoc(m.getAbsoluteMiddleX(), m.getAbsoluteMiddleY());
-		
 	}
 }
