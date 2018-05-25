@@ -23,7 +23,7 @@ public class CircleParticle extends Circle implements Animated{
 	double yVel;
 	double fade;
 	
-	CircleParticle(){
+	CircleParticle(Color c){
 		xVel=Math.random()*2;
 		if((int)(Math.random()*2)==0){
 			xVel=-xVel;
@@ -33,7 +33,7 @@ public class CircleParticle extends Circle implements Animated{
 			yVel=-yVel;
 		}
 		fade=Math.random()/20+.015;
-		setFill(Color.GREEN);
+		setFill(c);
 		setRadius(5);
 		
 	}
